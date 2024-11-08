@@ -1,0 +1,51 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\test1\\source\\repos\\Hospital Management System\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{3C7769AA-0F54-4A62-965D-BE039076477B}|Hospital Management System\\Hospital Management System.csproj|c:\\users\\test1\\source\\repos\\hospital management system\\hospital management system\\models\\surgerybooking.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3C7769AA-0F54-4A62-965D-BE039076477B}|Hospital Management System\\Hospital Management System.csproj|solutionrelative:hospital management system\\models\\surgerybooking.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 262,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "SurgeryBooking.cs",
+              "DocumentMoniker": "C:\\Users\\test1\\source\\repos\\Hospital Management System\\Hospital Management System\\Models\\SurgeryBooking.cs",
+              "RelativeDocumentMoniker": "Hospital Management System\\Models\\SurgeryBooking.cs",
+              "ToolTip": "C:\\Users\\test1\\source\\repos\\Hospital Management System\\Hospital Management System\\Models\\SurgeryBooking.cs",
+              "RelativeToolTip": "Hospital Management System\\Models\\SurgeryBooking.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAApAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-08T18:06:59.892Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedWidth": 262,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

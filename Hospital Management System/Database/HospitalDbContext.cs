@@ -10,5 +10,6 @@ namespace Hospital_Management_System.Database
         {
         }
         public DbSet<Staff> Staff { get; set; } = default!;
+        public DbSet<Department> Department { get; set; } = default!;
     }
 }

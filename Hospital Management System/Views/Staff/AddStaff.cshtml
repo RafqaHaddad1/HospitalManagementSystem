@@ -1,0 +1,360 @@
+﻿﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - YourAppName</title>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.10.2/dropzone.min.css">
+
+    <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            max-width: 1500px; /* Adjust max width as needed */
+            margin: 0 auto;
+        }
+
+        .radio-group div {
+            display: inline-block;
+            
+            margin-bottom: 10px;
+        }
+        .form-container {
+            display: flex;
+            flex-direction: row; /* Change to row direction */
+            justify-content: space-between;
+            width: 90%;
+            background-color: #e0e0e0;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            column-gap: 20px; /* Add space between columns */
+        }
+
+        .form-left, .form-right {
+            display: flex;
+            flex-direction: column;
+            width: 48%;
+        }
+
+            .form-left input, .form-right input, .form-right textarea, .form-right select {
+                margin-bottom: 10px;
+                padding: 8px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+
+            .form-right textarea {
+                height: 150px;
+            }
+
+            .form-left input[type="file"] {
+                padding: 3px;
+            }
+
+        .save-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #44444c;
+            margin-bottom: 20px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .profile-pic {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #44444c;
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            color: white;
+            font-size: 40px;
+            margin-bottom: 20px;
+        }
+
+        .radio-group label {
+            margin-right: 20px;
+        }
+
+        .drop-section {
+            border: 2px dashed #ccc;
+            border-radius: 5px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .drag-over-effect {
+            border-color: #F3BC12;
+        }
+
+        .file-list {
+            margin-top: 20px;
+        }
+
+            .file-list ul {
+                list-style-type: none;
+                padding: 0;
+            }
+
+            .file-list li {
+                margin-bottom: 5px;
+                position: relative;
+                padding: 10px;
+                background: #f9f9f9;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                display: flex;
+                align-items: center;
+            }
+
+            .file-list img {
+                width: 50px;
+                height: 50px;
+                margin-right: 10px;
+            }
+
+            .file-list .remove-button {
+                position: absolute;
+                right: 0;
+                top: 0;
+                background: red;
+                color: white;
+                border: none;
+                border-radius: 3px;
+                cursor: pointer;
+                padding: 3px 8px;
+                font-size: 12px;
+                margin-left: 10px;
+            }
+
+        .form-control {
+            display: block;
+            width: 100%;
+            height: 34px;
+            padding: 6px 12px;
+            font-size: 14px;
+            line-height: 1.42857143;
+            color: #555;
+            background-color: #fff;
+            background-image: none;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+            -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+            -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+            transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s
+        }
+
+        .form-control {
+            border-radius: 0;
+            box-shadow: none;
+            border-color: #d2d6de
+        }
+
+        .select2-hidden-accessible {
+            border: 0 !important;
+            clip: rect(0 0 0 0) !important;
+            height: 1px !important;
+            margin: -1px !important;
+            overflow: hidden !important;
+            padding: 0 !important;
+            position: absolute !important;
+            width: 1px !important
+        }
+
+        .select2-container--default .select2-selection--single,
+        .select2-selection .select2-selection--single {
+            border: 1px solid #d2d6de;
+            border-radius: 5px;
+            padding: 6px 12px;
+            height: 34px;
+            margin-bottom: 10px
+        }
+
+        .select2-container--default .select2-selection--single {
+            background-color: #fff;
+            border: 1px solid #aaa;
+            border-radius: 5px
+        }
+
+        .select2-container .select2-selection--single {
+            box-sizing: border-box;
+            cursor: pointer;
+            display: block;
+            height: 28px;
+            user-select: none;
+            -webkit-user-select: none
+        }
+
+            .select2-container .select2-selection--single .select2-selection__rendered {
+                padding-right: 10px
+            }
+
+            .select2-container .select2-selection--single .select2-selection__rendered {
+                padding-left: 0;
+                padding-right: 0;
+                height: auto;
+                margin-top: -3px
+            }
+
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            line-height: 28px
+        }
+
+        .select2-container--default .select2-selection--single,
+        .select2-selection .select2-selection--single {
+            border: 1px solid #d2d6de;
+            border-radius: 5px !important;
+            padding: 6px 12px;
+            height: 40px !important
+        }
+
+            .select2-container--default .select2-selection--single .select2-selection__arrow {
+                height: 26px;
+                position: absolute;
+                top: 6px !important;
+                right: 1px;
+                width: 20px
+            }
+
+        .select2-container--default .select2-results__option {
+            padding: 8px 12px;
+            font-size: 14px;
+            border-bottom: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .select2-container--default .select2-results__option--highlighted {
+            background-color: #F3BC12 !important;
+            color: white !important;
+        }
+        /* Style the search box container */
+        .select2-container--default .select2-search--dropdown .select2-search__field {
+            padding: 8px;
+            border: 1px solid #d2d6de;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+            /* Style the search box input */
+            .select2-container--default .select2-search--dropdown .select2-search__field:focus {
+                border-color: #F3BC12;
+                outline: none;
+                box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
+                border-radius: 5px;
+            }
+
+        .select2-container--default .select2-dropdown {
+            border: 1px solid #d2d6de;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            max-height: 200px; /* Adjust as needed */
+            overflow-y: auto; /* Enable scrolling if options overflow */
+        }
+    </style>
+
+    <link rel="stylesheet" href="~/css/site.css">
+
+</head>
+<body>
+    <div class="container">
+        <h1 class="Title">Create New Staff</h1>
+
+        <form class="container" id="Doctor-Form" asp-action="AddEmployee" asp-controller="Staff" method="post">
+            <div class="form-container">
+                <div class="form-left">
+                    <div class="profile-pic">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <input type="text" name="Name" placeholder="Name"  />
+                    <input type="password" name="Password" placeholder="Password"  />
+                    <input type="text" name="PhoneNumber" placeholder="Phone"  />
+                    <input type="text" name="Address" placeholder="Address"  />
+                    <input type="Date" name="DateOfBirth" placeholder="DateOfBirth" />
+                    <div class="form-group radio-group">
+                        <label>Gender:</label>
+                        <div>
+                            <input type="radio" id="Male" name="Title" value="Male">
+                            <label for="Male">Male</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="Female" name="Title" value="Female">
+                            <label for="Female">Female</label>
+                        </div>
+                       
+                    </div>
+                    <input type="text" name="qualifications" id="qualifications" placeholder="Qualifications" />
+                    <div class="form-group radio-group">
+                        <label>Title:</label>
+                        <div>
+                            <input type="radio" id="Doctor" name="Title" value="Doctor">
+                            <label for="Doctor">Doctor</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="Nurse" name="Title" value="Nurse">
+                            <label for="Nurse">Nurse</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="Lab" name="Title" value="Lab">
+                            <label for="Lab">Lab</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="Radiology" name="Title" value="Radiology">
+                            <label for="Radiology">Radiology</label>
+                        </div>
+                    </div>
+             
+                  
+                   
+                </div>
+                <div class="form-right">
+                    <!-- Dropzone for file upload -->
+                    <div class="drop-section" id="dropzone">
+                        <h3>Drag and Drop Files Here</h3>
+                        <p>or <button type="button" id="browse-files">Browse Files</button></p>
+                        <input type="file" name="Files" id="file-input" multiple style="display:none" />
+                        <div id="file-list" class="file-list">
+                            <h5>Uploaded Files</h5>
+                            <ul id="file-items"></ul>
+                        </div>
+                    </div>
+
+                    <div class="form-group radio-group">
+                        <label>Employment Type:</label>
+                        <div>
+                            <input type="radio" id="partTime" name="EmploymentType" value="PartTime">
+                            <label for="partTime">Part Time</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="fullTime" name="EmploymentType" value="FullTime">
+                            <label for="fullTime">Full Time</label>
+                        </div>
+                    </div>
+                    <select name="department" id="department" class="department form-control" data-placeholder="Select a department" style="width: 100%;" tabindex="-1" aria-hidden="true" onchange="#">
+                        <option value="" selected disabled>Select a department</option>
+                    </select>
+                    <input type="number" name="Department" placeholder="Department ID"  />
+                    <textarea name="AdditionalNotes" placeholder="Additional Notes"></textarea>
+                </div>
+            </div>
+            <input type="Submit" onclick="#" class="save-button" value="Save"/>
+        </form>
+    </div>
+
+</body>
+</html>

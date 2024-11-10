@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Hospital_Management_System.Models;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace Hospital_Management_System.Database
@@ -8,5 +9,6 @@ namespace Hospital_Management_System.Database
         public HospitalDbContext(DbContextOptions<HospitalDbContext> options) : base(options)
         {
         }
+        public DbSet<Staff> Staff { get; set; } = default!;
     }
 }

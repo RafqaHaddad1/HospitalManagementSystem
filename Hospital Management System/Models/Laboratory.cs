@@ -13,5 +13,7 @@ namespace Hospital_Management_System.Models
         public string? Notes { get; set; }
         public int? RequestedBy { get; set; }
         public string? ResultFilePath { get; set; }
+        public string? Status  { get; set; }
+        public string? SampleSubmitted { get; set; }
     }
 }

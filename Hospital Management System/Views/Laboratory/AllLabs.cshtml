@@ -2,8 +2,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -220,14 +218,17 @@
                 <td class="request-date"></td>
                 <td class="result-date"></td>
                 <td>
-                    
+                    <a class="btn btn-primary view-lab" style="background-color: #44444c; border-color: #44444c; color: white; width:40px">
+                        <i class="fa fa-info" style="font-size: 15px; font-weight: bold"></i>
+                    </a>
                     <a class="btn btn-primary submit-result" style="background-color: #44444c; border-color: #44444c; color:white;width:40px">
                         <i class="fas fa-upload"></i>
                     </a>
                 </td>
             </tr>
         </template>
-        <table id="Department-table" class="table table-hover table-striped">
+       
+        <table id="Laboratory-table" class="table table-hover table-striped">
             <thead class="thead-dark">
                 <tr>
                     <th>ID</th>
@@ -243,6 +244,7 @@
             </tbody>
         </table>
     </div>
+   
     <div class="modal fade" id="SubmitRequest" tabindex="-1" aria-labelledby="addEventModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -328,31 +330,8 @@
         </div>
     </div>
 
-    <div class="modal fade" id="EditDepartmentModal" tabindex="-1" aria-labelledby="addEventModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="addEventModalLabel">Add Department</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closeAddModal" onclick=" $('#AddDepartmentModal').modal('hide');"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="EditDepartmentForm">
-                        <input type="number" id="DepartmentID" name="DepartmentID" placeholder="DepartmentID" class="form-control" readonly /> <br />
-                        <input type="text" id="DepartmentName2" name="DepartmentName" placeholder="DepartmentName" class="form-control" /><br />
-                        <select name="Head" id="Head2" class="head form-control" data-placeholder="Select a Head Of Department" style="width: 100%;" tabindex="-1" aria-hidden="true" onchange="updateHeadID()">
-                            <option value="" selected disabled>Select a department Head</option>
-                        </select>
-                        <input type="number" name="DepartmentHeadID" id="DepartmentHeadID" placeholder="Department Head ID" class="form-control" readonly />
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" id="UpdateDepartment" class="btn btn-primary" style="background-color: #44444c; color:white">Update</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="ViewDepartmentModal" tabindex="-1" aria-labelledby="addEventModalLabel" aria-hidden="true">
+   
+    <div class="modal fade" id="ViewLabModal" tabindex="-1" aria-labelledby="addEventModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -360,22 +339,159 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closeAddModal" onclick=" $('#ViewDepartmentModal').modal('hide');"></button>
                 </div>
                 <div class="modal-body">
-
-                    <input type="number" id="DepartmentID3" name="DepartmentID" placeholder="DepartmentID" class="form-control" readonly /> <br />
-                    <input type="text" id="DepartmentName3" name="DepartmentName" placeholder="DepartmentName" class="form-control" readonly /><br />
-                    <input type="text" id="DepaertmentHeadName" name="DepaertmentHeadName" placeholder="DepaertmentHeadName" class="form-control" readonly /> <br />
-                    <input type="number" name="DepartmentHeadID" id="DepartmentHeadID" placeholder="Department Head ID" class="form-control" readonly />
-
+                    <input type="number" name="LabID" id="LabID" placeholder="LabID" class="form-control" readonly /><br />
+                        <input type="text" name="PatientName" id="PatientName" placeholder="Patient Name" class="form-control" readonly /><br />
+                        <input type="number" name="PatientID" id="PatientID" placeholder="Patient " class="form-control" hidden /><br />
+                        <input type="text" name="DoctorName" id="DoctorName" placeholder="DoctorName" class="form-control" readonly /><br />
+                        <input type="number" name="DoctorID" id="DoctorID" placeholder="Doctor Requesting" class="form-control" readonly />
+                        <div class="form-group checkbox-group">
+                            <label for="TestType">Test Type</label>
+                            <div class="checkbox-container">
+                                <div class="checkbox-item">
+                                <input type="checkbox" id="TestType1" name="TestType" value="Blood Count" disabled>
+                                    <label for="TestType1">Blood Count</label>
+                                </div>
+                                <div class="checkbox-item">
+                                <input type="checkbox" id="TestType2" name="TestType" value="Blood Test" disabled>
+                                    <label for="TestType2">Blood Test</label>
+                                </div>
+                                <div class="checkbox-item">
+                                <input type="checkbox" id="TestType3" name="TestType" value="Urinalysis" disabled>
+                                    <label for="TestType3">Urinalysis</label>
+                                </div>
+                                <div class="checkbox-item">
+                                <input type="checkbox" id="TestType4" name="TestType" value="Basic metabolic panel" disabled>
+                                    <label for="TestType4">Basic Metabolic Panel</label>
+                                </div>
+                                <div class="checkbox-item">
+                                <input type="checkbox" id="TestType5" name="TestType" value="Cancer testing" disabled>
+                                    <label for="TestType5">Cancer Testing</label>
+                                </div>
+                                <div class="checkbox-item">
+                                <input type="checkbox" id="TestType6" name="TestType" value="Genetic testing" disabled>
+                                    <label for="TestType6">Genetic Testing</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group checkbox-group">
+                            <label for="SampleSubmitted">Sample Submitted</label>
+                            <div class="checkbox-container">
+                                <div class="checkbox-item">
+                                <input type="checkbox" id="Sample1" name="SampleSubmitted" value="Blood" disabled>
+                                    <label for="Sample1">Blood</label>
+                                </div>
+                                <div class="checkbox-item">
+                                <input type="checkbox" id="Sample1" name="SampleSubmitted" value="Urine" disabled>
+                                    <label for="Sample1">Urine</label>
+                                </div>
+                                <div class="checkbox-item">
+                                <input type="checkbox" id="Sample3" name="SampleSubmitted" value="Tissue" disabled>
+                                    <label for="Sample3">Tissue</label>
+                                </div>
+                                <div class="checkbox-item">
+                                <input type="checkbox" id="Sample4" name="SampleSubmitted" value="Saliva" disabled>
+                                    <label for="Sample4">Saliva</label>
+                                </div>
+                                <div class="checkbox-item">
+                                <input type="checkbox" id="Sample5" name="SampleSubmitted" value="amnioticfluid" disabled>
+                                    <label for="Sample5">Amniotic Fluid</label>
+                                </div>
+                            </div>
+                        </div>
+                        <label for="RequestedDate">Request Date</label>
+                        <input type="datetime-local" name="RequestedDate" id="RequestedDate" placeholder="Requested Date" class="form-control" readonly />
                 </div>
-
             </div>
         </div>
     </div>
     
 
+    <script>
+      
+        $(document).ready(function () {
+            FillTable();
+    
+        });
+        function FillTable() {
+            $.ajax({
+                url: '/Laboratory/AllLabs',
+                type: 'GET',
+                success: function (response) {
+                    console.log(response);
+                    if (response.success) {
+                        const tbody = document.querySelector("#Laboratory-table tbody");
+                        const template = document.querySelector("#LabRowTemplate");
+                        tbody.innerHTML = '';  // Clear existing rows
+                        // Use response.model instead of model
+                        response.model.forEach(item => {
+                            console.log(item);
+                            if ("content" in document.createElement("template")) {
+                                const clone = template.content.cloneNode(true);
+                                // Fill in the data
+                                clone.querySelector(".result-id").textContent = item.resultID;
+                                clone.querySelector(".test-name").textContent = item.testType;
+                                clone.querySelector(".requested-by").textContent = item.requestedBy || "N/A";
+                                clone.querySelector(".request-date").textContent = item.requestedDate || "N/A";
+                                clone.querySelector(".result-date").textContent = item.resultDate || "N/A";
+                                clone.querySelector(".view-lab").setAttribute("onclick", `fetchRequestDetails('${item.resultID}')`);
+                                clone.querySelector(".submit-result").setAttribute("onclick", `fetchDepartmentDetails('${item.resultID}')`);
+                                // Append the new row to the table body
+                                tbody.appendChild(clone);
+                            } else {
+                                console.error("HTML template elements are not supported in this browser.");
+                            }
+                        });
+                        // Destroy existing DataTable instance before reinitializing (to prevent reinitialization issues)
+                        if ($.fn.DataTable.isDataTable('#Laboratory-table')) {
+                            $('#Laboratory-table').DataTable().destroy();
+                        }
+                        // Reinitialize DataTable after rows are added
+                        $('#Laboratory-table').DataTable();
+                    } else {
+                        alert("Failed to fetch Laboratory data.");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error: " + error);
+                }
+            });
+        }
+
+        function fetchRequestDetails(id) {
+            $.ajax({
+                url: '/Laboratory/LabByID/' + id,
+                type: 'GET',
+                success: function (response) {
+                    console.log(response);
+                    if (response.success) {
+                        var lab = response.model[0]; // Assuming model is an array, access the first element
+                        // Populate the modal fields with data from the response
+                        $('#LabID').val(lab.resultID);
+                        $('#PatientID').val(lab.patientID);
+                        $('#RequestedDate').val(lab.requestedDate);
+                
+                        // Test Type checkboxes
+                        $('input[name="TestType"]').prop('checked', false); // Uncheck all checkboxes first
+                        if (lab.testType) {
+                            $('input[name="TestType"][value="' + lab.testType + '"]').prop('checked', true);
+                        }
+
+                        // Sample Submitted checkboxes
+                        $('input[name="SampleSubmitted"]').prop('checked', false); // Uncheck all checkboxes first
+                        if (lab.sampleSubmitted) {
+                            $('input[name="SampleSubmitted"][value="' + lab.sampleSubmitted + '"]').prop('checked', true);
+                        }
+                        $("#ViewLabModal").modal('show');
+                    } else {
+                        alert("Failed to fetch lab data.");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error: " + error);
+                }
+            });
+        }
+
+    </script>
 </body>
-
-
-
-
 </html>

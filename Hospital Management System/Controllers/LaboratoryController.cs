@@ -67,7 +67,6 @@ namespace Hospital_Management_System.Controllers
             }
         }
 
-
         [HttpGet]
         public async Task<IActionResult> LabByID(int id)
         {
@@ -118,6 +117,17 @@ namespace Hospital_Management_System.Controllers
                 _logger.LogError(ex, "Error updating lab");
                 return Json(new { success = false, message = "Error updating lab", exception = ex.Message });
             }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> LabByStatus(string status)
+        {
+            var lab = _dbContext.Laboratory.Where(e => e.Status == status).ToListAsync();
+            return Json(new
+            {
+                success = true,
+                model = lab,
+            });
         }
 
     }

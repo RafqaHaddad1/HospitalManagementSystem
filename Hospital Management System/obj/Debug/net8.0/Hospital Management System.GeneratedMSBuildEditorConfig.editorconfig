@@ -26,12 +26,12 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/test1/source/repos/Hospital Management System/Hospital Management System/Views/Home/Privacy.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/test1/source/repos/Hospital Management System/Hospital Management System/Views/Laboratory/AllLabs.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGFib3JhdG9yeVxBbGxMYWJzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/test1/source/repos/Hospital Management System/Hospital Management System/Views/Radiology/AllImages.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmFkaW9sb2d5XEFsbEltYWdlcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/test1/source/repos/Hospital Management System/Hospital Management System/Views/Shared/Error.cshtml]

@@ -21,15 +21,15 @@ namespace Hospital_Management_System.Controllers
         [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
         public async Task<IActionResult> AllImages()
         {
-            var images = await _dbContext.RadiologyImages.ToListAsync(); 
-            if (HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
-            {
-                return Json(new
-                {
-                    success = true,
-                    model = images,
-                });
-            }
+            //var images = await _dbContext.RadiologyImages.ToListAsync(); 
+            //if (HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+            //{
+            //    return Json(new
+            //    {
+            //        success = true,
+            //        model = images,
+            //    });
+            //}
             // Return the view for normal (non-AJAX) requests
             return View();
         }

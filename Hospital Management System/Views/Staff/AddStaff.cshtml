@@ -364,7 +364,7 @@
         $('.department').select2();
         function DepartmentDropDown() {
             $.ajax({
-                url: '/Department/Departments',
+                url: '/Department/AllDepartments',
                 type: 'GET',
                 success: function (response) {
                     console.log(response); // Log the response object
@@ -407,6 +407,7 @@
             // Set the Zone_ID input field value
             document.getElementById("DepartmentID").value = departmentID;
         }
+
 
     </script>
 </body>

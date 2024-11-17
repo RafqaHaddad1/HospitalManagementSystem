@@ -1,7 +1,10 @@
-﻿namespace Hospital_Management_System.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Hospital_Management_System.Models
 {
     public class RadiologyImages
     {
+        [Key]
         public int ImageID { get; set; }
         public int? PatiendID { get; set; } 
         public int?  RequestedBy { get; set; } 

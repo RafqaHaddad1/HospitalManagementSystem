@@ -20,19 +20,33 @@ namespace Hospital_Management_System.Controllers
         [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
         public async Task<IActionResult> Staffs()
         {
+            // Fetch staff and department data
             var staff = _dbContext.Staff.ToList();
+            var departments = _dbContext.Department.ToList();
+
+            var staffWithDepartments = staff.Select(s => new
+            {
+                StaffID = s.StaffID,
+                Name = s.Name,
+                phoneNumber = s.PhoneNumber,
+                title = s.Role,
+                DepartmentID = s.Department,
+                DepartmentName = departments.FirstOrDefault(d => d.DepartmentID == s.Department)?.DepartmentName
+            }).ToList();
+
             if (HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
             {
                 return Json(new
                 {
                     success = true,
-                    model = staff,
+                    model = staffWithDepartments,
                 });
             }
-            // Return the view for normal (non-AJAX) requests
-            return View();
-            
+
+            // Send the model to the view for normal (non-AJAX) requests
+            return View(staffWithDepartments);
         }
+
         [HttpGet]
         public async Task<IActionResult> StaffById(int id)
         {

@@ -14,6 +14,9 @@ namespace Hospital_Management_System.Models
         public string? Qualifications { get; set; } 
         public string? Role   { get; set; }
         public int? Department { get; set; } 
-        public string? DoctorLicenseNumber { get; set; } 
+        public string? DoctorLicenseNumber { get; set; }
+        public string? EmploymentType { get; set; }
+        public string? FilePath{ get; set; }
+        public string? Password { get; set; }
     }
 }

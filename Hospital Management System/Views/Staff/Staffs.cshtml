@@ -17,15 +17,18 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <style>
-      
+
+
+        .radio-group div {
+            display: inline-block;
+            margin-bottom: 10px;
+        }
         .modal .form-container {
             display: flex;
             justify-content: space-between;
             width: 100%;
-            background-color: #e0e0e0;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+          
         }
 
         .modal .form-left,
@@ -106,7 +109,87 @@
             </tbody>
         </table>
     </div>
+    <div class="modal fade" id="ViewStaffModal" tabindex="-1" aria-labelledby="addEventModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="addEventModalLabel">View Staff</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closeAddModal" onclick=" $('#ViewStaffModal').modal('hide');"></button>
+                </div>
+                <div class="modal-body">
+            
+                        <div class="form-container">
+                            <div class="form-left">
+                                <label for="StaffID">Staff ID</label>
+                            <input type="number" class="form-control" name="StaffID" id="StaffID" placeholder="StaffID" readonly />
+                            <label for="StaffName">Staff Name</label>
+                            <input type="text" class="form-control" name="Name" id="StaffName" placeholder="Name" readonly />
+                            <label for="PhoneNumber">PhoneNumber</label>
+                            <input type="text" class="form-control" name="PhoneNumber" placeholder="Phone" readonly />
+                            <label for="Address">Address</label>
+                            <input type="text" class="form-control" name="Address" placeholder="Address" readonly />
+                            <label for="DateOfBirth">DateOfBirth</label>
+                            <input type="Date" class="form-control" name="DateOfBirth" placeholder="DateOfBirth" readonly />
+                                <div class="form-group radio-group">
+                                    <label>Gender:</label>
+                                    <div>
+                                        <input type="radio" id="Male" name="Title" value="Male" disabled>
+                                        <label for="Male">Male</label>
+                                    </div>
+                                    <div>
+                                    <input type="radio" id="Female" name="Title" value="Female" disabled>
+                                        <label for="Female">Female</label>
+                                    </div>
 
+                                </div>
+                                
+                                <div class="form-group radio-group">
+                                    <label>Title:</label>
+                                    <div>
+                                    <input type="radio" id="Doctor" name="Title" value="Doctor" disabled>
+                                        <label for="Doctor">Doctor</label>
+                                    </div>
+                                    <div>
+                                    <input type="radio" id="Nurse" name="Title" value="Nurse" disabled>
+                                        <label for="Nurse">Nurse</label>
+                                    </div>
+                                    <div>
+                                    <input type="radio" id="Lab" name="Title" value="Lab" disabled>
+                                        <label for="Lab">Lab</label>
+                                    </div>
+                                    <div>
+                                    <input type="radio" id="Radiology" name="Title" value="Radiology" disabled>
+                                        <label for="Radiology">Radiology</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-right">
+                                <label for="qualifications">Qualifications</label>
+                            <input type="text" class="form-control" name="qualifications" id="qualifications" placeholder="Qualifications" readonly/>
+
+                                <div class="form-group radio-group">
+                                    <label>Employment Type:</label>
+                                    <div>
+                                    <input type="radio" id="partTime" name="EmploymentType" value="PartTime" disabled>
+                                        <label for="partTime">Part Time</label>
+                                    </div>
+                                    <div>
+                                    <input type="radio" id="fullTime" name="EmploymentType" value="FullTime" disabled>
+                                        <label for="fullTime">Full Time</label>
+                                    </div>
+                                </div>
+                                <label for="DepartmentName">Department Name</label>
+                            <input type="text" class="form-control" name="DepartmentName" placeholder="DepartmentName" readonly />
+                           <label for="DepartmentID">DepartmentID</label>
+                            <input type="number" class="form-control" name="DepartmentID" id="DepartmentID" placeholder="Department ID" readonly />
+                            <label for="AdditionalNotes">Additional Notes</label>
+                            <input type="text" class="form-control" name="AdditionalNotes" placeholder="Additional Notes" readonly></input>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
    
 </body>
 <script>
@@ -139,8 +222,8 @@
                             clone.querySelector(".staff-department").textContent = item.departmentName || "N/A";
                             clone.querySelector(".staff-phonenumber").textContent = item.phoneNumber || "N/A";
 
-                            // clone.querySelector(".view-department").setAttribute("onclick", `fetchDepartmentDetails('${item.departmentID}')`);
-                            // clone.querySelector(".edit-department").setAttribute("onclick", `EditDepartment('${item.departmentID}')`);
+                            clone.querySelector(".view-department").setAttribute("onclick", `fetchStaffDetails('${item.staffID}')`);
+                            // clone.querySelector(".edit-department").setAttribute("onclick", `EditStaff('${item.departmentID}')`);
                             // Append the new row to the table body
                             tbody.appendChild(clone);
                         } else {
@@ -166,25 +249,65 @@
     }
    
 
-    // function fetchStaffDetails(id) {
-    //     $.ajax({
-    //         url: '/Staff/StaffById/' + id,
-    //         type: 'GET',
-    //         success: function (response) {
-    //             console.log(response);
-    //             if (response.success) {
-    //                 var department = response.model[0]; // Assuming model is an array, access the first element
-                  
-    //                 $('#ViewDepartmentModal').modal('show');
-    //             } else {
-    //                 alert("Failed to fetch department data.");
-    //             }
-    //         },
-    //         error: function (xhr, status, error) {
-    //             console.error("Error: " + error);
-    //         }
-    //     });
-    // }
+    function fetchStaffDetails(id) {
+        $.ajax({
+            url: '/Staff/StaffById/' + id,
+            type: 'GET',
+            success: function (response) {
+                console.log(response);
+                if (response.success) {
+                    var staff = response.model.staff; // Assuming model is an array, access the first element
+
+                    // Fill the form fields in the modal with staff data
+                    $("#StaffID").val(staff.staffID || "N/A");
+                    $("#StaffName").val(staff.name || "N/A");
+                    $("input[name='PhoneNumber']").val(staff.phoneNumber || "N/A");
+                    $("input[name='Address']").val(staff.address || "N/A");
+                    $("input[name='DateOfBirth']").val(staff.dateOfBirth || "N/A");
+                    $("input[name='qualifications']").val(staff.qualifications || "N/A");
+                    // Fill department data
+                    $("input[name='DepartmentName']").val(response.model.department.departmentName || "N/A");
+                    $("input[name='DepartmentID']").val(response.model.department.departmentID || "N/A");
+
+                    $("input[name='AdditionalNotes']").val(staff.additionalNotes|| "N/A");
+
+                    // Set the gender radio button
+                    if (staff.gender === 'Male') {
+                        $("#Male").prop('checked', true);
+                    } else if (staff.gender === 'Female') {
+                        $("#Female").prop('checked', true);
+                    }
+
+                    // Set the title radio button
+                    if (staff.role === 'Doctor') {
+                        $("#Doctor").prop('checked', true);
+                    } else if (staff.role === 'Nurse') {
+                        $("#Nurse").prop('checked', true);
+                    } else if (staff.role === 'Lab') {
+                        $("#Lab").prop('checked', true);
+                    } else if (staff.role === 'Radiology') {
+                        $("#Radiology").prop('checked', true);
+                    }
+
+                    // Set the employment type radio button
+                    if (staff.employmentType === 'PartTime') {
+                        $("#partTime").prop('checked', true);
+                    } else if (staff.employmentType === 'FullTime') {
+                        $("#fullTime").prop('checked', true);
+                    }
+
+                    // Show the modal
+                    $('#ViewStaffModal').modal('show');
+                } else {
+                    alert("Failed to fetch staff data.");
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error: " + error);
+            }
+        });
+    }
+
 
 </script>
    

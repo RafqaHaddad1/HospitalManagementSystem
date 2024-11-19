@@ -1,8 +1,10 @@
 ﻿using Hospital_Management_System.Database;
 using Hospital_Management_System.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Data.Entity;
+
 using System.Security.Policy;
+using Microsoft.EntityFrameworkCore;
+using Hospital_Management_System.Helper;
 
 namespace Hospital_Management_System.Controllers
 {
@@ -10,11 +12,12 @@ namespace Hospital_Management_System.Controllers
     {
         private readonly ILogger<StaffController> _logger;
         private readonly HospitalDbContext _dbContext;
-        public StaffController(ILogger<StaffController> logger, HospitalDbContext dbContext)
+        private readonly Password _password;
+        public StaffController(ILogger<StaffController> logger, HospitalDbContext dbContext, Password password)
         {
             _logger = logger;
             _dbContext = dbContext;
-           
+            _password = password;
         }
         [HttpGet]
         [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
@@ -50,19 +53,42 @@ namespace Hospital_Management_System.Controllers
         [HttpGet]
         public async Task<IActionResult> StaffById(int id)
         {
-            var staff = _dbContext.Staff.Where(e => e.StaffID == id);
+            // Fetch staff by id
+            var staff = await _dbContext.Staff
+                .FirstOrDefaultAsync(e => e.StaffID == id);
+
+            if (staff == null)
+            {
+                return NotFound(new { success = false, message = "Staff not found." });
+            }
+
+            // Fetch associated department
+            var department = await _dbContext.Department
+                .FirstOrDefaultAsync(d => d.DepartmentID == staff.Department);
+
+            if (department == null)
+            {
+                return NotFound(new { success = false, message = "Department not found." });
+            }
+
+            // Return staff and department in JSON response
             return Json(new
             {
                 success = true,
-                model = staff,
+                model = new
+                {
+                    staff = staff,
+                    department = department
+                }
             });
         }
         public IActionResult AddStaff()
         {
             return View();
         }
+
         [HttpPost]
-        public async Task<IActionResult> AddEmployee(Staff model)
+        public async Task<IActionResult> AddEmployee(Staff model, IFormFileCollection Files)
         {
             if (!ModelState.IsValid)
             {
@@ -70,7 +96,42 @@ namespace Hospital_Management_System.Controllers
             }
             try
             {
+                var paths = new List<string>();
+                foreach (var file in Files)
+                {
+                    if (file != null && file.Length > 0)
+                    {
+                        Console.Write(file);
+                        // Specify the directory path
+                        string uploadsDirectoryPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "FilesUpload");
 
+                        // Ensure directory exists
+                        if (!Directory.Exists(uploadsDirectoryPath))
+                        {
+                            Directory.CreateDirectory(uploadsDirectoryPath);
+                        }
+
+                        var fileName = Path.GetFileName(file.FileName);
+                        var uniqueFileName = $"{Guid.NewGuid()}_{fileName}";
+                        var fullPath = Path.Combine(uploadsDirectoryPath, uniqueFileName);
+
+                        using (var stream = new FileStream(fullPath, FileMode.Create))
+                        {
+                            await file.CopyToAsync(stream);
+                        }
+
+                        // Add the relative path to the list
+                        var relativePath = $"/FilesUpload/{uniqueFileName}";
+                        Console.Write(relativePath);
+                        paths.Add(relativePath);
+                    }
+                }
+
+                // Set the model's Files property after the loop
+                var pathsString = string.Join(";", paths);
+                model.FilePath = pathsString;
+                var pass = _password.HashPassword(model.Password);
+                model.Password = pass;
                 _dbContext.Staff.Add(model);
                 await _dbContext.SaveChangesAsync();
                 _logger.LogInformation("Added successfully");
@@ -135,6 +196,35 @@ namespace Hospital_Management_System.Controllers
                 model = staff,
             });
         }
-
+        [HttpGet]
+        public async Task<IActionResult> AllNurses()
+        {
+            var staff = _dbContext.Staff.Where(e => e.Role == "Nurse");
+            return Json(new
+            {
+                success = true,
+                model = staff,
+            });
+        }
+        [HttpGet]
+        public async Task<IActionResult> AllLabPersonel()
+        {
+            var staff = _dbContext.Staff.Where(e => e.Role == "Lab");
+            return Json(new
+            {
+                success = true,
+                model = staff,
+            });
+        }
+        [HttpGet]
+        public async Task<IActionResult> AllRadioPersonel()
+        {
+            var staff = _dbContext.Staff.Where(e => e.Role == "Radiology");
+            return Json(new
+            {
+                success = true,
+                model = staff,
+            });
+        }
     }
 }

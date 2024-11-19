@@ -173,7 +173,7 @@
         <h1 class="Title" style="text-align: center;">Department Table</h1>
 
         <p class="text-right">
-            <a class="btn btn-primary" id="AddDepartmentButton" onclick="$('#AddDepartmentModal').modal('show')" style="background-color: #44444c; border-color: #44444c">Create New Department</a>
+            <a class="btn btn-primary" id="AddDepartmentButton"  style="background-color: #44444c; border-color: #44444c">Create New Department</a>
         </p>
 
         <template id="DepartmentRowTemplate">
@@ -216,7 +216,7 @@
                 <div class="modal-body">
                     <form id="AddDepartmentForm">
                         <input type="text" id="DepartmentName" name="DepartmentName" placeholder="DepartmentName" class="form-control" required /><br />
-                        <select name="Head" id="Head" class="head form-control" data-placeholder="Select a Head Of Department" style="width: 100%;" tabindex="-1" aria-hidden="true" onchange="updateHeadID()">
+                        <select name="Head" id="Head" class="head form-control" data-placeholder="Select a Head Of Department" style="width: 100%;" tabindex="-1" aria-hidden="true" onchange="UpdateHeadID()">
                             <option value="" selected disabled>Select a department Head</option>
                         </select>
                         <input type="number" name="DepartmentHeadID" class="form-control" id="DepartmentHeadID" placeholder="Department Head ID" readonly />
@@ -238,12 +238,12 @@
                 </div>
                 <div class="modal-body">
                     <form id="EditDepartmentForm">
-                        <input type="number" id="DepartmentID" name="DepartmentID" placeholder="DepartmentID" class="form-control"  readonly/> <br/>
+                        <input type="number" id="DepartmentID2" name="DepartmentID" placeholder="DepartmentID" class="form-control"  readonly/> <br/>
                         <input type="text" id="DepartmentName2" name="DepartmentName" placeholder="DepartmentName" class="form-control"  /><br />
-                        <select name="Head" id="Head2" class="head form-control" data-placeholder="Select a Head Of Department" style="width: 100%;" tabindex="-1" aria-hidden="true" onchange="updateHeadID()">
+                        <select name="Head" id="Head2" class="head form-control" data-placeholder="Select a Head Of Department" style="width: 100%;" tabindex="-1" aria-hidden="true" onchange="UpdateHeadID2()">
                             <option value="" selected disabled>Select a department Head</option>
                         </select>
-                        <input type="number" name="DepartmentHeadID" id="DepartmentHeadID" placeholder="Department Head ID" class="form-control"  readonly/>
+                        <input type="number" name="DepartmentHeadID2" id="DepartmentHeadID2" placeholder="Department Head ID" class="form-control"  readonly/>
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -264,8 +264,8 @@
                     
                         <input type="number" id="DepartmentID3" name="DepartmentID" placeholder="DepartmentID" class="form-control" readonly /> <br />
                         <input type="text" id="DepartmentName3" name="DepartmentName" placeholder="DepartmentName" class="form-control" readonly /><br />
-                        <input type="text" id="DepaertmentHeadName" name="DepaertmentHeadName" placeholder="DepaertmentHeadName" class="form-control" readonly/> <br/>
-                    <input type="number" name="DepartmentHeadID" id="DepartmentHeadID" placeholder="Department Head ID" class="form-control" readonly />
+                        <input type="text" id="DepartmentHeadName" name="DepaertmentHeadName" placeholder="DepaertmentHeadName" class="form-control" readonly/> <br/>
+                        <input type="number" name="DepartmentHeadID3" id="DepartmentHeadID3" placeholder="Department Head ID" class="form-control" readonly />
 
                 </div>
               
@@ -275,10 +275,20 @@
   <script>
         $(document).ready(function () {
             FillTable();
-            DrDropdown();
+          
         });
-      
-      $('.head').select2();
+
+        $('#Head').select2({
+            dropdownParent: $('#AddDepartmentModal')
+        });
+        $("#Head2").select2({
+            dropdownParent: $('#EditDepartmentModal')
+        });
+        $("#AddDepartmentButton").on('click', function () {
+            DrDropdown(); 
+            $('#AddDepartmentModal').modal('show');
+        });
+
         function FillTable() {
             $.ajax({
                 url: '/Department/AllDepartments',
@@ -299,7 +309,7 @@
                                 // Fill in the data
                                 clone.querySelector(".department-id").textContent = item.departmentID;
                                 clone.querySelector(".department-name").textContent = item.departmentName;
-                                clone.querySelector(".department-Head").textContent = item.departmentHeadID || "N/A";
+                                clone.querySelector(".department-Head").textContent = item.staffName || "N/A";
 
                                 clone.querySelector(".view-department").setAttribute("onclick", `fetchDepartmentDetails('${item.departmentID}')`);
                                 clone.querySelector(".edit-department").setAttribute("onclick", `EditDepartment('${item.departmentID}')`);
@@ -346,13 +356,12 @@
                         // Populate the zone dropdown with new options
                         response.model.forEach(function (dr) {
                             var option = document.createElement("option");
-                            option.value = dr.StaffName;
-                            option.text = dr.StaffName;
-                            option.setAttribute("data-dr-id", dr.StaffID);
-                            console.log("dr ID: ", dr.StaffID);
+                            option.value = dr.name;
+                            option.text = dr.name;
+                            option.setAttribute("data-dr-id", dr.staffID);
+                            console.log("dr ID: ", dr.staffID);
                             DrDropdown.appendChild(option);
                         });
-
 
                     } else {
                         alert('Failed to retrieve dr: ' + response.message);
@@ -403,6 +412,7 @@
                 alert('Please fill out all required fields.');
             }
         });
+       
         function fetchDepartmentDetails(id) {
             $.ajax({
                 url: '/Department/DepartmentByID/' + id,
@@ -410,10 +420,11 @@
                 success: function (response) {
                     console.log(response);
                     if (response.success) {
-                        var department = response.model[0]; // Assuming model is an array, access the first element
-                        $('#DepartmentID3').val(department.departmentID);
-                        $("#DepartmentName3").val(department.departmentName);
-                        $("#DepartmentHeadID").val(department.departmentHeadID);
+                        // Access the department details using response object
+                        $('#DepartmentID3').val(response.model.departmentID);
+                        $("#DepartmentName3").val(response.model.departmentName);
+                        $("#DepartmentHeadName").val(response.departmentHead);
+                        $("#DepartmentHeadID3").val(response.model.departmentHeadID);
                         $('#ViewDepartmentModal').modal('show');
                     } else {
                         alert("Failed to fetch department data.");
@@ -424,6 +435,57 @@
                 }
             });
         }
+        function DrDropdown2() {
+            $.ajax({
+                url: '/Staff/AllDoctors',
+                type: 'GET',
+                success: function (response) {
+                    console.log(response); // Log the response object
+
+                    if (response.success) {
+                        var DrDropdown = document.getElementById("Head2");
+                        DrDropdown.innerHTML = ""; // Clear existing options
+                        // Add a default "Select a Supervisor" option
+                        var defaultOption = document.createElement("option");
+                        defaultOption.value = "";
+                        defaultOption.text = "Select a Head Of Department";
+                        defaultOption.disabled = true;
+                        defaultOption.selected = true;
+                        DrDropdown.appendChild(defaultOption);
+                        // Populate the zone dropdown with new options
+                        response.model.forEach(function (dr) {
+                            var option = document.createElement("option");
+                            option.value = dr.staffID;
+                            option.text = dr.name;
+                            option.setAttribute("data-dr-id", dr.staffID);
+                            console.log("dr ID: ", dr.staffID);
+                            DrDropdown.appendChild(option);
+                        });
+                        const headID = $("#DepartmentHeadID2").val();
+                        console.log("head Id selected " + $("#DepartmentHeadID2").val());
+                        if (headID) {
+                            // Ensure the option exists before setting it as selected
+                            const optionToSelect = Array.from(DrDropdown.options).find(option => option.value == headID);
+                            if (optionToSelect) {
+                                optionToSelect.selected = true;
+                            }
+                        }
+                    } else {
+                        alert('Failed to retrieve dr: ' + response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert('Error: ' + error);
+                }
+            });
+        }
+        function UpdateHeadID2() {
+            var selectedOption = document.getElementById("Head2").selectedOptions[0];
+            // Get the Zone_ID from the data attribute
+            var drID = selectedOption.getAttribute("data-dr-id"); // Fix the attribute name
+            // Set the Zone_ID input field value
+            document.getElementById("DepartmentHeadID2").value = drID;
+        }
         function EditDepartment(id) {
             $.ajax({
                 url: '/Department/DepartmentByID/' + id,
@@ -431,11 +493,10 @@
                 success: function (response) {
                     console.log(response);
                     if (response.success) {
-                        var department = response.model[0]; // Assuming model is an array, access the first element
-                        $('#DepartmentID').val(department.departmentID);
-                        $("#DepartmentName2").val(department.departmentName);
-                        DrDropdown();
-                        $("#DepartmentHeadID").val(department.departmentHeadID);
+                        $('#DepartmentID2').val(response.model.departmentID);
+                        $("#DepartmentName2").val(response.model.departmentName);
+                        $("#DepartmentHeadID2").val(response.model.departmentHeadID);
+                        DrDropdown2();
                         $('#EditDepartmentModal').modal('show');
                     } else {
                         alert("Failed to fetch department data.");
@@ -447,35 +508,51 @@
             });
         }
         // Handle form submission
-        $('#UpdateDepartment').on('click', function () {
-            // Validate form inputs
-            var departmentName = $('#DepartmentName2').val();
-            var departmentHeadID = $('#DepartmentHeadID').val();
 
-            if (departmentName) {
-                // Submit the form via AJAX
-                $.ajax({
-                    url: '/Department/UpdateDepartment',
-                    type: 'PUT',
-                    data: $('#EditDepartmentForm').serialize(),
-                    success: function (response) {
-                        if (response.success) {
-                            // Close the modal
-                            $('#EditDepartmentModal').modal('hide');
-                            location.reload();
-                            alert('Department updated successfully!');
-                        } else {
-                            alert('Failed to update department: ' + response.message);
-                        }
-                    },
-                    error: function (xhr, status, error) {
-                        alert('Error: ' + error);
-                    }
-                });
-            } else {
-                alert('Please fill out all required fields.');
+
+        $('#UpdateDepartment').on('click', function () {
+            console.log('Department Name:', $('#DepartmentName2').val());  // Check if this prints the correct value
+            console.log('Department ID:', $('#DepartmentID2').val());      // Check if this prints the correct value
+            console.log('Department Head ID:', $('#DepartmentHeadID2').val());  // Check if this prints the correct value
+
+            var departmentName = $('#DepartmentName2').val();
+            var departmentHeadID = $('#DepartmentHeadID2').val();
+            var departmentID = $('#DepartmentID2').val();
+
+            // Ensure that departmentID, departmentName, and departmentHeadID are not empty
+            if (!departmentName || !departmentHeadID || !departmentID) {
+                alert('Please fill in all the required fields');
+                return; // Stop the AJAX request if any field is empty
             }
+
+            // Submit the form via AJAX
+            $.ajax({
+                url: '/Department/UpdateDepartment',
+                type: 'PUT',
+                contentType: 'application/json',  // Ensuring the content type is JSON
+                data: JSON.stringify({  // Send the data as a JSON string
+                    DepartmentID: departmentID,
+                    DepartmentName: departmentName,
+                    DepartmentHeadID: departmentHeadID
+                }),
+                success: function (response) {
+                    if (response.success) {
+                        // Close the modal
+                        $('#EditDepartmentModal').modal('hide');
+                        window.location.reload();
+
+                        alert('Department updated successfully!');
+                    } else {
+                        alert('Failed to update department: ' + response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert('Error: ' + error);
+                }
+            });
         });
+
+
   </script>
 </body>
 

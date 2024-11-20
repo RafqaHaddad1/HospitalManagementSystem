@@ -13,7 +13,7 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.10.2/dropzone.min.css">
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.10.2/dropzone.min.js"></script>
     <style>
         .container {
             display: flex;
@@ -277,7 +277,7 @@
     <div class="container">
         <h1 class="Title">Create New Staff</h1>
 
-        <form class="container" id="Doctor-Form" asp-action="AddEmployee" asp-controller="Staff" method="post">
+        <form class="container" id="Doctor-Form" asp-action="AddEmployee" asp-controller="Staff" method="post" enctype="multipart/form-data" onsubmit="return validateAndRedirect()">
             <div class="form-container">
                 <div class="form-left">
                     <div class="profile-pic">
@@ -291,36 +291,36 @@
                     <div class="form-group radio-group">
                         <label>Gender:</label>
                         <div>
-                            <input type="radio" id="Male" name="Title" value="Male">
+                            <input type="radio" id="Male" name="Gender" value="Male">
                             <label for="Male">Male</label>
                         </div>
                         <div>
-                            <input type="radio" id="Female" name="Title" value="Female">
+                            <input type="radio" id="Female" name="Gender" value="Female">
                             <label for="Female">Female</label>
                         </div>
                        
                     </div>
                     <input type="text" name="qualifications" id="qualifications" placeholder="Qualifications" />
                     <div class="form-group radio-group">
-                        <label>Title:</label>
+                        <label>Role:</label>
                         <div>
-                            <input type="radio" id="Doctor" name="Title" value="Doctor">
+                            <input type="radio" id="Doctor" name="Role" value="Doctor">
                             <label for="Doctor">Doctor</label>
                         </div>
                         <div>
-                            <input type="radio" id="Nurse" name="Title" value="Nurse">
+                            <input type="radio" id="Nurse" name="Role" value="Nurse">
                             <label for="Nurse">Nurse</label>
                         </div>
                         <div>
-                            <input type="radio" id="Lab" name="Title" value="Lab">
+                            <input type="radio" id="Lab" name="Role" value="Lab">
                             <label for="Lab">Lab</label>
                         </div>
                         <div>
-                            <input type="radio" id="Radiology" name="Title" value="Radiology">
+                            <input type="radio" id="Radiology" name="Role" value="Radiology">
                             <label for="Radiology">Radiology</label>
                         </div>
                     </div>
-             
+                    <input type="text" name="DoctorLicenseNumber" id="DoctorLicenseNumber" placeholder="DoctorLicenseNumber" />
                   
                    
                 </div>
@@ -335,7 +335,7 @@
                             <ul id="file-items"></ul>
                         </div>
                     </div>
-
+                    <input type="text" id="Files" />
                     <div class="form-group radio-group">
                         <label>Employment Type:</label>
                         <div>
@@ -347,19 +347,20 @@
                             <label for="fullTime">Full Time</label>
                         </div>
                     </div>
-                    <select name="department" id="department" class="department form-control" data-placeholder="Select a department" style="width: 100%;" tabindex="-1" aria-hidden="true" onchange="updateDepartmentID()">
+                    <select name="departmentname" id="department" class="department form-control" data-placeholder="Select a department" style="width: 100%;" tabindex="-1" aria-hidden="true" onchange="updateDepartmentID()">
                         <option value="" selected disabled>Select a department</option>
                     </select>
-                    <input type="number" name="DepartmentID" id="DepartmentID" placeholder="Department ID" />
+                    <input type="number" name="Department" id="DepartmentID" placeholder="Department ID" />
                     <textarea name="AdditionalNotes" placeholder="Additional Notes"></textarea>
                 </div>
             </div>
-            <input type="Submit" onclick="#" class="save-button" value="Save"/>
+            <input type="Submit" id="SubmitStaff" class="save-button" value="Save"/>
         </form>
     </div>
 
 
     <script>
+
         DepartmentDropDown();
         $('.department').select2();
         function DepartmentDropDown() {
@@ -408,59 +409,49 @@
             document.getElementById("DepartmentID").value = departmentID;
         }
 
-        const dropArea = document.querySelector('.drop-section');
-        const listSection = document.querySelector('.list-section');
-        const listContainer = document.querySelector('.list');
-        const fileSelector = document.querySelector('.file-selector');
-        const fileSelectorInput = document.querySelector('.file-selector-input');
+        const dropzone = document.getElementById('dropzone');
+        const fileInput = document.getElementById('file-input');
+        const fileItems = document.getElementById('file-items');
+        const browseFilesBtn = document.getElementById('browse-files');
+        const filenameinput = document.getElementById('Files');
+        const filenames = [];
+        // Show file input when 'Browse Files' button is clicked
+        browseFilesBtn.onclick = () => fileInput.click();
 
-        // Upload files with browse button
-        fileSelector.onclick = () => fileSelectorInput.click();
-        fileSelectorInput.onchange = () => {
-            [...fileSelectorInput.files].forEach((file) => {
+        // Handle file input change
+        fileInput.onchange = () => {
+            [...fileInput.files].forEach(file => {
                 if (typeValidation(file.type)) {
                     console.log(file);
+                    filenames.push(file);
                     handleFile(file);
                 }
             });
+
+            filenameinput.value = filenames.join(', ');
+            console.log(filenames.join(', '));
+            console.log(filenameinput);
         };
 
-        // Check the file type
-        function typeValidation(type) {
-            const splitType = type.split('/')[0];
-            return type === 'application/pdf' || splitType === 'image' || splitType === 'video';
-        }
 
-        // When file is over the drag area
-        dropArea.ondragover = (e) => {
+
+        // Handle drag over
+        dropzone.ondragover = (e) => {
             e.preventDefault();
-            [...e.dataTransfer.items].forEach((item) => {
-                if (typeValidation(item.type)) {
-                    dropArea.classList.add('drag-over-effect');
-                }
-            });
+            dropzone.classList.add('drag-over-effect');
         };
 
-        // When file leaves the drag area
-        dropArea.ondragleave = () => {
-            dropArea.classList.remove('drag-over-effect');
+        // Handle drag leave
+        dropzone.ondragleave = () => {
+            dropzone.classList.remove('drag-over-effect');
         };
 
-        // When file drops on the drag area
-        dropArea.ondrop = (e) => {
+        // Handle drop
+        dropzone.ondrop = (e) => {
             e.preventDefault();
-            dropArea.classList.remove('drag-over-effect');
-            if (e.dataTransfer.items) {
-                [...e.dataTransfer.items].forEach((item) => {
-                    if (item.kind === 'file') {
-                        const file = item.getAsFile();
-                        if (typeValidation(file.type)) {
-                            handleFile(file);
-                        }
-                    }
-                });
-            } else {
-                [...e.dataTransfer.files].forEach((file) => {
+            dropzone.classList.remove('drag-over-effect');
+            if (e.dataTransfer.files) {
+                [...e.dataTransfer.files].forEach(file => {
                     if (typeValidation(file.type)) {
                         handleFile(file);
                     }
@@ -468,60 +459,69 @@
             }
         };
 
-        // Handle file function
+        // Validate file type
+        function typeValidation(type) {
+            const splitType = type.split('/')[0];
+            return type === 'application/pdf' || splitType === 'image' || splitType === 'video';
+        }
+
+        // Handle file
         function handleFile(file) {
-            listSection.style.display = 'block';
             const li = document.createElement('li');
-            li.classList.add('in-prog');
+            li.classList.add('file-item');
             li.innerHTML = `
-                <div class="col">
-                    <img src="icons/${iconSelector(file.type)}" alt="">
-                </div>
-                <div class="col">
-                    <div class="file-name">
-                        <div class="name">${file.name}</div>
-                        <span>0%</span>
-                    </div>
-                    <div class="file-progress">
-                        <span></span>
-                    </div>
-                    <div class="file-size">${(file.size / (1024 * 1024)).toFixed(2)} MB</div>
-                </div>
-                <div class="col">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="cross" height="20" width="20"><path d="m5.979 14.917-.854-.896 4-4.021-4-4.062.854-.896 4.042 4.062 4-4.062.854.896-4 4.062 4 4.021-.854.896-4-4.063Z"/></svg>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="tick" height="20" width="20"><path d="m8.229 14.438-3.896-3.917 1.438-1.438 2.458 2.459 6-6L15.667 7Z"/></svg>
-                </div>
-            `;
-            listContainer.prepend(li);
+                                    <div class="col">
+                                        <img src="icons/${iconSelector(file.type)}" alt="">
+                                    </div>
+                                    <div class="col">
+                                        <div class="file-name">
+                                            <div class="name">${file.name}</div>
+                                            <span>0%</span>
+                                        </div>
+                                        <div class="file-progress">
+                                            <span></span>
+                                        </div>
+                                        <div class="file-size">${(file.size / (1024 * 1024)).toFixed(2)} MB</div>
+                                    </div>
+                                    <div class="col">
+                                        <button class="remove-button">Remove</button>
+                                    </div>
+                                `;
+            fileItems.appendChild(li);
 
             // Simulate file upload progress
             simulateUploadProgress(file, li);
 
-            // Add event listener to cancel file upload
-            li.querySelector('.cross').onclick = () => li.remove();
+            // Add event listener to remove file
+            li.querySelector('.remove-button').onclick = () => li.remove();
         }
 
-        // Simulate file upload progress
+        // Simulate upload progress
         function simulateUploadProgress(file, li) {
+            const progressBar = li.querySelector('.file-progress span');
             let progress = 0;
             const interval = setInterval(() => {
-                progress += 10; // Simulate progress increment
+                progress += 10;
+                progressBar.style.width = `${progress}%`;
+                li.querySelector('.file-name span').textContent = `${progress}%`;
                 if (progress >= 100) {
                     clearInterval(interval);
-                    li.classList.add('complete');
-                    li.classList.remove('in-prog');
                 }
-                li.querySelectorAll('span')[0].innerHTML = progress + '%';
-                li.querySelectorAll('span')[1].style.width = progress + '%';
-            }, 500); // Update every 500ms
+            }, 200);
         }
 
-        // Find icon for file
-        function iconSelector(type) {
-            const splitType = (type.split('/')[0] === 'application') ? type.split('/')[1] : type.split('/')[0];
-            return splitType + '.png';
+        // Determine file icon based on file type
+        function iconSelector(fileType) {
+            if (fileType === 'application/pdf') return 'pdf.png';
+            if (fileType.startsWith('image')) return 'image.png';
+            if (fileType.startsWith('video')) return 'video.png';
+            return 'file.png';
         }
 
+        function validateAndRedirect(){
+            window.location.href = 'Staff/Staffs';
+            document.getElementById('Doctor-Form').submit();
+        }
     </script>
 </body>
 </html>

@@ -1,4 +1,10 @@
-﻿﻿
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+﻿
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,9 +32,9 @@
 
         .radio-group div {
             display: inline-block;
-            
             margin-bottom: 10px;
         }
+
         .form-container {
             display: flex;
             flex-direction: row; /* Change to row direction */
@@ -275,19 +281,20 @@
 </head>
 <body>
     <div class="container">
-        <h1 class="Title">Create New Staff</h1>
+        <h1 class="Title">Edit Staff</h1>
 
-        <form class="container" id="Doctor-Form" asp-action="AddEmployee" asp-controller="Staff" method="post" enctype="multipart/form-data" onsubmit="return validateAndRedirect()">
+        <form class="container" id="Doctor-Form" asp-action="UpdateEmployee" asp-controller="Staff" method="post" enctype="multipart/form-data" onsubmit="return validateAndRedirect()">
             <div class="form-container">
                 <div class="form-left">
                     <div class="profile-pic">
                         <i class="fas fa-user"></i>
                     </div>
-                    <input type="text" name="Name" placeholder="Name"  />
-                    <input type="password" name="Password" placeholder="Password"  />
-                    <input type="text" name="PhoneNumber" placeholder="Phone"  />
-                    <input type="text" name="Address" placeholder="Address"  />
-                    <input type="Date" name="DateOfBirth" placeholder="DateOfBirth" />
+                    <input type="number" name="StaffID" id="StaffID" placeholder="StaffId"/>
+                    <input type="text" name="Name" id="Name" placeholder="Name" />
+                  
+                    <input type="text" name="PhoneNumber" id="PhoneNumber" placeholder="Phone" />
+                    <input type="text" name="Address" id="Address" placeholder="Address" />
+                    <input type="Date" name="DateOfBirth" id="DateOfBirth" placeholder="DateOfBirth" />
                     <div class="form-group radio-group">
                         <label>Gender:</label>
                         <div>
@@ -298,7 +305,7 @@
                             <input type="radio" id="Female" name="Gender" value="Female">
                             <label for="Female">Female</label>
                         </div>
-                       
+
                     </div>
                     <input type="text" name="qualifications" id="qualifications" placeholder="Qualifications" />
                     <div class="form-group radio-group">
@@ -321,8 +328,8 @@
                         </div>
                     </div>
                     <input type="text" name="DoctorLicenseNumber" id="DoctorLicenseNumber" placeholder="DoctorLicenseNumber" />
-                  
-                   
+
+
                 </div>
                 <div class="form-right">
                     <!-- Dropzone for file upload -->
@@ -335,7 +342,7 @@
                             <ul id="file-items"></ul>
                         </div>
                     </div>
-                    <input type="text" id="Files" />
+                    <input type="text" id="Files" hidden/>
                     <div class="form-group radio-group">
                         <label>Employment Type:</label>
                         <div>
@@ -351,17 +358,104 @@
                         <option value="" selected disabled>Select a department</option>
                     </select>
                     <input type="number" name="Department" id="DepartmentID" placeholder="Department ID" />
-                    <textarea name="AdditionalNotes" placeholder="Additional Notes"></textarea>
+                    <input type="text" name="AdditionalNotes" placeholder="Additional Notes"></input>
                 </div>
             </div>
-            <input type="Submit" id="SubmitStaff" class="save-button" value="Save"/>
+            <input type="Submit" id="UpdateStaff" class="save-button" value="Update" />
         </form>
     </div>
 
 
     <script>
+        $(document).ready(function () {
+            fetchStaffDetails();
+           
+        });
+        var staffID = sessionStorage.getItem("Staffid");
+        function fetchStaffDetails() {
+            $.ajax({
+                url: '/Staff/StaffById/' + staffID,
+                type: 'GET',
+                success: function (response) {
+                    console.log(response);
+                    if (response.success) {
+                        var staff = response.model.staff; // Assuming model is an array, access the first element
 
-        DepartmentDropDown();
+                        // Fill the form fields in the modal with staff data
+                        $("#StaffID").val(staff.staffID || "N/A");
+                        $("#Name").val(staff.name || "N/A");
+                        $("input[name='PhoneNumber']").val(staff.phoneNumber || "N/A");
+                        $("input[name='Address']").val(staff.address || "N/A");
+                        $("input[name='DateOfBirth']").val(staff.dateOfBirth || "N/A");
+                        $("input[name='qualifications']").val(staff.qualifications || "N/A");
+                      
+                        $("input[name='DoctorLicenseNumber']").val(staff.doctorLicenseNumber || "N/A");
+                        // Fill department data
+                       
+                        $("input[name='Department']").val(response.model.department.departmentID || "N/A");
+                        DepartmentDropDown();
+                        $("input[name='AdditionalNotes']").val(staff.additionalNotes || "N/A");
+
+                        // Set the gender radio button
+                        if (staff.gender === 'Male') {
+                            $("#Male").prop('checked', true);
+                        } else if (staff.gender === 'Female') {
+                            $("#Female").prop('checked', true);
+                        }
+
+                        // Set the title radio button
+                        if (staff.role === 'Doctor') {
+                            $("#Doctor").prop('checked', true);
+                        } else if (staff.role === 'Nurse') {
+                            $("#Nurse").prop('checked', true);
+                        } else if (staff.role === 'Lab') {
+                            $("#Lab").prop('checked', true);
+                        } else if (staff.role === 'Radiology') {
+                            $("#Radiology").prop('checked', true);
+                        }
+
+                        // Set the employment type radio button
+                        if (staff.employmentType === 'PartTime') {
+                            $("#partTime").prop('checked', true);
+                        } else if (staff.employmentType === 'FullTime') {
+                            $("#fullTime").prop('checked', true);
+                        }
+
+                        var listGroup = $('#file-items');
+                        listGroup.empty();
+
+                        // Split the file items (assuming file paths are separated by semicolons)
+                        var filePaths = staff.filePath.split(';');
+
+                        // Iterate through each file path
+                        filePaths.forEach(function (filePath) {
+                            var trimmedPath = filePath.trim();
+                            if (trimmedPath) {
+                                // Create a new list item with a link and a remove button
+                                var fileName = trimmedPath.substring(trimmedPath.lastIndexOf('/') + 1); // Extract the file name from the path
+
+                                var listItem = `
+                                        <li>
+                                            <a href="${trimmedPath}" target="_blank">${fileName}</a>
+                                            
+                                        </li>
+                                    `;
+
+                                // Append the new item to the list group
+                                listGroup.append(listItem);
+                            }
+                        });
+
+                    } else {
+                        alert("Failed to fetch staff data.");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error: " + error);
+                }
+            });
+        }
+
         $('.department').select2();
         function DepartmentDropDown() {
             $.ajax({
@@ -383,13 +477,21 @@
                         // Populate the zone dropdown with new options
                         response.model.forEach(function (department) {
                             var option = document.createElement("option");
-                            option.value = department.departmentName;
+                            option.value = department.departmentID;
                             option.text = department.departmentName;
                             option.setAttribute("data-department-id", department.departmentID);
                             console.log("Department ID: ", department.departmentID);
                             DepartmentDropDown.appendChild(option);
                         });
-                  
+                        const DepartmentID = $("#DepartmentID").val();
+                        console.log("head Id selected " + $("#DepartmentID").val());
+                        if (DepartmentID) {
+                            // Ensure the option exists before setting it as selected
+                            const optionToSelect = Array.from(DepartmentDropDown.options).find(option => option.value == DepartmentID);
+                            if (optionToSelect) {
+                                optionToSelect.selected = true;
+                            }
+                        }
 
                     } else {
                         alert('Failed to retrieve department: ' + response.message);
@@ -401,7 +503,7 @@
             });
         }
 
-        function updateDepartmentID (){
+        function updateDepartmentID() {
             var selectedOption = document.getElementById("department").selectedOptions[0];
             // Get the Zone_ID from the data attribute
             var departmentID = selectedOption.getAttribute("data-department-id"); // Fix the attribute name
@@ -470,23 +572,23 @@
             const li = document.createElement('li');
             li.classList.add('file-item');
             li.innerHTML = `
-                                    <div class="col">
-                                        <img src="icons/${iconSelector(file.type)}" alt="">
-                                    </div>
-                                    <div class="col">
-                                        <div class="file-name">
-                                            <div class="name">${file.name}</div>
-                                            <span>0%</span>
-                                        </div>
-                                        <div class="file-progress">
-                                            <span></span>
-                                        </div>
-                                        <div class="file-size">${(file.size / (1024 * 1024)).toFixed(2)} MB</div>
-                                    </div>
-                                    <div class="col">
-                                        <button class="remove-button">Remove</button>
-                                    </div>
-                                `;
+                                                    <div class="col">
+                                                        <img src="icons/${iconSelector(file.type)}" alt="">
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="file-name">
+                                                            <div class="name">${file.name}</div>
+                                                            <span>0%</span>
+                                                        </div>
+                                                        <div class="file-progress">
+                                                            <span></span>
+                                                        </div>
+                                                        <div class="file-size">${(file.size / (1024 * 1024)).toFixed(2)} MB</div>
+                                                    </div>
+                                                    <div class="col">
+                                                        <button class="remove-button">Remove</button>
+                                                    </div>
+                                                `;
             fileItems.appendChild(li);
 
             // Simulate file upload progress
@@ -518,10 +620,11 @@
             return 'file.png';
         }
 
-        function validateAndRedirect(){
-            alert("Staff added successfully");
-            window.location.href = 'Staff/Staffs';
+        function validateAndRedirect() {
             document.getElementById('Doctor-Form').submit();
+            alert("Saff updated Successfully");
+            window.location.href = 'Staff/Staffs';
+           
         }
     </script>
 </body>

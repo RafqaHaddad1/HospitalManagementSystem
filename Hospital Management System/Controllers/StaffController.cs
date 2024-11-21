@@ -1,7 +1,6 @@
 ﻿using Hospital_Management_System.Database;
 using Hospital_Management_System.Models;
 using Microsoft.AspNetCore.Mvc;
-
 using System.Security.Policy;
 using Microsoft.EntityFrameworkCore;
 using Hospital_Management_System.Helper;
@@ -155,7 +154,7 @@ namespace Hospital_Management_System.Controllers
             }
         }
         [HttpPost]
-        public async Task<IActionResult> UpdateEmployee(Staff model)
+        public async Task<IActionResult> UpdateEmployee(Staff model, IFormFileCollection Files)
         {
             if (!ModelState.IsValid)
             {
@@ -164,9 +163,57 @@ namespace Hospital_Management_System.Controllers
             try
             {
                 var existingEmployee = await _dbContext.Staff.FindAsync(model.StaffID);
-         
+                var existingPaths = existingEmployee.FilePath?.Split(';').ToList() ?? new List<string>();
+                model.Password = existingEmployee.Password ;
+                // Update the existing employee with new values (excluding files)
+                _dbContext.Entry(existingEmployee).CurrentValues.SetValues(model);
+                var newPaths = new List<string>();
+                foreach (var file in Files)
+                {
+                    if (file != null && file.Length > 0)
+                    {
+                        _logger.LogInformation($"Processing file: {file.FileName}");
+
+
+                        // Specify the directory path
+                        string uploadsDirectoryPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "FilesUpload");
+
+                        // Ensure directory exists
+                        if (!Directory.Exists(uploadsDirectoryPath))
+                        {
+                            Directory.CreateDirectory(uploadsDirectoryPath);
+                        }
+
+                        var fileName = Path.GetFileName(file.FileName);
+                        var uniqueFileName = $"{Guid.NewGuid()}_{fileName}";
+                        var fullPath = Path.Combine(uploadsDirectoryPath, uniqueFileName);
+
+                        using (var stream = new FileStream(fullPath, FileMode.Create))
+                        {
+                            await file.CopyToAsync(stream);
+                        }
+
+                        // Add the relative path to the new paths list
+                        var relativePath = $"/FilesUpload/{uniqueFileName}";
+                        _logger.LogInformation($"File saved at path: {relativePath}");
+                        newPaths.Add(relativePath);
+                    }
+                }
+
+                // Combine existing paths with new ones
+                existingPaths.AddRange(newPaths);
+                foreach (var file in existingPaths)
+                {
+                    Console.WriteLine(file);
+                }
+
+                // Update the employee's Files property with combined paths
+                existingEmployee.FilePath = string.Join(";", existingPaths);
+                Console.WriteLine(existingEmployee.FilePath);
+               
+                // Save changes to the database
                 await _dbContext.SaveChangesAsync();
-                _logger.LogInformation("Added successfully");
+                _logger.LogInformation("Employee updated successfully");
 
                 if (HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
                 {
@@ -225,6 +272,11 @@ namespace Hospital_Management_System.Controllers
                 success = true,
                 model = staff,
             });
+        }
+   
+        public IActionResult EditStaff()
+        {
+            return View("EditStaff");
         }
     }
 }

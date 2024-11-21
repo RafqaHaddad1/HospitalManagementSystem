@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "mDzVGGKduP2B5TEWxDCE+XaFWxvem9Ab64GTcGlZmsE=",
+  "Hash": "Q3vf3mOAz1Gn1R8xmOEVA8e+IeE5CGz6cqOSxnMo76g=",
   "Source": "Hospital Management System",
   "BasePath": "_content/Hospital Management System",
   "Mode": "Default",
@@ -93,6 +93,25 @@
       "OriginalItemSpec": "wwwroot\\favicon.ico"
     },
     {
+      "Identity": "C:\\Users\\test1\\source\\repos\\Hospital Management System\\Hospital Management System\\wwwroot\\FilesUpload\\4049bd19-70d4-4be0-8957-4447afbd81e5_Handout 1_Introduction.pdf",
+      "SourceId": "Hospital Management System",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\test1\\source\\repos\\Hospital Management System\\Hospital Management System\\wwwroot\\",
+      "BasePath": "_content/Hospital Management System",
+      "RelativePath": "FilesUpload/4049bd19-70d4-4be0-8957-4447afbd81e5_Handout 1_Introduction.pdf",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\FilesUpload\\4049bd19-70d4-4be0-8957-4447afbd81e5_Handout 1_Introduction.pdf"
+    },
+    {
       "Identity": "C:\\Users\\test1\\source\\repos\\Hospital Management System\\Hospital Management System\\wwwroot\\FilesUpload\\663422fe-9cb6-41ab-86c4-981652f26b15_Screenshot 2024-08-08 155256.png",
       "SourceId": "Hospital Management System",
       "SourceType": "Discovered",
@@ -110,6 +129,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\FilesUpload\\663422fe-9cb6-41ab-86c4-981652f26b15_Screenshot 2024-08-08 155256.png"
+    },
+    {
+      "Identity": "C:\\Users\\test1\\source\\repos\\Hospital Management System\\Hospital Management System\\wwwroot\\FilesUpload\\c7c6fd38-7f81-4be0-ac56-827cb6bfc84d_Screenshot 2024-06-27 165906.png",
+      "SourceId": "Hospital Management System",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\test1\\source\\repos\\Hospital Management System\\Hospital Management System\\wwwroot\\",
+      "BasePath": "_content/Hospital Management System",
+      "RelativePath": "FilesUpload/c7c6fd38-7f81-4be0-ac56-827cb6bfc84d_Screenshot 2024-06-27 165906.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\FilesUpload\\c7c6fd38-7f81-4be0-ac56-827cb6bfc84d_Screenshot 2024-06-27 165906.png"
     },
     {
       "Identity": "C:\\Users\\test1\\source\\repos\\Hospital Management System\\Hospital Management System\\wwwroot\\FilesUpload\\ea8dcee9-5d38-4bd6-a129-70bd351a3edd_Screenshot 2024-06-27 165906.png",

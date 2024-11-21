@@ -133,11 +133,11 @@
                                 <div class="form-group radio-group">
                                     <label>Gender:</label>
                                     <div>
-                                        <input type="radio" id="Male" name="Title" value="Male" disabled>
+                                        <input type="radio" id="Male" name="Gender" value="Male" disabled>
                                         <label for="Male">Male</label>
                                     </div>
                                     <div>
-                                    <input type="radio" id="Female" name="Title" value="Female" disabled>
+                                    <input type="radio" id="Female" name="Gender" value="Female" disabled>
                                         <label for="Female">Female</label>
                                     </div>
 
@@ -223,7 +223,7 @@
                             clone.querySelector(".staff-phonenumber").textContent = item.phoneNumber || "N/A";
 
                             clone.querySelector(".view-department").setAttribute("onclick", `fetchStaffDetails('${item.staffID}')`);
-                            // clone.querySelector(".edit-department").setAttribute("onclick", `EditStaff('${item.departmentID}')`);
+                            clone.querySelector(".edit-department").setAttribute("onclick", `EditStaff('${item.staffID}')`);
                             // Append the new row to the table body
                             tbody.appendChild(clone);
                         } else {
@@ -306,6 +306,10 @@
                 console.error("Error: " + error);
             }
         });
+    }
+    function EditStaff(id) {
+        sessionStorage.setItem("Staffid", id);
+        window.location.href = '@Url.Action("EditStaff", "Staff")';
     }
 
 

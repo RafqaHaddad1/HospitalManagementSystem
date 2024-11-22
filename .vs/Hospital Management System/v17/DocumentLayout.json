@@ -42,8 +42,7 @@
               "RelativeToolTip": "Hospital Management System\\Views\\Laboratory\\AllLabs.cshtml",
               "ViewState": "AQIAAJIBAAAAAAAAAAAAABgCAAAKAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-11-22T16:38:05.945Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-22T16:38:05.945Z"
             },
             {
               "$type": "Document",
@@ -55,8 +54,7 @@
               "RelativeToolTip": "Hospital Management System\\Controllers\\LaboratoryController.cs",
               "ViewState": "AQIAAHIAAAAAAAAAAAAAAMQAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-22T16:38:02.008Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-22T16:38:02.008Z"
             },
             {
               "$type": "Document",
@@ -68,8 +66,7 @@
               "RelativeToolTip": "Hospital Management System\\Views\\Radiology\\AllImages.cshtml",
               "ViewState": "AQIAALABAAAAAAAAAAAcwC8CAAAHAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-11-22T13:54:40.795Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-22T13:54:40.795Z"
             },
             {
               "$type": "Document",
@@ -79,7 +76,7 @@
               "RelativeDocumentMoniker": "Hospital Management System\\Controllers\\RadiologyController.cs",
               "ToolTip": "C:\\Users\\test1\\source\\repos\\Hospital Management System\\Hospital Management System\\Controllers\\RadiologyController.cs",
               "RelativeToolTip": "Hospital Management System\\Controllers\\RadiologyController.cs",
-              "ViewState": "AQIAAAYAAAAAAAAAAAAAAHEAAAAEAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAA2AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-22T13:49:33.761Z",
               "EditorCaption": ""

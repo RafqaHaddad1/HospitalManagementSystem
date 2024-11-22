@@ -16,7 +16,75 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
+        .drop-section {
+            border: 2px dashed #ccc;
+            border-radius: 5px;
+            padding: 20px;
+            text-align: center;
+        }
 
+        .drag-over-effect {
+            border-color: #44444c;
+        }
+
+        .file-list {
+            margin-top: 20px;
+        }
+
+            .file-list ul {
+                list-style-type: none;
+                padding: 0;
+            }
+
+            .file-list li {
+                margin-bottom: 5px;
+                position: relative;
+                padding: 10px;
+                background: #f9f9f9;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                display: flex;
+                align-items: center;
+            }
+
+            .file-list img {
+                width: 50px;
+                height: 50px;
+                margin-right: 10px;
+            }
+
+            .file-list .remove-button {
+                position: absolute;
+                right: 0;
+                top: 0;
+                background: red;
+                color: white;
+                border: none;
+                border-radius: 3px;
+                cursor: pointer;
+                padding: 3px 8px;
+                font-size: 12px;
+                margin-left: 10px;
+            }
+
+        .form-control {
+            display: block;
+            width: 100%;
+            height: 34px;
+            padding: 6px 12px;
+            font-size: 14px;
+            line-height: 1.42857143;
+            color: #555;
+            background-color: #fff;
+            background-image: none;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+            -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+            -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+            transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s
+        }
         .modal .form-container {
             display: flex;
             justify-content: space-between;
@@ -207,13 +275,14 @@
         <h1 class="Title" style="text-align: center;">Labs Table</h1>
 
         <p class="text-right">
-            <a class="btn btn-primary" id="RequestLabs" onclick="$('#SubmitRequest').modal('show')" style="background-color: #44444c; border-color: #44444c">Submit Lab Request</a>
+            <a class="btn btn-primary" id="RequestLabs"  style="background-color: #44444c; border-color: #44444c">Submit Lab Request</a>
         </p>
 
         <template id="LabRowTemplate">
             <tr>
                 <td class="result-id"></td>
                 <td class="test-name"></td>
+                <td class="status"></td>
                 <td class="requested-by"></td>
                 <td class="request-date"></td>
                 <td class="result-date"></td>
@@ -233,6 +302,7 @@
                 <tr>
                     <th>ID</th>
                     <th>Test_Name</th>
+                    <th>Status</th>
                     <th>Requested_By</th>
                     <th>Request_Date</th>
                     <th>Results_Date</th>
@@ -250,16 +320,16 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title" id="addEventModalLabel">Submit Request</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closeAddModal" onclick=" $('#AddDepartmentModal').modal('hide');"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closeAddModal" onclick=" $('#SubmitRequest').modal('hide');"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="AddDepartmentForm">
+                    <form id="AddRequestForm">
                         <select name="Patient" id="Patient" class="form-control" data-placeholder="Select a Patient" style="width: 100%;" tabindex="-1" aria-hidden="true" onchange="#">
                            
                             <option value="" selected disabled>Select a Patient</option>
                         </select>
                         <input type="number" name="PatientID" id="PatientID" placeholder="Patient " class="form-control" hidden/><br/>
-                        <select name="Doctor" id="Doctor" class="form-control" data-placeholder="Select a Doctor" style="width: 100%;" tabindex="-1" aria-hidden="true" onchange="#">
+                        <select name="Doctor" id="Doctor" class="form-control" data-placeholder="Select a Doctor" style="width: 100%;" tabindex="-1" aria-hidden="true" onchange="UpdateDrID()">
                             <option value="" selected disabled>Select a Doctor</option>
                         </select> 
                         <input type="number" name="DoctorID" id="DoctorID" placeholder="Doctor Requesting" class="form-control" hidden />
@@ -319,12 +389,12 @@
                             </div>
                         </div>
                         <label for="RequestedDate">Request Date</label>
-                        <input type="datetime-local" name="RequestedDate" id="RequestedDate" placeholder="Requested Date" class="form-control" />
+                        <input type="datetime-local" name="RequestedDate" id="RequestedDate" placeholder="Requested Date" class="form-control" readonly/>
 
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" id="submitDepartment" class="btn btn-primary" style="background-color: #44444c; color:white">Add</button>
+                    <button type="button" id="submitRequest" class="btn btn-primary" style="background-color: #44444c; color:white">Add</button>
                 </div>
             </div>
         </div>
@@ -335,15 +405,16 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="addEventModalLabel">View Department</h4>
+                    <h4 class="modal-title" id="addEventModalLabel">View Laboratory</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closeAddModal" onclick=" $('#ViewDepartmentModal').modal('hide');"></button>
                 </div>
                 <div class="modal-body">
                     <input type="number" name="LabID" id="LabID" placeholder="LabID" class="form-control" readonly /><br />
-                        <input type="text" name="PatientName" id="PatientName" placeholder="Patient Name" class="form-control" readonly /><br />
-                        <input type="number" name="PatientID" id="PatientID" placeholder="Patient " class="form-control" hidden /><br />
-                        <input type="text" name="DoctorName" id="DoctorName" placeholder="DoctorName" class="form-control" readonly /><br />
-                        <input type="number" name="DoctorID" id="DoctorID" placeholder="Doctor Requesting" class="form-control" readonly />
+                        <input type="text" name="PatientName" id="PatientName2" placeholder="Patient Name" class="form-control" readonly /><br />
+                        <input type="number" name="PatientID" id="PatientID2" placeholder="Patient " class="form-control" hidden /><br />
+                        <input type="text" name="DoctorName" id="DoctorName2" placeholder="DoctorName" class="form-control" readonly /><br />
+                        <input type="number" name="DoctorID" id="DoctorID2" placeholder="Doctor Requesting" class="form-control" readonly /> <br/>
+                        <input type="text" name="Status" id="Status2" placeholder="Status" class="form-control" readonly />
                         <div class="form-group checkbox-group">
                             <label for="TestType">Test Type</label>
                             <div class="checkbox-container">
@@ -399,19 +470,103 @@
                             </div>
                         </div>
                         <label for="RequestedDate">Request Date</label>
-                        <input type="datetime-local" name="RequestedDate" id="RequestedDate" placeholder="Requested Date" class="form-control" readonly />
+                        <input type="datetime-local" name="RequestedDate" id="RequestedDate2" placeholder="Requested Date" class="form-control" readonly />
                 </div>
             </div>
         </div>
     </div>
-    
 
+
+
+    <div class="modal fade" id="SubmitResults" tabindex="-1" aria-labelledby="addEventModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="addEventModalLabel">Submit Results</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closeAddModal" onclick=" $('#SubmitResults').modal('hide');"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="AddResponseForm" asp-action="SubmitResults" asp-controller="Laboratory" method="post" enctype="multipart/form-data" onsubmit="return validateAndRedirect()">
+                        <input type="number" name="RequestID" id="RequestID" placeholder="RequestID" class="form-control" readonly />
+                        <input type="text" name="PatientID2" id="PatientID3" placeholder="Patient ID" class="form-control" hidden /><br />
+                        <input type="text" name="PatientName" id="PatientName3" placeholder="Patient Name" class="form-control" readonly />
+                        <input type="number" name="DoctorID" id="DoctorID3" placeholder="DoctorID" class="form-control" hidden /><br />
+                        <input type="text" name="DoctorName" id="DoctorName3" placeholder="Doctor Name" class="form-control" readonly /><br />
+                        <input type="text" name="TestName" id="TestName3" placeholder="Test Name" class="form-control" readonly /><br />
+                        <input type="datetime-local" name="ResultDate" id="ResultDate" placeholder="Result Date" class="form-control" readonly /><br/>
+                        <textarea name="Notes" id="Notes" placeholder="Notes" class="form-control"></textarea> <br/>
+                      
+                        <div class="drop-section" id="dropzone">
+                            <h3>Drag and Drop Files Here</h3>
+                            <p>or <button type="button" id="browse-files">Browse Files</button></p>
+                            <input type="file" name="Files" id="file-input" multiple style="display:none" />
+                            <div id="file-list" class="file-list">
+                                <h5>Uploaded Files</h5>
+                                <ul id="file-items"></ul>
+                            </div>
+                        </div>
+                        <input type="text" id="Files" />
+                        <div class="modal-footer">
+                            <input type="Submit" id="submitResponse" class="btn btn-primary" style="background-color: #44444c; color:white">Submit</input>
+                        </div>
+                    </form>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+   
+    
     <script>
-      
+        $('#Doctor').select2({
+            dropdownParent: $('#SubmitRequest')
+        });
         $(document).ready(function () {
             FillTable();
     
         });
+        $("#RequestLabs").on("click", function () {
+            DrDropdown();
+            setCurrentDateTime();
+            $('#SubmitRequest').modal('show');
+        });
+        $('#SubmitRequest').on('show.bs.modal', function () {
+            // Reset the form inside the modal when it opens
+            $(this).find('form')[0].reset();
+
+            // Optionally, reset specific fields (if needed)
+            $('#Patient').val('').trigger('change'); // Reset select2 or similar dropdowns
+            $('#Doctor').val('').trigger('change');
+        });
+
+
+        function setCurrentDateTime() {
+            var now = new Date();
+            var year = now.getFullYear();
+            var month = (now.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
+            var day = now.getDate().toString().padStart(2, '0');
+            var hours = now.getHours().toString().padStart(2, '0');
+            var minutes = now.getMinutes().toString().padStart(2, '0');
+
+            var formattedDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
+
+            // Set the value to the input field
+            $("#RequestedDate").val(formattedDateTime);
+        }
+        function setCurrentDateTime2() {
+            var now = new Date();
+            var year = now.getFullYear();
+            var month = (now.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
+            var day = now.getDate().toString().padStart(2, '0');
+            var hours = now.getHours().toString().padStart(2, '0');
+            var minutes = now.getMinutes().toString().padStart(2, '0');
+
+            var formattedDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
+
+            // Set the value to the input field
+            $("#ResultDate").val(formattedDateTime);
+        }
+
         function FillTable() {
             $.ajax({
                 url: '/Laboratory/AllLabs',
@@ -428,13 +583,14 @@
                             if ("content" in document.createElement("template")) {
                                 const clone = template.content.cloneNode(true);
                                 // Fill in the data
-                                clone.querySelector(".result-id").textContent = item.resultID;
-                                clone.querySelector(".test-name").textContent = item.testType;
-                                clone.querySelector(".requested-by").textContent = item.requestedBy || "N/A";
+                                clone.querySelector(".result-id").textContent = item.resultID || "N/A";
+                                clone.querySelector(".test-name").textContent = item.testType || "N/A";
+                                clone.querySelector(".status").textContent = item.status || "N/A";
+                                clone.querySelector(".requested-by").textContent = item.staffName || "N/A";
                                 clone.querySelector(".request-date").textContent = item.requestedDate || "N/A";
                                 clone.querySelector(".result-date").textContent = item.resultDate || "N/A";
                                 clone.querySelector(".view-lab").setAttribute("onclick", `fetchRequestDetails('${item.resultID}')`);
-                                clone.querySelector(".submit-result").setAttribute("onclick", `fetchDepartmentDetails('${item.resultID}')`);
+                                clone.querySelector(".submit-result").setAttribute("onclick", `SubmitResult('${item.resultID}')`);
                                 // Append the new row to the table body
                                 tbody.appendChild(clone);
                             } else {
@@ -456,7 +612,36 @@
                 }
             });
         }
-
+        
+        function SubmitResult(id){
+           
+            $.ajax({
+                url: '/Laboratory/LabByID/' + id,
+                type: 'GET',
+                success: function (response) {
+                    console.log(response);
+                    if (response.success) {
+                        var lab = response.model; // Assuming model is an array, access the first element
+                        // Populate the modal fields with data from the response
+                        $('#RequestID').val(lab.resultID);
+                        $('#PatientID3').val(lab.patientID);
+                        $("#PatientName").val();
+                      
+                        $("#DoctorID3").val(lab.requestedBy);
+                        $("#DoctorName3").val(response.staff.name);
+                        $("#TestName3").val(lab.testType);
+                        setCurrentDateTime2();
+                        $("#SubmitResults").modal('show');
+                    } else {
+                        alert("Failed to fetch lab data.");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error: " + error);
+                }
+            });
+            
+        }
         function fetchRequestDetails(id) {
             $.ajax({
                 url: '/Laboratory/LabByID/' + id,
@@ -464,23 +649,26 @@
                 success: function (response) {
                     console.log(response);
                     if (response.success) {
-                        var lab = response.model[0]; // Assuming model is an array, access the first element
+                        var lab = response.model; // Assuming model is an array, access the first element
                         // Populate the modal fields with data from the response
                         $('#LabID').val(lab.resultID);
-                        $('#PatientID').val(lab.patientID);
-                        $('#RequestedDate').val(lab.requestedDate);
-                
-                        // Test Type checkboxes
-                        $('input[name="TestType"]').prop('checked', false); // Uncheck all checkboxes first
-                        if (lab.testType) {
-                            $('input[name="TestType"][value="' + lab.testType + '"]').prop('checked', true);
-                        }
+                        $('#PatientID2').val(lab.patientID);
+                        $('#RequestedDate2').val(lab.requestedDate);
+                        $("#DoctorID2").val(lab.requestedBy);
+                        $("#DoctorName2").val(response.staff.name);
+                        $("#Status2").val(lab.status);
 
-                        // Sample Submitted checkboxes
-                        $('input[name="SampleSubmitted"]').prop('checked', false); // Uncheck all checkboxes first
-                        if (lab.sampleSubmitted) {
-                            $('input[name="SampleSubmitted"][value="' + lab.sampleSubmitted + '"]').prop('checked', true);
-                        }
+                        var tests = lab.testType;
+                        var testTypes = tests.split(',');
+                        testTypes.forEach(function (testType) {
+                            $('input[name="TestType"][value="' + testType + '"]').prop('checked', true);
+                        });
+                        
+                        var samples1 = lab.sampleSubmitted;
+                        var samples = samples1.split(',');
+                        samples.forEach(function (sample) {
+                            $('input[name="SampleSubmitted"][value="' + sample + '"]').prop('checked', true);
+                        });
                         $("#ViewLabModal").modal('show');
                     } else {
                         alert("Failed to fetch lab data.");
@@ -491,6 +679,245 @@
                 }
             });
         }
+
+        function DrDropdown() {
+            $.ajax({
+                url: '/Staff/AllDoctors',
+                type: 'GET',
+                success: function (response) {
+                    console.log(response); // Log the response object
+
+                    if (response.success) {
+                        var DrDropdown = document.getElementById("Doctor");
+                        DrDropdown.innerHTML = ""; // Clear existing options
+                        // Add a default "Select a Supervisor" option
+                        var defaultOption = document.createElement("option");
+                        defaultOption.value = "";
+                        defaultOption.text = "Select a Doctor";
+                        defaultOption.disabled = true;
+                        defaultOption.selected = true;
+                        DrDropdown.appendChild(defaultOption);
+                        // Populate the zone dropdown with new options
+                        response.model.forEach(function (dr) {
+                            var option = document.createElement("option");
+                            option.value = dr.name;
+                            option.text = dr.name;
+                            option.setAttribute("data-dr-id", dr.staffID);
+                            console.log("dr ID: ", dr.staffID);
+                            DrDropdown.appendChild(option);
+                        });
+
+                    } else {
+                        alert('Failed to retrieve dr: ' + response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert('Error: ' + error);
+                }
+            });
+        }
+
+        function UpdateDrID() {
+            var selectedOption = document.getElementById("Doctor").selectedOptions[0];
+            // Get the Zone_ID from the data attribute
+            var drID = selectedOption.getAttribute("data-dr-id"); // Fix the attribute name
+            // Set the Zone_ID input field value
+            document.getElementById("DoctorID").value = drID;
+        }
+
+        $("#submitRequest").on('click', function () {
+            // Get selected test types (checkboxes) and join them with commas
+            var testTypes = [];
+            $('input[name="TestType"]:checked').each(function () {
+                testTypes.push($(this).val());
+            });
+            var testTypesString = testTypes.join(',');
+
+            // Get selected samples (checkboxes) and join them with commas
+            var samples = [];
+            $('input[name="SampleSubmitted"]:checked').each(function () {
+                samples.push($(this).val());
+            });
+            var samplesString = samples.join(',');
+
+            // Prepare the form data
+            var formData = {
+                PatientID: $("#PatientID").val() ? parseInt($("#PatientID").val()) : null, // Convert to integer or set to null
+                RequestedBy: $("#DoctorID").val() ? parseInt($("#DoctorID").val()) : null, // Ensure this is an integer
+                TestType: testTypesString || null, // Comma-separated test types or null if empty
+                SampleSubmitted: samplesString || null, // Comma-separated samples or null if empty
+                RequestedDate: $("#RequestedDate").val() ? new Date($("#RequestedDate").val()).toISOString().slice(0, 16) : null // Properly formatted date
+            };
+
+            console.log(formData);
+          
+      
+            $.ajax({
+                url: '/Laboratory/RequestLab', 
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(formData),
+                success: function (response) {
+                    if (response.success) {
+                        // Handle success (e.g., close modal, show success message)
+                        $('#SubmitRequest').modal('hide');
+                        alert('Request submitted successfully');
+                        FillTable();
+                        // Optionally reload the data or update the UI
+                    } else {
+                        // Handle error (show error message, etc.)
+                        alert('Error: ' + response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Handle general error
+                    console.log(error);
+                    alert('An error occurred while submitting the request.');
+                }
+            });
+        });
+
+
+        const dropzone = document.getElementById('dropzone');
+        const fileInput = document.getElementById('file-input');
+        const fileItems = document.getElementById('file-items');
+        const browseFilesBtn = document.getElementById('browse-files');
+        const filenameinput = document.getElementById('Files');
+        const filenames = [];
+        // Show file input when 'Browse Files' button is clicked
+        browseFilesBtn.onclick = () => fileInput.click();
+
+        // Handle file input change
+        fileInput.onchange = () => {
+            [...fileInput.files].forEach(file => {
+                if (typeValidation(file.type)) {
+                    console.log(file);
+                    filenames.push(file);
+                    handleFile(file);
+                }
+            });
+
+            filenameinput.value = filenames.join(', ');
+            console.log(filenames.join(', '));
+            console.log(filenameinput);
+        };
+
+
+
+        // Handle drag over
+        dropzone.ondragover = (e) => {
+            e.preventDefault();
+            dropzone.classList.add('drag-over-effect');
+        };
+
+        // Handle drag leave
+        dropzone.ondragleave = () => {
+            dropzone.classList.remove('drag-over-effect');
+        };
+
+        // Handle drop
+        dropzone.ondrop = (e) => {
+            e.preventDefault();
+            dropzone.classList.remove('drag-over-effect');
+            if (e.dataTransfer.files) {
+                [...e.dataTransfer.files].forEach(file => {
+                    if (typeValidation(file.type)) {
+                        handleFile(file);
+                    }
+                });
+            }
+        };
+
+        // Validate file type
+        function typeValidation(type) {
+            const splitType = type.split('/')[0];
+            return type === 'application/pdf' || splitType === 'image' || splitType === 'video';
+        }
+
+        // Handle file
+        function handleFile(file) {
+            const li = document.createElement('li');
+            li.classList.add('file-item');
+            li.innerHTML = `
+                                            <div class="col">
+                                                <img src="icons/${iconSelector(file.type)}" alt="">
+                                            </div>
+                                            <div class="col">
+                                                <div class="file-name">
+                                                    <div class="name">${file.name}</div>
+                                                    <span>0%</span>
+                                                </div>
+                                                <div class="file-progress">
+                                                    <span></span>
+                                                </div>
+                                                <div class="file-size">${(file.size / (1024 * 1024)).toFixed(2)} MB</div>
+                                            </div>
+                                            <div class="col">
+                                                
+                                            </div>
+                                        `;
+            fileItems.appendChild(li);
+
+            // Simulate file upload progress
+            simulateUploadProgress(file, li);
+
+            // Add event listener to remove file
+            // li.querySelector('.remove-button').onclick = () => li.remove();
+        }
+
+        // Simulate upload progress
+        function simulateUploadProgress(file, li) {
+            const progressBar = li.querySelector('.file-progress span');
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 10;
+                progressBar.style.width = `${progress}%`;
+                li.querySelector('.file-name span').textContent = `${progress}%`;
+                if (progress >= 100) {
+                    clearInterval(interval);
+                }
+            }, 200);
+        }
+
+        // Determine file icon based on file type
+        function iconSelector(fileType) {
+            if (fileType === 'application/pdf') return 'pdf.png';
+            if (fileType.startsWith('image')) return 'image.png';
+            if (fileType.startsWith('video')) return 'video.png';
+            return 'file.png';
+        }
+
+        function validateAndRedirect() {
+            // Show success message before submitting
+            alert("Results added Successfully");
+
+            // Get the form element
+            var form = document.getElementById('AddResponseForm');
+
+            // Create a FormData object from the form
+            var formData = new FormData(form);
+
+            // Use AJAX to submit the form
+            $.ajax({
+                url: form.action,  // The action attribute of the form
+                type: 'POST',  // Method: POST
+                data: formData,  // FormData object containing form and files
+                processData: false,  // Prevent jQuery from processing the data
+                contentType: false,  // Let jQuery automatically set the Content-Type to multipart/form-data
+                success: function (response) {
+                    // Redirect after successful form submission
+                    window.location.href = '/Laboratory/AllLabs';
+                },
+                error: function (xhr, status, error) {
+                    // Handle errors if any
+                    alert("There was an error: " + error);
+                }
+            });
+
+            // Prevent the default form submission as we're using AJAX
+            return false;
+        }
+
 
     </script>
 </body>

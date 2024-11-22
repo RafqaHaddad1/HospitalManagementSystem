@@ -206,13 +206,14 @@
         <h1 class="Title" style="text-align: center;">Radiology Table</h1>
 
         <p class="text-right">
-            <a class="btn btn-primary" id="RequestLabs" onclick="$('#SubmitRequest').modal('show')" style="background-color: #44444c; border-color: #44444c">Submit Image Request</a>
+            <a class="btn btn-primary" id="RequestImage" style="background-color: #44444c; border-color: #44444c">Submit Image Request</a>
         </p>
 
         <template id="RadiologyRowTemplate">
             <tr>
                 <td class="result-id"></td>
                 <td class="image-type"></td>
+                <td class="status"></td>
                 <td class="requested-by"></td>
                 <td class="request-date"></td>
                 <td class="result-date"></td>
@@ -231,6 +232,7 @@
                 <tr>
                     <th>ID</th>
                     <th>Image_Type</th>
+                    <th>Status</th>
                     <th>Requested_By</th>
                     <th>Request_Date</th>
                     <th>Results_Date</th>
@@ -241,6 +243,7 @@
             <tbody>
             </tbody>
         </table>
+    
     </div>
     <div class="modal fade" id="SubmitRequest" tabindex="-1" aria-labelledby="addEventModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -256,7 +259,7 @@
                             <option value="" selected disabled>Select a Patient</option>
                         </select>
                         <input type="number" name="PatientID" id="PatientID" placeholder="Patient " class="form-control" hidden /><br />
-                        <select name="Doctor" id="Doctor" class="form-control" data-placeholder="Select a Doctor" style="width: 100%;" tabindex="-1" aria-hidden="true" onchange="#">
+                        <select name="Doctor" id="Doctor" class="form-control" data-placeholder="Select a Doctor" style="width: 100%;" tabindex="-1" aria-hidden="true" onchange="UpdateDrID()">
                             <option value="" selected disabled>Select a Doctor</option>
                         </select>
                         <input type="number" name="DoctorID" id="DoctorID" placeholder="Doctor Requesting" class="form-control" hidden />
@@ -288,7 +291,7 @@
                         </div>
                     
                         <label for="RequestedDate">Request Date</label>
-                        <input type="datetime-local" name="RequestedDate" id="RequestedDate" placeholder="Requested Date" class="form-control" />
+                        <input type="datetime-local" name="RequestedDate" id="RequestedDate" placeholder="Requested Date" class="form-control" readonly/>
 
                     </form>
                 </div>
@@ -300,7 +303,7 @@
     </div>
 
 
-    <div class="modal fade" id="ViewLabModal" tabindex="-1" aria-labelledby="addEventModalLabel" aria-hidden="true">
+    <div class="modal fade" id="ViewImageModal" tabindex="-1" aria-labelledby="addEventModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -310,32 +313,33 @@
                 <div class="modal-body">
                     <input type="number" name="ImageID" id="ImageID" placeholder="ImageID" class="form-control" readonly /><br />
                     <input type="text" name="PatientName" id="PatientName" placeholder="Patient Name" class="form-control" readonly /><br />
-                    <input type="number" name="PatientID" id="PatientID" placeholder="Patient " class="form-control" hidden /><br />
+                    <input type="number" name="PatientID" id="PatientID" placeholder="Patient " class="form-control" readonly /><br />
                     <input type="text" name="DoctorName" id="DoctorName" placeholder="DoctorName" class="form-control" readonly /><br />
-                    <input type="number" name="DoctorID" id="DoctorID" placeholder="Doctor Requesting" class="form-control" readonly />
+                    <input type="number" name="DoctorID" id="DoctorID2" placeholder="Doctor Requesting" class="form-control" readonly /><br/>
+                    <input type="text" name="Status" id="Status" placeholder="Status" class="form-control" readonly />
                     <div class="form-group checkbox-group">
                         <label for="TestType">Image Type</label>
                         <div class="form-group checkbox-group">
                             <label for="TestType">Test Type</label>
                             <div class="checkbox-container">
                                 <div class="checkbox-item">
-                                    <input type="checkbox" id="TestType1" name="TestType" value="X-ray">
+                                    <input type="checkbox" id="TestType1" name="TestType" value="X-ray" disabled>
                                     <label for="TestType1">X-ray</label>
                                 </div>
                                 <div class="checkbox-item">
-                                    <input type="checkbox" id="TestType2" name="TestType" value="CT Scan">
+                                    <input type="checkbox" id="TestType2" name="TestType" value="CT Scan" disabled>
                                     <label for="TestType2">CT Scan</label>
                                 </div>
                                 <div class="checkbox-item">
-                                    <input type="checkbox" id="TestType3" name="TestType" value="MRI">
+                                    <input type="checkbox" id="TestType3" name="TestType" value="MRI" disabled>
                                     <label for="TestType3">MRI</label>
                                 </div>
                                 <div class="checkbox-item">
-                                    <input type="checkbox" id="TestType4" name="TestType" value="Ultrasound">
+                                    <input type="checkbox" id="TestType4" name="TestType" value="Ultrasound" disabled>
                                     <label for="TestType4">Ultrasound</label>
                                 </div>
                                 <div class="checkbox-item">
-                                    <input type="checkbox" id="TestType5" name="TestType" value="Mammogram">
+                                    <input type="checkbox" id="TestType5" name="TestType" value="Mammogram" disabled>
                                     <label for="TestType5">Mammogram</label>
                                 </div>
 
@@ -344,12 +348,213 @@
                     </div>
                    
                     <label for="RequestedDate">Request Date</label>
-                    <input type="datetime-local" name="RequestedDate" id="RequestedDate" placeholder="Requested Date" class="form-control" readonly />
+                    <input type="datetime-local" name="RequestedDate" id="RequestedDate2" placeholder="Requested Date" class="form-control" readonly />
                 </div>
             </div>
         </div>
     </div>
 
-       
+       <script>
+        $('#Doctor').select2({
+            dropdownParent: $('#SubmitRequest')
+        });
+        $(document).ready(function () {
+            FillTable();
+        });
+        $("#RequestImage").on("click", function () {
+            DrDropdown();
+            setCurrentDateTime();
+            $('#SubmitRequest').modal('show');
+        });
+        $('#SubmitRequest').on('show.bs.modal', function () {
+            // Reset the form inside the modal when it opens
+            $(this).find('form')[0].reset();
+
+            // Optionally, reset specific fields (if needed)
+            $('#Patient').val('').trigger('change'); // Reset select2 or similar dropdowns
+            $('#Doctor').val('').trigger('change');
+        });
+        $("#submitRequest").on('click', function () {
+            var ImageType = [];
+            $('input[name="TestType"]:checked').each(function () {
+                ImageType.push($(this).val());
+            });
+            var samplesString = ImageType.join(',');
+
+            // Prepare the form data
+            var formData = {
+                PatientID: $("#PatientID").val() ? parseInt($("#PatientID").val()) : null, // Convert to integer or set to null
+                RequestedBy: $("#DoctorID").val() ? parseInt($("#DoctorID").val()) : null, // Ensure this is an integer
+                ImageType: samplesString,
+                RequestedDate: $("#RequestedDate").val() ? new Date($("#RequestedDate").val()).toISOString().slice(0, 16) : null // Properly formatted date
+            };
+
+            console.log(formData);
+
+
+            $.ajax({
+                url: '/Radiology/RequesImage',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(formData),
+                success: function (response) {
+                    if (response.success) {
+                        // Handle success (e.g., close modal, show success message)
+                        $('#SubmitRequest').modal('hide');
+                        alert('Request submitted successfully');
+                        FillTable();
+                        // Optionally reload the data or update the UI
+                    } else {
+                        // Handle error (show error message, etc.)
+                        alert('Error: ' + response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Handle general error
+                    console.log(error);
+                    alert('An error occurred while submitting the request.');
+                }
+            });
+        });
+
+       function setCurrentDateTime() {
+            var now = new Date();
+            var year = now.getFullYear();
+            var month = (now.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
+            var day = now.getDate().toString().padStart(2, '0');
+            var hours = now.getHours().toString().padStart(2, '0');
+            var minutes = now.getMinutes().toString().padStart(2, '0');
+
+            var formattedDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
+
+            // Set the value to the input field
+            $("#RequestedDate").val(formattedDateTime);
+        }
+        
+        function DrDropdown() {
+            $.ajax({
+                url: '/Staff/AllDoctors',
+                type: 'GET',
+                success: function (response) {
+                    console.log(response); // Log the response object
+
+                    if (response.success) {
+                        var DrDropdown = document.getElementById("Doctor");
+                        DrDropdown.innerHTML = ""; // Clear existing options
+                        // Add a default "Select a Supervisor" option
+                        var defaultOption = document.createElement("option");
+                        defaultOption.value = "";
+                        defaultOption.text = "Select a Doctor";
+                        defaultOption.disabled = true;
+                        defaultOption.selected = true;
+                        DrDropdown.appendChild(defaultOption);
+                        // Populate the zone dropdown with new options
+                        response.model.forEach(function (dr) {
+                            var option = document.createElement("option");
+                            option.value = dr.name;
+                            option.text = dr.name;
+                            option.setAttribute("data-dr-id", dr.staffID);
+                            console.log("dr ID: ", dr.staffID);
+                            DrDropdown.appendChild(option);
+                        });
+
+                    } else {
+                        alert('Failed to retrieve dr: ' + response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert('Error: ' + error);
+                }
+            });
+        }
+
+        function UpdateDrID() {
+            var selectedOption = document.getElementById("Doctor").selectedOptions[0];
+            // Get the Zone_ID from the data attribute
+            var drID = selectedOption.getAttribute("data-dr-id"); // Fix the attribute name
+            // Set the Zone_ID input field value
+            document.getElementById("DoctorID").value = drID;
+        }
+
+        function FillTable() {
+            $.ajax({
+                url: '/Radiology/AllImages',
+                type: 'GET',
+                success: function (response) {
+                    console.log(response);
+                    if (response.success) {
+                        const tbody = document.querySelector("#Radiology-table tbody");
+                        const template = document.querySelector("#RadiologyRowTemplate");
+                        tbody.innerHTML = '';  // Clear existing rows
+                        // Use response.model instead of model
+                        response.model.forEach(item => {
+                            console.log(item);
+                            if ("content" in document.createElement("template")) {
+                                const clone = template.content.cloneNode(true);
+                                // Fill in the data
+                                clone.querySelector(".result-id").textContent = item.imageID || "N/A";
+                                clone.querySelector(".image-type").textContent = item.imageType || "N/A";
+                                clone.querySelector(".status").textContent = item.status || "N/A";
+                                clone.querySelector(".requested-by").textContent = item.staffName || "N/A";
+                                clone.querySelector(".request-date").textContent = item.requestedDate || "N/A";
+                                clone.querySelector(".result-date").textContent = item.resultDate || "N/A";
+                                clone.querySelector(".view-lab").setAttribute("onclick", `fetchRequestDetails('${item.imageID}')`);
+                                // clone.querySelector(".submit-result").setAttribute("onclick", `SubmitResult('${item.resultID}')`);
+                                // Append the new row to the table body
+                                tbody.appendChild(clone);
+                            } else {
+                                console.error("HTML template elements are not supported in this browser.");
+                            }
+                        });
+                        // Destroy existing DataTable instance before reinitializing (to prevent reinitialization issues)
+                        if ($.fn.DataTable.isDataTable('#Radiology-table')) {
+                            $('#Radiology-table').DataTable().destroy();
+                        }
+                        // Reinitialize DataTable after rows are added
+                        $('#Radiology-table').DataTable();
+                    } else {
+                        alert("Failed to fetch Laboratory data.");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error: " + error);
+                }
+            });
+        }
+
+        function fetchRequestDetails(id) {
+            $.ajax({
+                url: '/Radiology/ImageByID/' + id,
+                type: 'GET',
+                success: function (response) {
+                    console.log(response);
+                    if (response.success) {
+                        var image = response.model; // Assuming model is an array, access the first element
+                        // Populate the modal fields with data from the response
+                        $('#ImageID').val(image.imageID);
+                        $('#PatientID').val(image.patientID);
+                        $('#RequestedDate2').val(image.requestedDate);
+                        $("#DoctorID2").val(image.requestedBy);
+                        $("#DoctorName").val(response.staff.name);
+                        $("#Status").val(image.status);
+
+                        var tests = image.imageType;
+                        var testTypes = tests.split(',');
+                        testTypes.forEach(function (testType) {
+                            $('input[name="TestType"][value="' + testType + '"]').prop('checked', true);
+                        });
+
+                        $("#ViewImageModal").modal('show');
+                    } else {
+                        alert("Failed to fetch lab data.");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error: " + error);
+                }
+            });
+        }
+
+    </script>
 </body>
 </html>

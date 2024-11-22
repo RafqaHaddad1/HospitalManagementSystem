@@ -21,19 +21,32 @@ namespace Hospital_Management_System.Controllers
         [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
         public async Task<IActionResult> AllImages()
         {
-            //var images = await _dbContext.RadiologyImages.ToListAsync(); 
-            //if (HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
-            //{
-            //    return Json(new
-            //    {
-            //        success = true,
-            //        model = images,
-            //    });
-            //}
+            var imagesWithStaff = await (from img in _dbContext.RadiologyImages
+                                         join staff in _dbContext.Staff on img.RequestedBy equals staff.StaffID into staffJoin
+                                         from staff in staffJoin.DefaultIfEmpty() // Left join to handle missing staff
+                                         select new
+                                         {
+                                             img.ImageID,
+                                             img.PatientID,
+                                             img.ImageType,
+                                             img.RequestedDate,
+                                             img.Status,
+                                             img.ResultDate,
+                                             img.RequestedBy,
+                                             StaffName = staff != null ? staff.Name : null // Staff Name or null if no matching staff
+                                         }).ToListAsync();
+
+            if (HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+            {
+                return Json(new
+                {
+                    success = true,
+                    model = imagesWithStaff,
+                });
+            }
             // Return the view for normal (non-AJAX) requests
             return View();
         }
-
 
         [HttpPost]
         [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
@@ -45,7 +58,7 @@ namespace Hospital_Management_System.Controllers
             }
             try
             {
-
+                model.Status = "Pending";
                 _dbContext.RadiologyImages.Add(model);
                 await _dbContext.SaveChangesAsync();
                 _logger.LogInformation("Added successfully");
@@ -73,11 +86,13 @@ namespace Hospital_Management_System.Controllers
         [HttpGet]
         public async Task<IActionResult> ImageByID(int id)
         {
-            var image = _dbContext.RadiologyImages.Where(e => e.ImageID == id);
+            var image = await _dbContext.RadiologyImages.FirstOrDefaultAsync(e => e.ImageID == id);
+            var staff = await _dbContext.Staff.FirstOrDefaultAsync(s => s.StaffID == image.RequestedBy);
             return Json(new
             {
                 success = true,
                 model = image,
+                Staff = staff,
             });
         }
 
@@ -92,5 +107,9 @@ namespace Hospital_Management_System.Controllers
                 model = image,
             });
         }
+    
+    
+    
+    
     }
 }

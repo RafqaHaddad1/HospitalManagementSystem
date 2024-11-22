@@ -484,7 +484,7 @@
                                         <div class="file-size">${(file.size / (1024 * 1024)).toFixed(2)} MB</div>
                                     </div>
                                     <div class="col">
-                                        <button class="remove-button">Remove</button>
+                                       
                                     </div>
                                 `;
             fileItems.appendChild(li);
@@ -492,8 +492,8 @@
             // Simulate file upload progress
             simulateUploadProgress(file, li);
 
-            // Add event listener to remove file
-            li.querySelector('.remove-button').onclick = () => li.remove();
+            // // Add event listener to remove file
+            // li.querySelector('.remove-button').onclick = () => li.remove();
         }
 
         // Simulate upload progress

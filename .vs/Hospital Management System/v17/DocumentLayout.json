@@ -38,8 +38,7 @@
               "RelativeToolTip": "Hospital Management System\\Controllers\\RadiologyController.cs",
               "ViewState": "AQIAAAkAAAAAAAAAAADwv0IAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-24T17:36:00.797Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-24T17:36:00.797Z"
             },
             {
               "$type": "Document",
@@ -49,7 +48,7 @@
               "RelativeDocumentMoniker": "Hospital Management System\\Views\\Radiology\\AllImages.cshtml",
               "ToolTip": "C:\\Users\\test1\\source\\repos\\Hospital Management System\\Hospital Management System\\Views\\Radiology\\AllImages.cshtml",
               "RelativeToolTip": "Hospital Management System\\Views\\Radiology\\AllImages.cshtml",
-              "ViewState": "AQIAAAQCAAAAAAAAAAAmwIICAAAUAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAIICAAAUAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-11-24T18:09:12.012Z",
               "EditorCaption": ""
@@ -64,8 +63,7 @@
               "RelativeToolTip": "Hospital Management System\\Views\\Laboratory\\AllLabs.cshtml",
               "ViewState": "AQIAAJcCAAAAAAAAAAAUwK4CAAAvAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-11-24T14:49:51.484Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-11-24T14:49:51.484Z"
             }
           ]
         },

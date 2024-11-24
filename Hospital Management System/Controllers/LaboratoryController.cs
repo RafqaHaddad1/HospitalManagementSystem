@@ -19,23 +19,38 @@ namespace Hospital_Management_System.Controllers
         }
         [HttpGet]
         [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
-        public async Task<IActionResult> AllLabs()
+        public async Task<IActionResult> AllLabs(string testType = null, string status = null)
         {
             // Query the Laboratories and join with Staff based on RequestedBy
-            var LabsWithStaff = await (from lab in _dbContext.Laboratory
-                                       join staff in _dbContext.Staff on lab.RequestedBy equals staff.StaffID into staffJoin
-                                       from staff in staffJoin.DefaultIfEmpty() // Left join so it handles cases where no matching staff is found
-                                       select new
-                                       {
-                                           lab.ResultID,
-                                           lab.PatientID,
-                                           lab.TestType,
-                                           lab.SampleSubmitted,
-                                           lab.RequestedDate,
-                                           lab.Status,
-                                           lab.RequestedBy,
-                                           StaffName = staff != null ? staff.Name : null // Staff Name or null if no matching staff
-                                       }).ToListAsync();
+            var LabsQuery = from lab in _dbContext.Laboratory
+                            join staff in _dbContext.Staff on lab.RequestedBy equals staff.StaffID into staffJoin
+                            from staff in staffJoin.DefaultIfEmpty() // Left join so it handles cases where no matching staff is found
+                            select new
+                            {
+                                lab.ResultID,
+                                lab.PatientID,
+                                lab.TestType,
+                                lab.SampleSubmitted,
+                                lab.RequestedDate,
+                                lab.ResultDate,
+                                lab.Status,
+                                lab.RequestedBy,
+                                StaffName = staff != null ? staff.Name : null // Staff Name or null if no matching staff
+                            };
+
+            // Apply filtering based on the provided parameters
+            if (!string.IsNullOrEmpty(testType))
+            {
+                LabsQuery = LabsQuery.Where(l => l.TestType == testType);
+            }
+
+            if (!string.IsNullOrEmpty(status))
+            {
+                LabsQuery = LabsQuery.Where(l => l.Status == status);
+            }
+      
+            // Execute the query and get the result
+            var LabsWithStaff = await LabsQuery.ToListAsync();
 
             if (HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
             {
@@ -48,6 +63,7 @@ namespace Hospital_Management_System.Controllers
 
             // Return the view for normal (non-AJAX) requests
             return View();
+            
         }
 
 
@@ -63,6 +79,16 @@ namespace Hospital_Management_System.Controllers
             try
             {
                 model.Status = "Pending";
+
+
+                // If RequestedDate is not null, convert it to local time
+                if (model.RequestedDate.HasValue)
+                {
+                    DateTime requestedDate = model.RequestedDate.Value; // Use Value because it's a nullable DateTime
+                    DateTime localTime = requestedDate.ToLocalTime();   // Convert UTC time to local time
+                    model.RequestedDate = localTime;  // Save the local time back to the model
+                }
+
                 _dbContext.Laboratory.Add(model);
                 await _dbContext.SaveChangesAsync();
                 _logger.LogInformation("Added successfully");
@@ -100,19 +126,20 @@ namespace Hospital_Management_System.Controllers
 
             // Fetch the staff record based on RequestedBy
             var staff = await _dbContext.Staff.FirstOrDefaultAsync(s => s.StaffID == lab.RequestedBy);
-
+            var patient = await _dbContext.Patient.FirstOrDefaultAsync(p => p.PatientID == lab.PatientID);
             // Return the lab and staff data
             return Json(new
             {
                 success = true,
                 model = lab,
                 staff = staff,
+                patient = patient,
             });
         }
 
         [HttpPost]
-        //Submit results
-        public async Task<IActionResult> SubmitResults([FromBody]Laboratory model, IFormFileCollection Files)
+        [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
+        public async Task<IActionResult> SubmitResults([FromForm]Laboratory model, [FromForm]IFormFileCollection Files)
         {
             if (!ModelState.IsValid)
             {
@@ -174,14 +201,21 @@ namespace Hospital_Management_System.Controllers
                 // Set the model's Files property after the loop
                 var pathsString = string.Join(";", paths);
                 model.ResultFilePath = pathsString;
+                oldLab.ResultFilePath = model.ResultFilePath;
+                oldLab.Status = "Completed";
+                _logger.LogInformation($"File paths: {model.ResultFilePath}");
+                _logger.LogInformation($"Status: {model.Status}");
                 // Save the changes asynchronously
                 await _dbContext.SaveChangesAsync();
-
-                return Json(new
+                if (HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
                 {
-                    success = true,
-                    model = model,
-                });
+                    return Json(new
+                    {
+                        success = true,
+                        model = model,
+                    });
+                }
+                return View("AllLabs");
             }
             catch (Exception ex)
             {
@@ -193,12 +227,26 @@ namespace Hospital_Management_System.Controllers
         [HttpGet]
         public async Task<IActionResult> LabByStatus(string status)
         {
-            var lab = _dbContext.Laboratory.Where(e => e.Status == status).ToListAsync();
+            var LabsWithStaff = await (from lab in _dbContext.Laboratory
+                                       join staff in _dbContext.Staff on lab.RequestedBy equals staff.StaffID into staffJoin
+                                       from staff in staffJoin.DefaultIfEmpty() // Left join so it handles cases where no matching staff is found
+                                       select new
+                                       {
+                                           lab.ResultID,
+                                           lab.PatientID,
+                                           lab.TestType,
+                                           lab.SampleSubmitted,
+                                           lab.RequestedDate,
+                                           lab.ResultDate,
+                                           lab.Status,
+                                           lab.RequestedBy,
+                                           StaffName = staff != null ? staff.Name : null // Staff Name or null if no matching staff
+                                       }).ToListAsync();
 
             return Json(new
             {
                 success = true,
-                model = lab,
+                model = LabsWithStaff,
             });
         }
         [HttpGet]

@@ -276,8 +276,51 @@
 
         <p class="text-right">
             <a class="btn btn-primary" id="RequestLabs"  style="background-color: #44444c; border-color: #44444c">Submit Lab Request</a>
+            <div class="text-right mb-3">
+                <button id="toggleFiltersButton" class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#filterSection" aria-expanded="false" aria-controls="filterSection" style="background-color: #44444c; border-color: #44444c">
+                    Show Filters
+                </button>
+            </div>
         </p>
-
+        <div class="collapse" id="filterSection">
+            <div class="row mb-3">
+                <div class="col">
+                    <label>Select Test:</label>
+                    <select id="TypeFilter" class="form-control">
+                        <option value=""></option>
+                       
+                        <option value="Blood Count">Blood Count</option>
+                        <option value="Urinalysis">Urinalysis</option>
+                        <option value="Cancer Testing">Cancer Testing</option>
+                        <option value="Blood Test">Blood Test</option>
+                        <option value="Genetic Testing">Genetic Testing</option>
+                        <option value="Basic Metabolic Panel">Basic Metabolic Panel</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <label>Select Status:</label>
+                    <select id="StatusFilter" class="form-control">
+                        <option value=""></option>
+                       
+                        <option value="Pending">Pending</option>
+                        <option value="Completed">Completed</option>
+                    </select>
+                </div>
+             @*    <div class="col">
+                    <label>Select Status:</label>
+                    <select id="StatusFilter" class="form-control">
+                        <option value="All">All Statuses</option>
+                        <option value="Parked">Parked</option>
+                        <option value="Dispatched">Dispatched</option>
+                    </select>
+                </div> *@
+                <div class="col">
+                    <br/>
+                    <button id="FilterButton" class="btn btn-primary" style="background-color: #44444c; border-color: #44444c">Apply Filters</button>
+                </div>
+            </div>
+        </div>
+    </div>
         <template id="LabRowTemplate">
             <tr>
                 <td class="result-id"></td>
@@ -324,40 +367,41 @@
                 </div>
                 <div class="modal-body">
                     <form id="AddRequestForm">
-                        <select name="Patient" id="Patient" class="form-control" data-placeholder="Select a Patient" style="width: 100%;" tabindex="-1" aria-hidden="true" onchange="#">
+                        <select name="Doctor" id="Doctor" class="form-control" data-placeholder="Select a Doctor" style="width: 100%;" tabindex="-1" aria-hidden="true" onchange="changeDrDropdown()">
+                            <option value="" selected disabled>Select a Doctor</option>
+                        </select>
+                        <input type="number" name="DoctorID" id="DoctorID" placeholder="Doctor Requesting" class="form-control" hidden />
+                        <select name="Patient" id="Patient" class="form-control" data-placeholder="Select a Patient" style="width: 100%;" tabindex="-1" aria-hidden="true" onchange="UpdatePatientID()">
                            
                             <option value="" selected disabled>Select a Patient</option>
                         </select>
                         <input type="number" name="PatientID" id="PatientID" placeholder="Patient " class="form-control" hidden/><br/>
-                        <select name="Doctor" id="Doctor" class="form-control" data-placeholder="Select a Doctor" style="width: 100%;" tabindex="-1" aria-hidden="true" onchange="UpdateDrID()">
-                            <option value="" selected disabled>Select a Doctor</option>
-                        </select> 
-                        <input type="number" name="DoctorID" id="DoctorID" placeholder="Doctor Requesting" class="form-control" hidden />
+                       
                         <div class="form-group checkbox-group">
                             <label for="TestType">Test Type</label>
                             <div class="checkbox-container">
                                 <div class="checkbox-item">
-                                    <input type="checkbox" id="TestType1" name="TestType" value="Blood Count">
+                                    <input type="radio" id="TestType1" name="TestType" value="Blood Count">
                                     <label for="TestType1">Blood Count</label>
                                 </div>
                                 <div class="checkbox-item">
-                                    <input type="checkbox" id="TestType2" name="TestType" value="Blood Test">
+                                    <input type="radio" id="TestType2" name="TestType" value="Blood Test">
                                     <label for="TestType2">Blood Test</label>
                                 </div>
                                 <div class="checkbox-item">
-                                    <input type="checkbox" id="TestType3" name="TestType" value="Urinalysis">
+                                    <input type="radio" id="TestType3" name="TestType" value="Urinalysis">
                                     <label for="TestType3">Urinalysis</label>
                                 </div>
                                 <div class="checkbox-item">
-                                    <input type="checkbox" id="TestType4" name="TestType" value="Basic metabolic panel">
+                                    <input type="radio" id="TestType4" name="TestType" value="Basic metabolic panel">
                                     <label for="TestType4">Basic Metabolic Panel</label>
                                 </div>
                                 <div class="checkbox-item">
-                                    <input type="checkbox" id="TestType5" name="TestType" value="Cancer testing">
+                                    <input type="radio" id="TestType5" name="TestType" value="Cancer testing">
                                     <label for="TestType5">Cancer Testing</label>
                                 </div>
                                 <div class="checkbox-item">
-                                    <input type="checkbox" id="TestType6" name="TestType" value="Genetic testing">
+                                    <input type="radio" id="TestType6" name="TestType" value="Genetic testing">
                                     <label for="TestType6">Genetic Testing</label>
                                 </div>
                             </div>
@@ -410,36 +454,36 @@
                 </div>
                 <div class="modal-body">
                     <input type="number" name="LabID" id="LabID" placeholder="LabID" class="form-control" readonly /><br />
-                        <input type="text" name="PatientName" id="PatientName2" placeholder="Patient Name" class="form-control" readonly /><br />
+                        <input type="text" name="PatientName" id="PatientName2" placeholder="Patient Name" class="form-control" readonly />
                         <input type="number" name="PatientID" id="PatientID2" placeholder="Patient " class="form-control" hidden /><br />
-                        <input type="text" name="DoctorName" id="DoctorName2" placeholder="DoctorName" class="form-control" readonly /><br />
-                        <input type="number" name="DoctorID" id="DoctorID2" placeholder="Doctor Requesting" class="form-control" readonly /> <br/>
+                        <input type="text" name="DoctorName" id="DoctorName2" placeholder="DoctorName" class="form-control" readonly />
+                        <input type="number" name="DoctorID" id="DoctorID2" placeholder="Doctor Requesting" class="form-control" hidden /> <br/>
                         <input type="text" name="Status" id="Status2" placeholder="Status" class="form-control" readonly />
                         <div class="form-group checkbox-group">
                             <label for="TestType">Test Type</label>
                             <div class="checkbox-container">
                                 <div class="checkbox-item">
-                                <input type="checkbox" id="TestType1" name="TestType" value="Blood Count" disabled>
+                                <input type="radio" id="TestType1" name="TestType" value="Blood Count" disabled>
                                     <label for="TestType1">Blood Count</label>
                                 </div>
                                 <div class="checkbox-item">
-                                <input type="checkbox" id="TestType2" name="TestType" value="Blood Test" disabled>
+                                <input type="radio" id="TestType2" name="TestType" value="Blood Test" disabled>
                                     <label for="TestType2">Blood Test</label>
                                 </div>
                                 <div class="checkbox-item">
-                                <input type="checkbox" id="TestType3" name="TestType" value="Urinalysis" disabled>
+                                <input type="radio" id="TestType3" name="TestType" value="Urinalysis" disabled>
                                     <label for="TestType3">Urinalysis</label>
                                 </div>
                                 <div class="checkbox-item">
-                                <input type="checkbox" id="TestType4" name="TestType" value="Basic metabolic panel" disabled>
+                                <input type="radio" id="TestType4" name="TestType" value="Basic metabolic panel" disabled>
                                     <label for="TestType4">Basic Metabolic Panel</label>
                                 </div>
                                 <div class="checkbox-item">
-                                <input type="checkbox" id="TestType5" name="TestType" value="Cancer testing" disabled>
+                                <input type="radio" id="TestType5" name="TestType" value="Cancer testing" disabled>
                                     <label for="TestType5">Cancer Testing</label>
                                 </div>
                                 <div class="checkbox-item">
-                                <input type="checkbox" id="TestType6" name="TestType" value="Genetic testing" disabled>
+                                <input type="radio" id="TestType6" name="TestType" value="Genetic testing" disabled>
                                     <label for="TestType6">Genetic Testing</label>
                                 </div>
                             </div>
@@ -471,7 +515,19 @@
                         </div>
                         <label for="RequestedDate">Request Date</label>
                         <input type="datetime-local" name="RequestedDate" id="RequestedDate2" placeholder="Requested Date" class="form-control" readonly />
-                </div>
+                        <label for="ResultDate">Result Date</label>
+                        <input type="datetime-local" name="ResultDate" id="ResultDate2" placeholder="Result Date" class="form-control" readonly />
+                        <label for="ResultDate">Notes</label>
+                        <input type="text" name="Notes" id="Notes2" placeholder="Notes" class="form-control" readonly/>
+                        <br/>
+                        <div class="form-group">
+                            <label for="ResultFile">Lab Result File</label>
+                            <div id="resultFileLink" class="form-control-static">
+                              
+                            </div>
+                        </div>
+                    
+                    </div>
             </div>
         </div>
     </div>
@@ -487,8 +543,8 @@
                 </div>
                 <div class="modal-body">
                     <form id="AddResponseForm" asp-action="SubmitResults" asp-controller="Laboratory" method="post" enctype="multipart/form-data" onsubmit="return validateAndRedirect()">
-                        <input type="number" name="RequestID" id="RequestID" placeholder="RequestID" class="form-control" readonly />
-                        <input type="text" name="PatientID2" id="PatientID3" placeholder="Patient ID" class="form-control" hidden /><br />
+                        <input type="number" name="ResultID" id="ResultID" placeholder="RequestID" class="form-control" readonly />
+                        <input type="text" name="PatientID" id="PatientID3" placeholder="Patient ID" class="form-control" hidden /><br />
                         <input type="text" name="PatientName" id="PatientName3" placeholder="Patient Name" class="form-control" readonly />
                         <input type="number" name="DoctorID" id="DoctorID3" placeholder="DoctorID" class="form-control" hidden /><br />
                         <input type="text" name="DoctorName" id="DoctorName3" placeholder="Doctor Name" class="form-control" readonly /><br />
@@ -507,7 +563,7 @@
                         </div>
                         <input type="text" id="Files" />
                         <div class="modal-footer">
-                            <input type="Submit" id="submitResponse" class="btn btn-primary" style="background-color: #44444c; color:white">Submit</input>
+                            <input type="Submit" id="submitResponse" class="btn btn-primary" style="background-color: #44444c; color:white"></input>
                         </div>
                     </form>
                 </div>
@@ -521,23 +577,30 @@
         $('#Doctor').select2({
             dropdownParent: $('#SubmitRequest')
         });
+        $("#Patient").select2({
+            dropdownParent: $('#SubmitRequest')
+        });
         $(document).ready(function () {
             FillTable();
     
         });
+        // Trigger modal and reset form when #RequestLabs is clicked
         $("#RequestLabs").on("click", function () {
-            DrDropdown();
-            setCurrentDateTime();
-            $('#SubmitRequest').modal('show');
+            DrDropdown();  // Function to populate Doctor dropdown (assuming)
+            setCurrentDateTime();  // Function to set the current date/time (assuming)
+            $('#SubmitRequest').modal('show');  // Show modal
         });
+
+        // Reset form fields when the modal is shown
         $('#SubmitRequest').on('show.bs.modal', function () {
-            // Reset the form inside the modal when it opens
+            // Reset the form inside the modal
             $(this).find('form')[0].reset();
 
-            // Optionally, reset specific fields (if needed)
-            $('#Patient').val('').trigger('change'); // Reset select2 or similar dropdowns
-            $('#Doctor').val('').trigger('change');
+            // Optionally reset specific fields like dropdowns and trigger necessary events
+            $('#Patient').val('').trigger('change');  // Reset and trigger any event listeners for Patient dropdown
+            $('#Doctor').val('').trigger('change');   // Reset and trigger any event listeners for Doctor dropdown
         });
+
 
 
         function setCurrentDateTime() {
@@ -568,18 +631,28 @@
         }
 
         function FillTable() {
+            console.log("entered fill table function");
+            const testType = $('#TypeFilter').val();  // Get the selected TestType value
+            const status = $('#StatusFilter').val();  // Get the selected Status value
+            let queryParams = [];
+            if (testType) queryParams.push(`testType=${testType}`);
+            if (status) queryParams.push(`status=${status}`);
+
+            const url = "/Laboratory/AllLabs" + (queryParams.length ? `?${queryParams.join('&')}` : '');
+            console.log(url);
             $.ajax({
-                url: '/Laboratory/AllLabs',
+                url: url,
                 type: 'GET',
                 success: function (response) {
-                    console.log(response);
                     if (response.success) {
+                        console.log(response);
                         const tbody = document.querySelector("#Laboratory-table tbody");
                         const template = document.querySelector("#LabRowTemplate");
                         tbody.innerHTML = '';  // Clear existing rows
-                        // Use response.model instead of model
+                        if ($.fn.DataTable.isDataTable('#Laboratory-table')) {
+                            $('#Laboratory-table').DataTable().clear().destroy();
+                        }
                         response.model.forEach(item => {
-                            console.log(item);
                             if ("content" in document.createElement("template")) {
                                 const clone = template.content.cloneNode(true);
                                 // Fill in the data
@@ -589,20 +662,30 @@
                                 clone.querySelector(".requested-by").textContent = item.staffName || "N/A";
                                 clone.querySelector(".request-date").textContent = item.requestedDate || "N/A";
                                 clone.querySelector(".result-date").textContent = item.resultDate || "N/A";
+
                                 clone.querySelector(".view-lab").setAttribute("onclick", `fetchRequestDetails('${item.resultID}')`);
-                                clone.querySelector(".submit-result").setAttribute("onclick", `SubmitResult('${item.resultID}')`);
+                                if (item.status === "Pending") {
+                                    clone.querySelector(".submit-result").setAttribute("onclick", `SubmitResult('${item.resultID}')`);
+                                } else {
+                                    clone.querySelector(".submit-result").style.display = "none";
+                                }
                                 // Append the new row to the table body
                                 tbody.appendChild(clone);
                             } else {
                                 console.error("HTML template elements are not supported in this browser.");
                             }
                         });
-                        // Destroy existing DataTable instance before reinitializing (to prevent reinitialization issues)
+
+                        // Destroy existing DataTable instance before reinitializing
                         if ($.fn.DataTable.isDataTable('#Laboratory-table')) {
                             $('#Laboratory-table').DataTable().destroy();
                         }
                         // Reinitialize DataTable after rows are added
-                        $('#Laboratory-table').DataTable();
+                        $('#Laboratory-table').DataTable({
+                            destroy: true,
+                            responsive: true,
+                            order: [[1, 'asc']]
+                        });
                     } else {
                         alert("Failed to fetch Laboratory data.");
                     }
@@ -612,6 +695,12 @@
                 }
             });
         }
+
+        // Event listener for the filter button
+        $('#FilterButton').on('click', function () {
+            FillTable();  // Call FillTable when Apply Filters button is clicked
+        });
+
         
         function SubmitResult(id){
            
@@ -623,9 +712,9 @@
                     if (response.success) {
                         var lab = response.model; // Assuming model is an array, access the first element
                         // Populate the modal fields with data from the response
-                        $('#RequestID').val(lab.resultID);
-                        $('#PatientID3').val(lab.patientID);
-                        $("#PatientName").val();
+                        $('#ResultID').val(lab.resultID);
+                        $('#PatientID3').val(response.patient.patientID);
+                        $("#PatientName3").val(response.patient.fullName);
                       
                         $("#DoctorID3").val(lab.requestedBy);
                         $("#DoctorName3").val(response.staff.name);
@@ -652,12 +741,14 @@
                         var lab = response.model; // Assuming model is an array, access the first element
                         // Populate the modal fields with data from the response
                         $('#LabID').val(lab.resultID);
-                        $('#PatientID2').val(lab.patientID);
+                        $('#PatientID2').val(response.patient.patientID);
+                        $("#PatientName2").val(response.patient.fullName);
                         $('#RequestedDate2').val(lab.requestedDate);
                         $("#DoctorID2").val(lab.requestedBy);
                         $("#DoctorName2").val(response.staff.name);
                         $("#Status2").val(lab.status);
-
+                        $("#ResultDate2").val(lab.resultDate);
+                        $("#Notes2").val(lab.notes || "N/A");
                         var tests = lab.testType;
                         var testTypes = tests.split(',');
                         testTypes.forEach(function (testType) {
@@ -669,6 +760,12 @@
                         samples.forEach(function (sample) {
                             $('input[name="SampleSubmitted"][value="' + sample + '"]').prop('checked', true);
                         });
+                        if (lab.resultFilePath) {
+                            var resultLink = `<a href="${lab.resultFilePath}" target="_blank">View Result</a>`;
+                            $('#resultFileLink').html(resultLink);
+                        } else {
+                            $('#resultFileLink').html("No result file available.");
+                        }
                         $("#ViewLabModal").modal('show');
                     } else {
                         alert("Failed to fetch lab data.");
@@ -679,7 +776,12 @@
                 }
             });
         }
-
+        function changeDrDropdown(){
+            UpdateDrID();
+            var id = $("#DoctorID").val();
+            console.log(id);
+            PatientDropdown(id);
+        }
         function DrDropdown() {
             $.ajax({
                 url: '/Staff/AllDoctors',
@@ -739,6 +841,21 @@
                 samples.push($(this).val());
             });
             var samplesString = samples.join(',');
+            var requestedDate = $("#RequestedDate").val();
+
+            // If the requested date is set, parse it without UTC conversion
+            var formattedDate = null;
+            if (requestedDate) {
+                var dateObj = new Date(requestedDate);
+                var year = dateObj.getFullYear();
+                var month = ('0' + (dateObj.getMonth() + 1)).slice(-2); // Months are 0-indexed
+                var day = ('0' + dateObj.getDate()).slice(-2);
+                var hours = ('0' + dateObj.getHours()).slice(-2);
+                var minutes = ('0' + dateObj.getMinutes()).slice(-2);
+
+                // Format the date as 'YYYY-MM-DDTHH:mm' without applying time zone shift
+                formattedDate = `${year}-${month}-${day}T${hours}:${minutes}`;
+            }
 
             // Prepare the form data
             var formData = {
@@ -762,7 +879,8 @@
                         // Handle success (e.g., close modal, show success message)
                         $('#SubmitRequest').modal('hide');
                         alert('Request submitted successfully');
-                        FillTable();
+                        window.location.reload();
+
                         // Optionally reload the data or update the UI
                     } else {
                         // Handle error (show error message, etc.)
@@ -776,8 +894,51 @@
                 }
             });
         });
+        
+        
+        function PatientDropdown( id) {
+            $.ajax({
+                url: '/Patient/PatientsByDrID/' + id,
+                type: 'GET',
+                success: function (response) {
+                    console.log(response); // Log the response object
 
+                    if (response.success) {
+                        var DrDropdown = document.getElementById("Patient");
+                        DrDropdown.innerHTML = ""; // Clear existing options
+                        // Add a default "Select a Supervisor" option
+                        var defaultOption = document.createElement("option");
+                        defaultOption.value = "";
+                        defaultOption.text = "Select a Patient";
+                        defaultOption.disabled = true;
+                        defaultOption.selected = true;
+                        DrDropdown.appendChild(defaultOption);
+                        // Populate the zone dropdown with new options
+                        response.model.forEach(function (pt) {
+                            var option = document.createElement("option");
+                            option.value = pt.patientID;
+                            option.text = pt.fullName;
+                            option.setAttribute("data-pt-id", pt.patientID);
+                            console.log("pt ID: ", pt.patientID);
+                            DrDropdown.appendChild(option);
+                        });
 
+                    } else {
+                        alert('Failed to retrieve pt: ' + response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert('Error: ' + error);
+                }
+            });
+        }
+        function UpdatePatientID() {
+            var selectedOption = document.getElementById("Patient").selectedOptions[0];
+            // Get the Zone_ID from the data attribute
+            var ptID = selectedOption.getAttribute("data-pt-id"); // Fix the attribute name
+            // Set the Zone_ID input field value
+            document.getElementById("PatientID").value = ptID;
+        }
         const dropzone = document.getElementById('dropzone');
         const fileInput = document.getElementById('file-input');
         const fileItems = document.getElementById('file-items');
@@ -888,34 +1049,9 @@
         }
 
         function validateAndRedirect() {
-            // Show success message before submitting
-            alert("Results added Successfully");
-
-            // Get the form element
-            var form = document.getElementById('AddResponseForm');
-
-            // Create a FormData object from the form
-            var formData = new FormData(form);
-
-            // Use AJAX to submit the form
-            $.ajax({
-                url: form.action,  // The action attribute of the form
-                type: 'POST',  // Method: POST
-                data: formData,  // FormData object containing form and files
-                processData: false,  // Prevent jQuery from processing the data
-                contentType: false,  // Let jQuery automatically set the Content-Type to multipart/form-data
-                success: function (response) {
-                    // Redirect after successful form submission
-                    window.location.href = '/Laboratory/AllLabs';
-                },
-                error: function (xhr, status, error) {
-                    // Handle errors if any
-                    alert("There was an error: " + error);
-                }
-            });
-
-            // Prevent the default form submission as we're using AJAX
-            return false;
+            document.getElementById('AddResponseForm').submit();
+            alert("results added Successfully");
+            window.location.href = 'Laboratory/AllLabs';
         }
 
 

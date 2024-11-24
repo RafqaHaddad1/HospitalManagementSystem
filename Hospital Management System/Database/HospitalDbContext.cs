@@ -13,5 +13,6 @@ namespace Hospital_Management_System.Database
         public DbSet<Department> Department { get; set; } = default!;
         public DbSet<Laboratory> Laboratory { get; set; } = default!;
         public DbSet<RadiologyImages> RadiologyImages { get; set; } = default!;
+        public DbSet<Patient> Patient { get; set; } = default!;
     }
 }

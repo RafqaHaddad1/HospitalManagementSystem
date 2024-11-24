@@ -18,7 +18,75 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
+        .drop-section {
+            border: 2px dashed #ccc;
+            border-radius: 5px;
+            padding: 20px;
+            text-align: center;
+        }
 
+        .drag-over-effect {
+            border-color: #44444c;
+        }
+
+        .file-list {
+            margin-top: 20px;
+        }
+
+            .file-list ul {
+                list-style-type: none;
+                padding: 0;
+            }
+
+            .file-list li {
+                margin-bottom: 5px;
+                position: relative;
+                padding: 10px;
+                background: #f9f9f9;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                display: flex;
+                align-items: center;
+            }
+
+            .file-list img {
+                width: 50px;
+                height: 50px;
+                margin-right: 10px;
+            }
+
+            .file-list .remove-button {
+                position: absolute;
+                right: 0;
+                top: 0;
+                background: red;
+                color: white;
+                border: none;
+                border-radius: 3px;
+                cursor: pointer;
+                padding: 3px 8px;
+                font-size: 12px;
+                margin-left: 10px;
+            }
+
+        .form-control {
+            display: block;
+            width: 100%;
+            height: 34px;
+            padding: 6px 12px;
+            font-size: 14px;
+            line-height: 1.42857143;
+            color: #555;
+            background-color: #fff;
+            background-image: none;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+            -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+            -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+            transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s
+        }
         .modal .form-container {
             display: flex;
             justify-content: space-between;
@@ -207,8 +275,41 @@
 
         <p class="text-right">
             <a class="btn btn-primary" id="RequestImage" style="background-color: #44444c; border-color: #44444c">Submit Image Request</a>
+            <div class="text-right mb-3">
+                <button id="toggleFiltersButton" class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#filterSection" aria-expanded="false" aria-controls="filterSection" style="background-color: #44444c; border-color: #44444c">
+                    Show Filters
+                </button>
+            </div>
         </p>
-
+        <div class="collapse" id="filterSection">
+            <div class="row mb-3">
+                <div class="col">
+                    <label>Select Test:</label>
+                    <select id="TypeFilter" class="form-control">
+                        <option value=""></option>
+                        <option value="X-ray">X-ray</option>
+                        <option value="MRI">MRI</option>
+                        <option value="Mammogram">Mammogram</option>
+                        <option value="CT Scan">CT Scan</option>
+                        <option value="Ultrasound">Ultrasound</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <label>Select Status:</label>
+                    <select id="StatusFilter" class="form-control">
+                        <option value=""></option>
+                        <option value="Pending">Pending</option>
+                        <option value="Completed">Completed</option>
+                    </select>
+                </div>
+            
+                <div class="col">
+                    <br />
+                    <button id="FilterButton" class="btn btn-primary" style="background-color: #44444c; border-color: #44444c">Apply Filters</button>
+                </div>
+            </div>
+        </div>
+    </div>
         <template id="RadiologyRowTemplate">
             <tr>
                 <td class="result-id"></td>
@@ -244,7 +345,6 @@
             </tbody>
         </table>
     
-    </div>
     <div class="modal fade" id="SubmitRequest" tabindex="-1" aria-labelledby="addEventModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -254,36 +354,37 @@
                 </div>
                 <div class="modal-body">
                     <form id="AddDepartmentForm">
-                        <select name="Patient" id="Patient" class="form-control" data-placeholder="Select a Patient" style="width: 100%;" tabindex="-1" aria-hidden="true" onchange="#">
+                        <select name="Doctor" id="Doctor" class="form-control" data-placeholder="Select a Doctor" style="width: 100%;" tabindex="-1" aria-hidden="true" onchange="changeDrDropdown()">
+                            <option value="" selected disabled>Select a Doctor</option>
+                        </select>
+                        <input type="number" name="DoctorID" id="DoctorID" placeholder="Doctor Requesting" class="form-control" hidden />
+                        <select name="Patient" id="Patient" class="form-control" data-placeholder="Select a Patient" style="width: 100%;" tabindex="-1" aria-hidden="true" onchange="UpdatePatientID()">
 
                             <option value="" selected disabled>Select a Patient</option>
                         </select>
                         <input type="number" name="PatientID" id="PatientID" placeholder="Patient " class="form-control" hidden /><br />
-                        <select name="Doctor" id="Doctor" class="form-control" data-placeholder="Select a Doctor" style="width: 100%;" tabindex="-1" aria-hidden="true" onchange="UpdateDrID()">
-                            <option value="" selected disabled>Select a Doctor</option>
-                        </select>
-                        <input type="number" name="DoctorID" id="DoctorID" placeholder="Doctor Requesting" class="form-control" hidden />
+                        
                         <div class="form-group checkbox-group">
                             <label for="TestType">Image Type</label>
                             <div class="checkbox-container">
                                 <div class="checkbox-item">
-                                    <input type="checkbox" id="TestType1" name="TestType" value="X-ray">
+                                    <input type="radio" id="TestType1" name="TestType" value="X-ray">
                                     <label for="TestType1">X-ray</label>
                                 </div>
                                 <div class="checkbox-item">
-                                    <input type="checkbox" id="TestType2" name="TestType" value="CT Scan">
+                                    <input type="radio" id="TestType2" name="TestType" value="CT Scan">
                                     <label for="TestType2">CT Scan</label>
                                 </div>
                                 <div class="checkbox-item">
-                                    <input type="checkbox" id="TestType3" name="TestType" value="MRI">
+                                    <input type="radio" id="TestType3" name="TestType" value="MRI">
                                     <label for="TestType3">MRI</label>
                                 </div>
                                 <div class="checkbox-item">
-                                    <input type="checkbox" id="TestType4" name="TestType" value="Ultrasound">
+                                    <input type="radio" id="TestType4" name="TestType" value="Ultrasound">
                                     <label for="TestType4">Ultrasound</label>
                                 </div>
                                 <div class="checkbox-item">
-                                    <input type="checkbox" id="TestType5" name="TestType" value="Mammogram">
+                                    <input type="radio" id="TestType5" name="TestType" value="Mammogram">
                                     <label for="TestType5">Mammogram</label>
                                 </div>
                                
@@ -312,8 +413,8 @@
                 </div>
                 <div class="modal-body">
                     <input type="number" name="ImageID" id="ImageID" placeholder="ImageID" class="form-control" readonly /><br />
-                    <input type="text" name="PatientName" id="PatientName" placeholder="Patient Name" class="form-control" readonly /><br />
-                    <input type="number" name="PatientID" id="PatientID" placeholder="Patient " class="form-control" readonly /><br />
+                    <input type="text" name="PatientName" id="PatientName2" placeholder="Patient Name" class="form-control" readonly /><br />
+                    <input type="number" name="PatientID" id="PatientID2" placeholder="Patient " class="form-control" readonly /><br />
                     <input type="text" name="DoctorName" id="DoctorName" placeholder="DoctorName" class="form-control" readonly /><br />
                     <input type="number" name="DoctorID" id="DoctorID2" placeholder="Doctor Requesting" class="form-control" readonly /><br/>
                     <input type="text" name="Status" id="Status" placeholder="Status" class="form-control" readonly />
@@ -323,23 +424,23 @@
                             <label for="TestType">Test Type</label>
                             <div class="checkbox-container">
                                 <div class="checkbox-item">
-                                    <input type="checkbox" id="TestType1" name="TestType" value="X-ray" disabled>
+                                    <input type="radio" id="TestType1" name="TestType" value="X-ray" disabled>
                                     <label for="TestType1">X-ray</label>
                                 </div>
                                 <div class="checkbox-item">
-                                    <input type="checkbox" id="TestType2" name="TestType" value="CT Scan" disabled>
+                                    <input type="radio" id="TestType2" name="TestType" value="CT Scan" disabled>
                                     <label for="TestType2">CT Scan</label>
                                 </div>
                                 <div class="checkbox-item">
-                                    <input type="checkbox" id="TestType3" name="TestType" value="MRI" disabled>
+                                    <input type="radio" id="TestType3" name="TestType" value="MRI" disabled>
                                     <label for="TestType3">MRI</label>
                                 </div>
                                 <div class="checkbox-item">
-                                    <input type="checkbox" id="TestType4" name="TestType" value="Ultrasound" disabled>
+                                    <input type="radio" id="TestType4" name="TestType" value="Ultrasound" disabled>
                                     <label for="TestType4">Ultrasound</label>
                                 </div>
                                 <div class="checkbox-item">
-                                    <input type="checkbox" id="TestType5" name="TestType" value="Mammogram" disabled>
+                                    <input type="radio" id="TestType5" name="TestType" value="Mammogram" disabled>
                                     <label for="TestType5">Mammogram</label>
                                 </div>
 
@@ -349,6 +450,51 @@
                    
                     <label for="RequestedDate">Request Date</label>
                     <input type="datetime-local" name="RequestedDate" id="RequestedDate2" placeholder="Requested Date" class="form-control" readonly />
+                    <label for="ResultDate">Result Date</label>
+                    <input type="datetime-local" name="ResultDate" id="ResultDate2" placeholder="Result Date" class="form-control" readonly />
+                    <label for="ResultDate">Notes</label>
+                    <input type="text" name="Notes" id="Notes2" placeholder="Notes" class="form-control" readonly />
+                    <br />
+                    <div class="form-group">
+                        <label for="ResultFile">Lab Result File</label>
+                        <div id="resultFileLink" class="form-control-static">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="SubmitResults" tabindex="-1" aria-labelledby="addEventModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="addEventModalLabel">Submit Results</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closeAddModal" onclick=" $('#SubmitResults').modal('hide');"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="AddResponseForm" asp-action="SubmitResults" asp-controller="Radiology" method="post" enctype="multipart/form-data" onsubmit="return validateAndRedirect()">
+                        <input type="number" name="ImageID" id="ImageID2" placeholder="ImageID" class="form-control" readonly /><br/>
+                        <input type="text" name="PatientID" id="PatientID3" placeholder="Patient ID" class="form-control" hidden />
+                        <input type="text" name="PatientName" id="PatientName3" placeholder="Patient Name" class="form-control" readonly /><br />
+                        <input type="number" name="DoctorID" id="DoctorID3" placeholder="DoctorID" class="form-control" hidden />
+                        <input type="text" name="DoctorName" id="DoctorName3" placeholder="Doctor Name" class="form-control" readonly /><br />
+                        <input type="text" name="ImageType" id="ImageType" placeholder="Image Type" class="form-control" readonly /><br />
+                        <input type="datetime-local" name="ResultDate" id="ResultDate2" placeholder="Result Date" class="form-control" readonly /><br />
+                        <textarea name="Notes" id="Notes2" placeholder="Notes" class="form-control"></textarea> <br />
+                        <div class="drop-section" id="dropzone">
+                            <h3>Drag and Drop Files Here</h3>
+                            <p>or <button type="button" id="browse-files">Browse Files</button></p>
+                            <input type="file" name="Files" id="file-input" multiple style="display:none" />
+                            <div id="file-list" class="file-list">
+                                <h5>Uploaded Files</h5>
+                                <ul id="file-items"></ul>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="submit" id="submitResponse" class="btn btn-primary" style="background-color: #44444c; color:white"></input>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -356,6 +502,9 @@
 
        <script>
         $('#Doctor').select2({
+            dropdownParent: $('#SubmitRequest')
+        });
+        $("#Patient").select2({
             dropdownParent: $('#SubmitRequest')
         });
         $(document).ready(function () {
@@ -393,7 +542,7 @@
 
 
             $.ajax({
-                url: '/Radiology/RequesImage',
+                url: '/Radiology/RequestImage',
                 type: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(formData),
@@ -402,7 +551,7 @@
                         // Handle success (e.g., close modal, show success message)
                         $('#SubmitRequest').modal('hide');
                         alert('Request submitted successfully');
-                        FillTable();
+                        window.location.reload();
                         // Optionally reload the data or update the UI
                     } else {
                         // Handle error (show error message, etc.)
@@ -475,10 +624,24 @@
             // Set the Zone_ID input field value
             document.getElementById("DoctorID").value = drID;
         }
-
+        function changeDrDropdown() {
+            UpdateDrID();
+            var id = $("#DoctorID").val();
+            console.log(id);
+            PatientDropdown(id);
+        }
         function FillTable() {
+            console.log("entered fill table function");
+            const testType = $('#TypeFilter').val();  // Get the selected TestType value
+            const status = $('#StatusFilter').val();  // Get the selected Status value
+            let queryParams = [];
+            if (testType) queryParams.push(`testType=${testType}`);
+            if (status) queryParams.push(`status=${status}`);
+
+            const url = "/Radiology/AllImages" + (queryParams.length ? `?${queryParams.join('&')}` : '');
+            console.log(url);
             $.ajax({
-                url: '/Radiology/AllImages',
+                url: url,
                 type: 'GET',
                 success: function (response) {
                     console.log(response);
@@ -486,6 +649,10 @@
                         const tbody = document.querySelector("#Radiology-table tbody");
                         const template = document.querySelector("#RadiologyRowTemplate");
                         tbody.innerHTML = '';  // Clear existing rows
+                        
+                        if ($.fn.DataTable.isDataTable('#Radiology-table')) {
+                            $('#Radiology-table').DataTable().clear().destroy();
+                        }
                         // Use response.model instead of model
                         response.model.forEach(item => {
                             console.log(item);
@@ -499,7 +666,12 @@
                                 clone.querySelector(".request-date").textContent = item.requestedDate || "N/A";
                                 clone.querySelector(".result-date").textContent = item.resultDate || "N/A";
                                 clone.querySelector(".view-lab").setAttribute("onclick", `fetchRequestDetails('${item.imageID}')`);
-                                // clone.querySelector(".submit-result").setAttribute("onclick", `SubmitResult('${item.resultID}')`);
+                                if (item.status === "Pending") {
+                                    clone.querySelector(".submit-result").setAttribute("onclick", `SubmitResult('${item.imageID}')`);
+                                }
+                                else {
+                                    clone.querySelector(".submit-result").style.display = "none";
+                                }
                                 // Append the new row to the table body
                                 tbody.appendChild(clone);
                             } else {
@@ -511,7 +683,11 @@
                             $('#Radiology-table').DataTable().destroy();
                         }
                         // Reinitialize DataTable after rows are added
-                        $('#Radiology-table').DataTable();
+                        $('#Radiology-table').DataTable({
+                            destroy: true,
+                            responsive: true,
+                            order: [[1, 'asc']]
+                        });
                     } else {
                         alert("Failed to fetch Laboratory data.");
                     }
@@ -521,7 +697,51 @@
                 }
             });
         }
+        $('#FilterButton').on('click', function () {
+            FillTable();  // Call FillTable when Apply Filters button is clicked
+        });
+        function setCurrentDateTime2() {
+            var now = new Date();
+            var year = now.getFullYear();
+            var month = (now.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
+            var day = now.getDate().toString().padStart(2, '0');
+            var hours = now.getHours().toString().padStart(2, '0');
+            var minutes = now.getMinutes().toString().padStart(2, '0');
 
+            var formattedDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
+
+            // Set the value to the input field
+            $("#ResultDate").val(formattedDateTime);
+        }
+        function SubmitResult(id) {
+
+            $.ajax({
+                url: '/Radiology/ImageByID/' + id,
+                type: 'GET',
+                success: function (response) {
+                    console.log(response);
+                    if (response.success) {
+                        var image = response.model; // Assuming response contains model and patient
+                        // Populate the modal fields with data from the response
+                        $('#ImageID2').val(image.imageID);
+                        $('#PatientID3').val(response.patient.patientID);
+                        $("#PatientName3").val(response.patient.fullName);
+                        $("#DoctorID3").val(image.requestedBy);
+                        $("#DoctorName3").val(response.staff.name);
+                        $("#ImageType").val(image.imageType);
+                        setCurrentDateTime2(); // Ensure this function updates the ResultDate field
+                        $("#SubmitResults").modal('show');
+                    } else {
+                        alert("Failed to fetch image data.");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error: " + error);
+                }
+            });
+
+
+        }
         function fetchRequestDetails(id) {
             $.ajax({
                 url: '/Radiology/ImageByID/' + id,
@@ -529,21 +749,27 @@
                 success: function (response) {
                     console.log(response);
                     if (response.success) {
-                        var image = response.model; // Assuming model is an array, access the first element
-                        // Populate the modal fields with data from the response
+                        var image = response.model; 
                         $('#ImageID').val(image.imageID);
-                        $('#PatientID').val(image.patientID);
+                        $('#PatientID2').val(image.patientID);
+                        $("#PatientName2").val(response.patient.fullName);
                         $('#RequestedDate2').val(image.requestedDate);
                         $("#DoctorID2").val(image.requestedBy);
                         $("#DoctorName").val(response.staff.name);
                         $("#Status").val(image.status);
-
+                        $("#ResultDate2").val(image.resultDate || "N/A");
+                        $("#Notes2").val(image.notes || "N/A");
                         var tests = image.imageType;
                         var testTypes = tests.split(',');
                         testTypes.forEach(function (testType) {
                             $('input[name="TestType"][value="' + testType + '"]').prop('checked', true);
                         });
-
+                        if (image.imagePath) {
+                            var resultLink = `<a href="${image.imagePath}" target="_blank">View Result</a>`;
+                            $('#resultFileLink').html(resultLink);
+                        } else {
+                            $('#resultFileLink').html("No result file available.");
+                        }
                         $("#ViewImageModal").modal('show');
                     } else {
                         alert("Failed to fetch lab data.");
@@ -554,7 +780,163 @@
                 }
             });
         }
+        function PatientDropdown(id) {
+            $.ajax({
+                url: '/Patient/PatientsByDrID/' + id,
+                type: 'GET',
+                success: function (response) {
+                    console.log(response); // Log the response object
 
-    </script>
+                    if (response.success) {
+                        var DrDropdown = document.getElementById("Patient");
+                        DrDropdown.innerHTML = ""; // Clear existing options
+                        // Add a default "Select a Supervisor" option
+                        var defaultOption = document.createElement("option");
+                        defaultOption.value = "";
+                        defaultOption.text = "Select a Patient";
+                        defaultOption.disabled = true;
+                        defaultOption.selected = true;
+                        DrDropdown.appendChild(defaultOption);
+                        // Populate the zone dropdown with new options
+                        response.model.forEach(function (pt) {
+                            var option = document.createElement("option");
+                            option.value = pt.patientID;
+                            option.text = pt.fullName;
+                            option.setAttribute("data-pt-id", pt.patientID);
+                            console.log("pt ID: ", pt.patientID);
+                            DrDropdown.appendChild(option);
+                        });
+
+                    } else {
+                        alert('Failed to retrieve pt: ' + response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert('Error: ' + error);
+                }
+            });
+        }
+        function UpdatePatientID() {
+            var selectedOption = document.getElementById("Patient").selectedOptions[0];
+            // Get the Zone_ID from the data attribute
+            var ptID = selectedOption.getAttribute("data-pt-id"); // Fix the attribute name
+            // Set the Zone_ID input field value
+            document.getElementById("PatientID").value = ptID;
+        }
+
+        const dropzone = document.getElementById('dropzone');
+        const fileInput = document.getElementById('file-input');
+        const fileItems = document.getElementById('file-items');
+        const browseFilesBtn = document.getElementById('browse-files');
+        const filenameinput = document.getElementById('Files');
+        const filenames = [];
+        // Show file input when 'Browse Files' button is clicked
+        browseFilesBtn.onclick = () => fileInput.click();
+
+        // Handle file input change
+        fileInput.onchange = () => {
+            [...fileInput.files].forEach(file => {
+                if (typeValidation(file.type)) {
+                    console.log(file);
+                    filenames.push(file);
+                    handleFile(file);
+                }
+            });
+
+            filenameinput.value = filenames.join(', ');
+            console.log(filenames.join(', '));
+            console.log(filenameinput);
+        };
+
+
+
+        // Handle drag over
+        dropzone.ondragover = (e) => {
+            e.preventDefault();
+            dropzone.classList.add('drag-over-effect');
+        };
+
+        // Handle drag leave
+        dropzone.ondragleave = () => {
+            dropzone.classList.remove('drag-over-effect');
+        };
+
+        // Handle drop
+        dropzone.ondrop = (e) => {
+            e.preventDefault();
+            dropzone.classList.remove('drag-over-effect');
+            if (e.dataTransfer.files) {
+                [...e.dataTransfer.files].forEach(file => {
+                    if (typeValidation(file.type)) {
+                        handleFile(file);
+                    }
+                });
+            }
+        };
+
+        // Validate file type
+        function typeValidation(type) {
+            const splitType = type.split('/')[0];
+            return type === 'application/pdf' || splitType === 'image' || splitType === 'video';
+        }
+
+        // Handle file
+        function handleFile(file) {
+            const li = document.createElement('li');
+            li.classList.add('file-item');
+            li.innerHTML = `
+                                                    <div class="col">
+                                                        <img src="icons/${iconSelector(file.type)}" alt="">
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="file-name">
+                                                            <div class="name">${file.name}</div>
+                                                            <span>0%</span>
+                                                        </div>
+                                                        <div class="file-progress">
+                                                            <span></span>
+                                                        </div>
+                                                        <div class="file-size">${(file.size / (1024 * 1024)).toFixed(2)} MB</div>
+                                                    </div>
+                                                    <div class="col">
+
+                                                    </div>
+                                                `;
+            fileItems.appendChild(li);
+
+            // Simulate file upload progress
+            simulateUploadProgress(file, li);
+
+            // Add event listener to remove file
+            // li.querySelector('.remove-button').onclick = () => li.remove();
+        }
+
+        // Simulate upload progress
+        function simulateUploadProgress(file, li) {
+            const progressBar = li.querySelector('.file-progress span');
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 10;
+                progressBar.style.width = `${progress}%`;
+                li.querySelector('.file-name span').textContent = `${progress}%`;
+                if (progress >= 100) {
+                    clearInterval(interval);
+                }
+            }, 200);
+        }
+
+        // Determine file icon based on file type
+        function iconSelector(fileType) {
+            if (fileType === 'application/pdf') return 'pdf.png';
+            if (fileType.startsWith('image')) return 'image.png';
+            if (fileType.startsWith('video')) return 'video.png';
+            return 'file.png';
+        }
+        function validateAndRedirect() {
+            document.getElementById('AddResponseForm').submit();
+            alert("results added Successfully");
+            window.location.href = 'Radiology/AllImages';
+        }
+       </script>
 </body>
 </html>

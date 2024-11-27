@@ -26,12 +26,17 @@
    
     @RenderSection("styles", required: false)
 
+    <style>
+        .main-sidebar {
+            background-color: #44444C !important;
+        }
+    </style>
 </head>
 <body class="hold-transition sidebar-mini">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
  
     <div class="wrapper">
-        <!-- Navbar -->
+        <!-- Navbar --> 
         <nav class="main-header navbar navbar-expand navbar-white navbar-light navbar-fixed-top">
             <!-- Left navbar links -->
             <ul class="navbar-nav">
@@ -89,7 +94,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link ">
+                            <a href="@Url.Action("Calendar", "Schedule")" class="nav-link ">
                                 <i class="nav-icon fas fa-calendar-alt"></i>
                                 <p>
                                     Schedules
@@ -113,7 +118,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="@Url.Action("ORBooking", "OR")" class="nav-link">
                                 <i class="nav-icon fas fa-procedures"></i>
                                 <p>
                                     Operating Rooms
@@ -121,7 +126,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href=" @Url.Action("ViewPatients", "ER")" class="nav-link">
                                 <i class="nav-icon fa fa-ambulance"></i>
                                 <p>
                                     Emergency Rooms
@@ -129,7 +134,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link" >
+                            <a href=" @Url.Action("Patients", "Patient")" class="nav-link">
                                 <i class="nav-icon fa fa-hotel"></i>
                                 <p>
                                     Patients Room

@@ -14,9 +14,13 @@ namespace Hospital_Management_System.Models
         public string EmergencyContactInfo { get; set; } 
         public string MedicalHistory { get; set; } 
         public string Medications { get; set; }
-        public string FamilyMedicalHistory { get; set; } 
         public string BloodType { get; set; }
         public string Allergies { get; set; }
         public int AssignedDoctorID { get; set; }
+        public int? DepartmentID { get; set; }
+        public string? Files { get; set; }
+        public string? status { get; set; }
+        public int? BedNumber { get; set; }
+        public DateTime? Addmission_Date_ER {  get; set; }
     }
 }

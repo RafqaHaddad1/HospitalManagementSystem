@@ -127,6 +127,7 @@ namespace Hospital_Management_System.Controllers
             // Fetch the staff record based on RequestedBy
             var staff = await _dbContext.Staff.FirstOrDefaultAsync(s => s.StaffID == lab.RequestedBy);
             var patient = await _dbContext.Patient.FirstOrDefaultAsync(p => p.PatientID == lab.PatientID);
+            
             // Return the lab and staff data
             return Json(new
             {

@@ -278,5 +278,40 @@ namespace Hospital_Management_System.Controllers
         {
             return View("EditStaff");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> StaffByRole(string role)
+        {
+            // Fetch staff by id
+            var staff = await _dbContext.Staff
+             .Where(e => e.Role == role)
+             .Select(e => new
+             {
+                 e.Name,   // Assuming the property is 'Name' for staff name
+                 e.StaffID      // Assuming the property is 'Id' for staff id
+             })
+             .ToListAsync();
+
+
+            if (staff == null)
+            {
+                return NotFound(new { success = false, message = "Staff not found." });
+            }
+
+           
+
+           
+            // Return staff and department in JSON response
+            return Json(new
+            {
+                success = true,
+                model = new
+                {
+                    staff = staff
+                   
+                }
+            });
+        }
+
     }
 }

@@ -740,14 +740,14 @@
                     if (response.success) {
                         var lab = response.model; // Assuming model is an array, access the first element
                         // Populate the modal fields with data from the response
-                        $('#LabID').val(lab.resultID);
-                        $('#PatientID2').val(response.patient.patientID);
-                        $("#PatientName2").val(response.patient.fullName);
-                        $('#RequestedDate2').val(lab.requestedDate);
-                        $("#DoctorID2").val(lab.requestedBy);
-                        $("#DoctorName2").val(response.staff.name);
-                        $("#Status2").val(lab.status);
-                        $("#ResultDate2").val(lab.resultDate);
+                        $('#LabID').val(lab.resultID) || "N/A";
+                        $('#PatientID2').val(response.patient.patientID || "N/A");
+                        $("#PatientName2").val(response.patient.fullName || "N/A");
+                        $('#RequestedDate2').val(lab.requestedDate || "N/A");
+                        $("#DoctorID2").val(lab.requestedBy || "N/A");
+                        $("#DoctorName2").val(response.staff.name || "N/A");
+                        $("#Status2").val(lab.status || "N/A");
+                        $("#ResultDate2").val(lab.resultDate || "N/A");
                         $("#Notes2").val(lab.notes || "N/A");
                         var tests = lab.testType;
                         var testTypes = tests.split(',');

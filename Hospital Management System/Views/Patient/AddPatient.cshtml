@@ -1,0 +1,624 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - YourAppName</title>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Include Select2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.10.2/dropzone.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.10.2/dropzone.min.js"></script>
+    <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            max-width: 1500px; /* Adjust max width as needed */
+            margin: 0 auto;
+        }
+
+        .radio-group div {
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .form-container {
+            display: flex;
+            flex-direction: row; /* Change to row direction */
+            justify-content: space-between;
+            width: 90%;
+            background-color: #e0e0e0;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            column-gap: 20px; /* Add space between columns */
+        }
+
+        .form-left, .form-right {
+            display: flex;
+            flex-direction: column;
+            width: 48%;
+        }
+
+            .form-left input, .form-right input, .form-right textarea, .form-right select {
+                margin-bottom: 10px;
+                padding: 8px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+
+            .form-right textarea {
+                height: 150px;
+            }
+
+            .form-left input[type="file"] {
+                padding: 3px;
+            }
+
+        .save-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #44444c;
+            margin-bottom: 20px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .profile-pic {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #44444c;
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            color: white;
+            font-size: 40px;
+            margin-bottom: 20px;
+        }
+
+        .radio-group label {
+            margin-right: 20px;
+        }
+
+        .drop-section {
+            border: 2px dashed #ccc;
+            border-radius: 5px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .drag-over-effect {
+            border-color: #44444c;
+        }
+
+        .file-list {
+            margin-top: 20px;
+        }
+
+            .file-list ul {
+                list-style-type: none;
+                padding: 0;
+            }
+
+            .file-list li {
+                margin-bottom: 5px;
+                position: relative;
+                padding: 10px;
+                background: #f9f9f9;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                display: flex;
+                align-items: center;
+            }
+
+            .file-list img {
+                width: 50px;
+                height: 50px;
+                margin-right: 10px;
+            }
+
+            .file-list .remove-button {
+                position: absolute;
+                right: 0;
+                top: 0;
+                background: red;
+                color: white;
+                border: none;
+                border-radius: 3px;
+                cursor: pointer;
+                padding: 3px 8px;
+                font-size: 12px;
+                margin-left: 10px;
+            }
+
+        .form-control {
+            display: block;
+            width: 100%;
+            height: 34px;
+            padding: 6px 12px;
+            font-size: 14px;
+            line-height: 1.42857143;
+            color: #555;
+            background-color: #fff;
+            background-image: none;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+            -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+            -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+            transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s
+        }
+
+        .form-control {
+            border-radius: 0;
+            box-shadow: none;
+            border-color: #d2d6de
+        }
+
+        .select2-hidden-accessible {
+            border: 0 !important;
+            clip: rect(0 0 0 0) !important;
+            height: 1px !important;
+            margin: -1px !important;
+            overflow: hidden !important;
+            padding: 0 !important;
+            position: absolute !important;
+            width: 1px !important
+        }
+
+        .select2-container--default .select2-selection--single,
+        .select2-selection .select2-selection--single {
+            border: 1px solid #d2d6de;
+            border-radius: 5px;
+            padding: 6px 12px;
+            height: 34px;
+            margin-bottom: 10px
+        }
+
+        .select2-container--default .select2-selection--single {
+            background-color: #fff;
+            border: 1px solid #aaa;
+            border-radius: 5px
+        }
+
+        .select2-container .select2-selection--single {
+            box-sizing: border-box;
+            cursor: pointer;
+            display: block;
+            height: 28px;
+            user-select: none;
+            -webkit-user-select: none
+        }
+
+            .select2-container .select2-selection--single .select2-selection__rendered {
+                padding-right: 10px
+            }
+
+            .select2-container .select2-selection--single .select2-selection__rendered {
+                padding-left: 0;
+                padding-right: 0;
+                height: auto;
+                margin-top: -3px
+            }
+
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            line-height: 28px
+        }
+
+        .select2-container--default .select2-selection--single,
+        .select2-selection .select2-selection--single {
+            border: 1px solid #d2d6de;
+            border-radius: 5px !important;
+            padding: 6px 12px;
+            height: 40px !important
+        }
+
+            .select2-container--default .select2-selection--single .select2-selection__arrow {
+                height: 26px;
+                position: absolute;
+                top: 6px !important;
+                right: 1px;
+                width: 20px
+            }
+
+        .select2-container--default .select2-results__option {
+            padding: 8px 12px;
+            font-size: 14px;
+            border-bottom: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .select2-container--default .select2-results__option--highlighted {
+            background-color: #44444c !important;
+            color: white !important;
+        }
+        /* Style the search box container */
+        .select2-container--default .select2-search--dropdown .select2-search__field {
+            padding: 8px;
+            border: 1px solid #d2d6de;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+            /* Style the search box input */
+            .select2-container--default .select2-search--dropdown .select2-search__field:focus {
+                border-color: #44444c;
+                outline: none;
+                box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
+                border-radius: 5px;
+            }
+
+        .select2-container--default .select2-dropdown {
+            border: 1px solid #d2d6de;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            max-height: 200px; /* Adjust as needed */
+            overflow-y: auto; /* Enable scrolling if options overflow */
+        }
+
+        .checkbox-group {
+            margin-top: 15px;
+        }
+
+            .checkbox-group label {
+                display: block;
+                margin-bottom: 8px;
+            }
+
+        .checkbox-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* Two columns */
+            gap: 10px; /* Space between columns */
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+        }
+
+            .checkbox-item input[type="checkbox"] {
+                margin-right: 10px;
+                transform: scale(1.2);
+            }
+
+            .checkbox-item label {
+                font-weight: normal !important;
+                margin: 0;
+                font-size: 1rem;
+                cursor: pointer;
+            }
+
+        .medication-dosage-container {
+            display: flex;
+            gap: 20px; /* Space between input fields */
+            justify-content: space-between; /* Space out input fields */
+            flex-wrap: wrap; /* Ensure responsiveness if the container is narrow */
+        }
+
+        .emergency-contact-container {
+            display: flex;
+            gap: 20px; /* Space between input fields */
+            justify-content: space-between; /* Space out input fields */
+            flex-wrap: wrap; /* Ensure responsiveness if the container is narrow */
+        }
+        .input-group2 {
+            flex: 1; /* Make input groups take equal space */
+            min-width: 200px; /* Ensure inputs don't shrink too small */
+        }
+
+        .input-group2 label {
+            display: block; /* Stack label on top of input */
+            margin-bottom: 5px; /* Space between label and input */
+            font-weight: bold;
+        }
+
+        .input-group2 input[type="text"] {
+            width: 100%; /* Make input take full width of the container */
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box; /* Include padding and border in width */
+        }
+    </style>
+
+    <link rel="stylesheet" href="~/css/site.css">
+
+</head>
+<body>
+    <div class="container">
+        <h1 class="Title">Add New Patient</h1>
+
+        <form class="container" id="Patient-Form" asp-action="#" asp-controller="#" method="post" enctype="multipart/form-data" onsubmit="return validateAndRedirect()">
+            <div class="form-container">
+                <div class="form-left">
+                    <div class="profile-pic">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <input type="text" name="Name" placeholder="Name" />
+                    <input type="password" name="Password" placeholder="Password" />
+                    <input type="text" name="PhoneNumber" placeholder="Phone" />
+                    <input type="text" name="Address" placeholder="Address" />
+                    <input type="Date" name="DateOfBirth" placeholder="DateOfBirth" />
+                    <input type="text" name="Allergies" placeholder="Allergies" />
+                    <div class="form-group radio-group">
+                        <label>Gender:</label>
+                        <div>
+                            <input type="radio" id="Male" name="Gender" value="Male">
+                            <label for="Male">Male</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="Female" name="Gender" value="Female">
+                            <label for="Female">Female</label>
+                        </div>
+
+                    </div>
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="MedicalHistory" id="MedicalHistory" placeholder="Medical History">
+                        <span class="input-group-text" onclick="addNewInput()">
+                            <i class="fas fa-plus"></i>
+                        </span>
+                    </div>
+                    <div id="newInputFields"></div>
+                    <br/>
+                    <div class="form-group radio-group">
+                        <label>Blood Type:</label>
+                        <div>
+                            <input type="radio" id="O+" name="BloodType" value="O+">
+                            <label for="O+">O+</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="O-" name="BloodType" value="O-">
+                            <label for="O-">O-</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="A+" name="BloodType" value="A+">
+                            <label for="A+">A+</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="A-" name="BloodType" value="A-">
+                            <label for="A-">A-</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="B+" name="BloodType" value="B+">
+                            <label for="B+">B+</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="B-" name="BloodType" value="B-">
+                            <label for="B-">B-</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="AB+" name="BloodType" value="AB+">
+                            <label for="AB+">AB+</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="AB-" name="BloodType" value="AB+-">
+                            <label for="AB-">AB-</label>
+                        </div>
+                    </div>
+                    <textarea name="AdditionalNotes" placeholder="Additional Notes"></textarea>
+                </div>
+                <div class="form-right">
+                    <!-- Dropzone for file upload -->
+                    <div class="drop-section" id="dropzone">
+                        <h3>Drag and Drop Files Here</h3>
+                        <p>or <button type="button" id="browse-files">Browse Files</button></p>
+                        <input type="file" name="Files" id="file-input" multiple style="display:none" />
+                        <div id="file-list" class="file-list">
+                            <h5>Uploaded Files</h5>
+                            <ul id="file-items"></ul>
+                        </div>
+                    </div>
+                    <input type="text" id="Files" />
+
+                    <select name="departmentname" id="department" class="department form-control" data-placeholder="Select a department" style="width: 100%;" tabindex="-1" aria-hidden="true" onchange="updateDepartmentID()">
+                        <option value="" selected disabled>Select a department</option>
+                    </select>
+                    <input type="number" name="Department" id="DepartmentID" placeholder="Department ID" />
+                    <div class="medication-dosage-container" id="medication-dosage-container">
+
+                        <div class="input-group2">
+                            <label for="medication">Medication</label>
+                            <input type="text" id="medication" name="Medication[]" placeholder="Enter medication" />
+                        </div>
+                        <div class="input-group2">
+                            <label for="dosage">Dosage</label>
+                            <input type="text" id="dosage" name="Dosage[]" placeholder="Enter dosage" />
+                        </div>
+                    </div>
+                    <button type="button" onclick="addNewInput2()" class="btn btn-theme">Add Medication/Dosage</button> <br/>
+
+                    <div class="emergency-contact-container" id="emergency-contact-container">
+                        <h3>Emergency Contact Information</h3>
+                        <div class="input-group2">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" name="contact_name[]" placeholder="Enter Name" />
+                        </div>
+                        <div class="input-group2">
+                            <label for="phonenumber">Phone Number</label>
+                            <input type="text" id="phonenumber" name="contact_phonenumber[]" placeholder="Enter Phone Number" />
+                        </div>
+                    </div>
+                    <button type="button" onclick="addNewContact()" class="btn btn-theme">Add New Contact</button>
+
+
+                </div>
+            </div>
+            <input type="Submit" id="SubmitStaff" class="save-button" value="Save" />
+        </form>
+    </div>
+
+
+    <script>
+
+        function addNewInput() {
+            // Create a new div for the input field
+            const inputGroup = document.createElement('div');
+            inputGroup.className = 'input-group mb-3'; // Bootstrap styling
+
+            // Create the new input element
+            const newInput = document.createElement('input');
+            newInput.type = 'text';
+            newInput.className = 'form-control'; // Bootstrap class
+            newInput.name = 'MedicalHistory'; // Adjust the name as needed
+            newInput.placeholder = 'Medical History';
+
+            // Create the span with plus icon for future input additions
+            const inputGroupTextPlus = document.createElement('span');
+            inputGroupTextPlus.className = 'input-group-text';
+            inputGroupTextPlus.onclick = addNewInput;
+
+            const plusIcon = document.createElement('i');
+            plusIcon.className = 'fas fa-plus';
+
+            // Create the span with minus icon for removing the input field
+            const inputGroupTextMinus = document.createElement('span');
+            inputGroupTextMinus.className = 'input-group-text';
+            inputGroupTextMinus.onclick = function () {
+                removeInputField(inputGroup);
+            };
+
+            const minusIcon = document.createElement('i');
+            minusIcon.className = 'fas fa-minus';
+
+            // Append the icons to their respective spans
+            inputGroupTextPlus.appendChild(plusIcon);
+            inputGroupTextMinus.appendChild(minusIcon);
+
+            // Append the new input and the icon spans to the new input group div
+            inputGroup.appendChild(newInput);
+            inputGroup.appendChild(inputGroupTextPlus);
+            inputGroup.appendChild(inputGroupTextMinus);
+
+            // Append the new input group to the newInputFields container
+            document.getElementById('newInputFields').appendChild(inputGroup);
+        }
+
+        function removeInputField(inputGroup) {
+            // Remove the input group (the entire div containing the input and icons)
+            inputGroup.remove();
+        }
+        function addNewInput2() {
+            // Create a new div for the medication input field
+            const inputGroupMedication = document.createElement('div');
+            inputGroupMedication.className = 'input-group2'; // Styling class for medication input
+
+            // Create the medication input element
+            const newInputMedication = document.createElement('input');
+            newInputMedication.type = 'text';
+
+            newInputMedication.name = 'Medication[]'; // Name for the medication input
+            newInputMedication.placeholder = 'Enter medication';
+
+            // Create a new div for the dosage input field
+            const inputGroupDosage = document.createElement('div');
+            inputGroupDosage.className = 'input-group2'; // Styling class for dosage input
+
+            // Create the dosage input element
+            const newInputDosage = document.createElement('input');
+            newInputDosage.type = 'text';
+
+            newInputDosage.name = 'Dosage[]'; // Name for the dosage input
+            newInputDosage.placeholder = 'Enter dosage';
+
+            // Create the remove button with a minus icon
+            const removeButton = document.createElement('span');
+            removeButton.className = 'input-group-text'; // Bootstrap styling
+            removeButton.onclick = function () {
+                removeInputField2(inputGroupMedication, inputGroupDosage);
+            };
+
+            const minusIcon = document.createElement('i');
+            minusIcon.className = 'fas fa-minus';
+
+            // Append the minus icon to the remove button
+            removeButton.appendChild(minusIcon);
+
+            // Append the medication input, dosage input, and remove button to their respective divs
+            inputGroupMedication.appendChild(newInputMedication);
+            inputGroupDosage.appendChild(newInputDosage);
+
+            // Append the remove button after the dosage field
+            inputGroupDosage.appendChild(removeButton);
+
+            // Append the medication and dosage input groups to the medication-dosage container
+            const container = document.getElementById('medication-dosage-container');
+            container.appendChild(inputGroupMedication);
+            container.appendChild(inputGroupDosage);
+        }
+
+        function removeInputField2(inputGroupMedication, inputGroupDosage) {
+            // Remove the medication and dosage input groups from the DOM
+            inputGroupMedication.remove();
+            inputGroupDosage.remove();
+        }
+
+        function addNewContact() {
+            // Create a new div for the contact name input field
+            const inputGroupName = document.createElement('div');
+            inputGroupName.className = 'input-group2'; // Styling class for name input
+
+            // Create the contact name input element
+            const newInputName = document.createElement('input');
+            newInputName.type = 'text';
+            newInputName.name = 'contact_name[]'; // Unique name for contact name input
+            newInputName.placeholder = 'Enter Name';
+
+            // Create a new div for the phone number input field
+            const inputGroupPhone = document.createElement('div');
+            inputGroupPhone.className = 'input-group2'; // Styling class for phone input
+
+            // Create the phone number input element
+            const newInputPhone = document.createElement('input');
+            newInputPhone.type = 'text';
+            newInputPhone.name = 'contact_phonenumber[]'; // Unique name for phone number input
+            newInputPhone.placeholder = 'Enter Phone Number';
+
+            // Create the remove button with a minus icon
+            const removeButton = document.createElement('span');
+            removeButton.className = 'input-group-text'; // Styling for remove button
+            removeButton.onclick = function () {
+                removeContact(inputGroupName, inputGroupPhone);
+            };
+
+            const minusIcon = document.createElement('i');
+            minusIcon.className = 'fas fa-minus';
+
+            // Append the minus icon to the remove button
+            removeButton.appendChild(minusIcon);
+
+            // Append the name input, phone input, and remove button to their respective divs
+            inputGroupName.appendChild(newInputName);
+            inputGroupPhone.appendChild(newInputPhone);
+
+            // Append the remove button after the phone number field
+            inputGroupPhone.appendChild(removeButton);
+
+            // Append the name and phone input groups to the emergency-contact-container
+            const container = document.getElementById('emergency-contact-container');
+            container.appendChild(inputGroupName);
+            container.appendChild(inputGroupPhone);
+        }
+
+        function removeContact(inputGroupName, inputGroupPhone) {
+            // Remove the name and phone input groups from the DOM
+            inputGroupName.remove();
+            inputGroupPhone.remove();
+        }
+
+
+    </script>
+</body>
+</html>

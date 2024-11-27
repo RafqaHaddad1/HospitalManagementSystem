@@ -1,0 +1,1802 @@
+﻿﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - YourAppName</title>
+  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.6/css/dataTables.dataTables.css" />
+    <script src="https://cdn.datatables.net/2.1.6/js/dataTables.js"></script>
+    <link href="https://stackpath.bootstrapcdn.cm/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+        .table .thead-dark th {
+            color: white !important;
+            background-color: #44444c !important;
+            border-color: #44444c !important;
+        }
+      .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    max-width: 1500px;
+    margin: 0 auto;
+}
+
+h1.Title {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.form-container {
+    display: flex;
+    flex-wrap: wrap; /* Ensure columns stack on smaller screens */
+    justify-content: space-between;
+    width: 90%;
+    background-color: #e0e0e0;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    gap: 20px; /* Add space between columns */
+}
+
+.form-left, .form-right {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 48%; /* Control the width to avoid stretching */
+}
+
+input[type="text"], input[type="number"], input[type="date"], textarea, select {
+    margin-bottom: 10px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.profile-pic {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #44444c;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    color: white;
+    font-size: 40px;
+    margin-bottom: 20px;
+}
+
+.radio-group {
+    margin-bottom: 15px;
+}
+
+.radio-group div {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+.save-button {
+    padding: 10px 20px;
+    background-color: #44444c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.save-button:hover {
+    background-color: #333;
+}
+
+.checkbox-group label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+.checkbox-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.checkbox-item input[type="checkbox"] {
+    margin-right: 10px;
+    transform: scale(1.2);
+}
+
+.checkbox-item label {
+    font-weight: normal;
+    font-size: 1rem;
+}
+
+.medication-dosage-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* Create two equal columns */
+            gap: 20px; /* Space between items */
+            align-items: start; /* Align items at the top */
+}
+
+        .emergency-contact-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* Create two equal columns */
+            gap: 20px; /* Space between items */
+            align-items: start; /* Align items at the top */
+        }
+
+.input-group2 {
+    flex: 1;
+    min-width: 200px;
+}
+
+.input-group2 label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.input-group2 input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+        .select2-hidden-accessible {
+            border: 0 !important;
+            clip: rect(0 0 0 0) !important;
+            height: 1px !important;
+            margin: -1px !important;
+            overflow: hidden !important;
+            padding: 0 !important;
+            position: absolute !important;
+            width: 1px !important
+        }
+
+        .select2-container--default .select2-selection--single,
+        .select2-selection .select2-selection--single {
+            border: 1px solid #d2d6de;
+            border-radius: 5px;
+            padding: 6px 12px;
+            height: 34px;
+            margin-bottom: 10px
+        }
+
+        .select2-container--default .select2-selection--single {
+            background-color: #fff;
+            border: 1px solid #aaa;
+            border-radius: 5px
+        }
+
+        .select2-container .select2-selection--single {
+            box-sizing: border-box;
+            cursor: pointer;
+            display: block;
+            height: 28px;
+            user-select: none;
+            -webkit-user-select: none
+        }
+
+            .select2-container .select2-selection--single .select2-selection__rendered {
+                padding-right: 10px
+            }
+
+            .select2-container .select2-selection--single .select2-selection__rendered {
+                padding-left: 0;
+                padding-right: 0;
+                height: auto;
+                margin-top: -3px
+            }
+
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            line-height: 28px
+        }
+
+        .select2-container--default .select2-selection--single,
+        .select2-selection .select2-selection--single {
+            border: 1px solid #d2d6de;
+            border-radius: 5px !important;
+            padding: 6px 12px;
+            height: 40px !important
+        }
+
+            .select2-container--default .select2-selection--single .select2-selection__arrow {
+                height: 26px;
+                position: absolute;
+                top: 6px !important;
+                right: 1px;
+                width: 20px
+            }
+
+        .select2-container--default .select2-results__option {
+            padding: 8px 12px;
+            font-size: 14px;
+            border-bottom: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .select2-container--default .select2-results__option--highlighted {
+            background-color: #44444c !important;
+            color: white !important;
+        }
+        /* Style the search box container */
+        .select2-container--default .select2-search--dropdown .select2-search__field {
+            padding: 8px;
+            border: 1px solid #d2d6de;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+            /* Style the search box input */
+            .select2-container--default .select2-search--dropdown .select2-search__field:focus {
+                border-color: #44444c;
+                outline: none;
+                box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
+                border-radius: 5px;
+            }
+
+        .select2-container--default .select2-dropdown {
+            border: 1px solid #d2d6de;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            max-height: 200px; /* Adjust as needed */
+            overflow-y: auto; /* Enable scrolling if options overflow */
+        }
+
+
+    .form-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .form-left, .form-right {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .profile-pic {
+        width: 80px;
+        height: 80px;
+        font-size: 30px;
+    }
+
+    .radio-group div {
+        margin-right: 10px;
+    }
+       .drop-section {
+           border: 2px dashed #ccc;
+           border-radius: 5px;
+           padding: 20px;
+           text-align: center;
+       }
+
+       .drag-over-effect {
+           border-color: #44444c;
+       }
+
+       .file-list {
+           margin-top: 20px;
+       }
+
+           .file-list ul {
+               list-style-type: none;
+               padding: 0;
+           }
+
+           .file-list li {
+               margin-bottom: 5px;
+               position: relative;
+               padding: 10px;
+               background: #f9f9f9;
+               border: 1px solid #ddd;
+               border-radius: 5px;
+               display: flex;
+               align-items: center;
+           }
+
+           .file-list img {
+               width: 50px;
+               height: 50px;
+               margin-right: 10px;
+           }
+
+           .file-list .remove-button {
+               position: absolute;
+               right: 0;
+               top: 0;
+               background: red;
+               color: white;
+               border: none;
+               border-radius: 3px;
+               cursor: pointer;
+               padding: 3px 8px;
+               font-size: 12px;
+               margin-left: 10px;
+           }
+
+        .checkbox-group {
+            margin-top: 15px;
+        }
+
+            .checkbox-group label {
+                display: block;
+                margin-bottom: 8px;
+            }
+
+        .checkbox-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* Two columns */
+            gap: 10px; /* Space between columns */
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+        }
+
+            .checkbox-item input[type="checkbox"] {
+                margin-right: 10px;
+                transform: scale(1.2);
+            }
+
+            .checkbox-item label {
+                font-weight: normal !important;
+                margin: 0;
+                font-size: 1rem;
+                cursor: pointer;
+            }
+
+  </style>
+
+    <link rel="stylesheet" href="~/css/site.css">
+
+</head>
+<body>
+    <div class="container">
+        <h1 class="Title">Edit Patient</h1>
+
+        <form class="container" id="Patient-Form" asp-action="AddPatientToER" asp-controller="ER" method="post" enctype="multipart/form-data" onsubmit="return valdiateAndRedirect()">
+            <div class="form-container">
+                
+                <div class="form-left">
+                    <div class="profile-pic">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <input type="number" name="PatientID" id="PatientID" readonly/>
+                    <input type="text" name="FullName" placeholder="Name" readonly />
+                    <input type="text" name="ContactInfo" placeholder="Phone" readonly />
+                    <input type="text" name="Address" placeholder="Address" readonly />
+                    <input type="Date" name="DateOfBirth" placeholder="DateOfBirth" readonly />
+                    <input type="text" name="Allergies" placeholder="Allergies" readonly />
+                    <div class="form-group radio-group">
+                        <label>Gender:</label>
+                        <div>
+                            <input type="radio" id="Male" name="Gender" value="Male" disabled>
+                            <label for="Male">Male</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="Female" name="Gender" value="Female" disabled>
+                            <label for="Female">Female</label>
+                        </div>
+
+                    </div>
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="MedicalHistory" id="MedicalHistory" placeholder="Medical History">
+                        <span class="input-group-text" onclick="addNewInput()">
+                            <i class="fas fa-plus"></i>
+                        </span>
+                    </div>
+                    <input type="text" name="MedicalHistory" id="MedicalHistoryI" readonly />
+                    <div id="newInputFields"></div>
+                    <br />
+                    <div class="form-group radio-group">
+                        <label>Blood Type:</label>
+                        <div>
+                            <input type="radio" id="O+" name="BloodType" value="O+" disabled>
+                            <label for="O+">O+</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="O-" name="BloodType" value="O-" disabled>
+                            <label for="O-">O-</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="A+" name="BloodType" value="A+" disabled>
+                            <label for="A+">A+</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="A-" name="BloodType" value="A-" disabled>
+                            <label for="A-">A-</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="B+" name="BloodType" value="B+" disabled>
+                            <label for="B+">B+</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="B-" name="BloodType" value="B-" disabled>
+                            <label for="B-">B-</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="AB+" name="BloodType" value="AB+" disabled>
+                            <label for="AB+">AB+</label>
+                        </div>
+                        <div>
+                            <input type="radio" id="AB-" name="BloodType" value="AB+-" disabled>
+                            <label for="AB-">AB-</label>
+                        </div>
+                    </div>
+                    <input type="text" name="AdditionalNotes" placeholder="Additional Notes"></input>
+                </div>
+                <div class="form-right">
+                    <!-- Dropzone for file upload -->
+                    <div class="drop-section" id="dropzone">
+                        <h3>Drag and Drop Files Here</h3>
+                        <p>or <button type="button" id="browse-files">Browse Files</button></p>
+                        <input type="file" name="Files" id="file-input" multiple style="display:none" />
+                        <div id="file-list" class="file-list">
+                            <h5>Uploaded Files</h5>
+                            <ul id="file-items"></ul>
+                        </div>
+                    </div>
+                    <input type="text" id="Files" hidden /><br/>
+
+                    <select name="departmentname" id="department" class="department form-control" data-placeholder="Select a department" style="width: 100%;" tabindex="-1" aria-hidden="true" onchange="UpdateDepartmentID()">
+                        <option value="" selected disabled>Select a department</option>
+                    </select>
+                    <input type="number" name="DepartmentID" id="DepartmentID" placeholder="Department ID" hidden /><br />
+                    <select name="Doctor" id="Doctor" class="form-control" data-placeholder="Select a Doctor" style="width: 100%;" tabindex="-1" aria-hidden="true" onchange="UpdateDrID()">
+                        <option value="" selected disabled>Select a Doctor</option>
+                    </select>
+                    <input type="number" name="AssignedDoctorID" id="DoctorID" placeholder="Doctor Requesting" class="form-control" hidden />
+                   @*  <select name="Bed" id="Bed" class="form-control" data-placeholder="Select a Bed" style="width: 100%;" tabindex="-1" aria-hidden="true" onchange="UpdateBedID()">
+                        <option value="" selected disabled>Select a Bed</option>
+                    </select> *@
+                    <label for="BedNumber">Bed Number</label>
+                    <input type="number" name="BedNumber" id="BedNumber" placeholder="BedNumber" class="form-control" readonly />
+                    <select id="StatusDropDown" class=" form-control" data-placeholder="Select a Status" style="width: 100%;" tabindex="-1" aria-hidden="true" onchange="updateStatus()">
+                        <option value="" selected disabled>Select a Status</option>
+                        <option value="Bed">In Bed</option>
+                        <option value="Radiology">In Radiology</option>
+                        <option value="Admitted">Admitted</option>
+                    </select><br/>
+                    <input type="text" name="Status" id="Status" placeholder="Status" readonly /><br/>
+                    <div class="medication-dosage-container" id="medication-dosage-container">
+
+                        <div class="input-group2">
+                            <label for="medication">Medication Patient On</label>
+                            <input type="text" id="medication" name="Medication[]" placeholder="Enter medication" />
+                        </div>
+                        <div class="input-group2">
+                            <label for="dosage">Dosage</label>
+                            <input type="text" id="dosage" name="Dosage[]" placeholder="Enter dosage" />
+                        </div>
+                    </div>
+                    <input type="text" id="Medications" name="Medications" hidden />
+                    <button type="button" onclick="addNewInput2()" class="btn btn-theme">Add Medication/Dosage</button> <br />
+
+                    <div class="emergency-contact-container" id="emergency-contact-container">
+                       
+                        <div class="input-group2">
+                            <label for="name">Emergency Contact Name</label>
+                            <input type="text" id="name" name="contact_name[]" placeholder="Enter Name" />
+                        </div>
+                        <div class="input-group2">
+                            <label for="phonenumber">Emergency Contact Phone Number</label>
+                            <input type="text" id="phonenumber" name="contact_phonenumber[]" placeholder="Enter Phone Number" />
+                        </div>
+                    </div>
+
+                    <input type="text" name="EmergencyContactInfo" id="EmergencyContactInfo" hidden />
+                    <button type="button" onclick="addNewContact()" class="btn btn-theme">Add New Contact</button>
+
+                   
+                    <h3>Hospital Data</h3>
+                    <div class="form-left">
+                        <h4>
+                            Vital Signs
+                            <button type="button" class="btn btn-sm btn-primary" id="add-vital-signs" style="background-color: #44444c; border-color: #44444c; color: white; width:40px" >
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </h4>
+                        <table id="vital-table" class="table table-hover table-striped">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Blood Pressure</th>
+                                    <th>Heart Rate</th>
+                                    <th>Temperature</th>
+                                    <th>Time</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                            </tbody>
+                        </table>
+                       
+                        <h4>
+                            Symptoms Signs
+                            <button type="button" class="btn btn-sm btn-primary" id="add-symptom-signs" style="background-color: #44444c; border-color: #44444c; color: white; width:40px" >
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </h4>
+                        <table id="Symptoms-table" class="table table-hover table-striped">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Symptoms</th>
+                                    <th>Time</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                            </tbody>
+                        </table>
+
+                        <h4>
+                            Medications Given
+                            <button type="button" class="btn btn-sm btn-primary" id="add-medication-signs" style="background-color: #44444c; border-color: #44444c; color: white; width:40px">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </h4>
+                        <table id="Medication-table" class="table table-hover table-striped">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Medication Name</th>
+                                    <th>Dosage</th>
+                                    <th>Time</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                            </tbody>
+                        </table>
+                     </div>
+                    <div class="form-right">
+                        <textarea name="treatment" placeholder="Treatment"></textarea>
+                        <textarea name="overview" placeholder="Overview"></textarea>
+                        <button type="button" id="RequestImage" class="btn btn-theme" >Request Image</button>
+                        <button type="button" id="RequestLab" class="btn btn-theme">Request Lab</button>
+                    </div>
+                </div>
+            </div>
+        
+            <input type="Submit" id="SubmitStaff" class="save-button" value="Save" />
+        </form>
+    </div>
+
+    <br />
+    <div class="modal fade" id="SubmitRequestLab" tabindex="-1" aria-labelledby="addEventModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="addEventModalLabel">Submit Request</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closeAddModal" onclick=" $('#SubmitRequestLab').modal('hide');"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="AddRequestForm">
+                        <select name="Doctor" id="Doctor3" class="form-control" data-placeholder="Select a Doctor" style="width: 100%;" tabindex="-1" aria-hidden="true" onchange="UpdateDrID3()">
+                            <option value="" selected disabled>Select a Doctor</option>
+                        </select>
+                        <input type="number" name="DoctorID" id="DoctorID3" placeholder="Doctor Requesting" class="form-control" hidden />
+                        
+                        <input type="number" name="PatientID" id="PatientIDForLab" placeholder="Patient " class="form-control" readonly /><br />
+
+                        <div class="form-group checkbox-group">
+                            <label for="TestType">Test Type</label>
+                            <div class="checkbox-container">
+                                <div class="checkbox-item">
+                                    <input type="radio" id="TestType1" name="TestType" value="Blood Count">
+                                    <label for="TestType1">Blood Count</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="radio" id="TestType2" name="TestType" value="Blood Test">
+                                    <label for="TestType2">Blood Test</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="radio" id="TestType3" name="TestType" value="Urinalysis">
+                                    <label for="TestType3">Urinalysis</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="radio" id="TestType4" name="TestType" value="Basic metabolic panel">
+                                    <label for="TestType4">Basic Metabolic Panel</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="radio" id="TestType5" name="TestType" value="Cancer testing">
+                                    <label for="TestType5">Cancer Testing</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="radio" id="TestType6" name="TestType" value="Genetic testing">
+                                    <label for="TestType6">Genetic Testing</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group checkbox-group">
+                            <label for="SampleSubmitted">Sample Submitted</label>
+                            <div class="checkbox-container">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="Sample1" name="SampleSubmitted" value="Blood">
+                                    <label for="Sample1">Blood</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="Sample1" name="SampleSubmitted" value="Urine">
+                                    <label for="Sample1">Urine</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="Sample3" name="SampleSubmitted" value="Tissue">
+                                    <label for="Sample3">Tissue</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="Sample4" name="SampleSubmitted" value="Saliva">
+                                    <label for="Sample4">Saliva</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="Sample5" name="SampleSubmitted" value="amnioticfluid">
+                                    <label for="Sample5">Amniotic Fluid</label>
+                                </div>
+
+                            </div>
+                        </div>
+                        <label for="RequestedDate">Request Date</label>
+                        <input type="datetime-local" name="RequestedDate" id="RequestedDate3" placeholder="Requested Date" class="form-control" readonly />
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="submitRequestLab" class="btn btn-primary" style="background-color: #44444c; color:white">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+    <div class="modal fade" id="SubmitRequestImage" tabindex="-1" aria-labelledby="addEventModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="addEventModalLabel">Submit Request</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closeAddModal" onclick=" $('#SubmitRequest').modal('hide');"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="AddDepartmentForm">
+                        <select name="Doctor" id="Doctor2" class="form-control" data-placeholder="Select a Doctor" style="width: 100%;" tabindex="-1" aria-hidden="true" onchange="UpdateDrID2()">
+                            <option value="" selected disabled>Select a Doctor</option>
+                        </select>
+                        <input type="number" name="DoctorID" id="DoctorID2" placeholder="Doctor Requesting" class="form-control" hidden />
+                      
+                        <input type="number" name="PatientID" id="PatientIDForImage" placeholder="Patient " class="form-control" readonly /><br />
+
+                        <div class="form-group checkbox-group">
+                            <label for="TestType">Image Type</label>
+                            <div class="checkbox-container">
+                                <div class="checkbox-item">
+                                    <input type="radio" id="TestType1" name="TestType" value="X-ray">
+                                    <label for="TestType1">X-ray</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="radio" id="TestType2" name="TestType" value="CT Scan">
+                                    <label for="TestType2">CT Scan</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="radio" id="TestType3" name="TestType" value="MRI">
+                                    <label for="TestType3">MRI</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="radio" id="TestType4" name="TestType" value="Ultrasound">
+                                    <label for="TestType4">Ultrasound</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="radio" id="TestType5" name="TestType" value="Mammogram">
+                                    <label for="TestType5">Mammogram</label>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <label for="RequestedDate">Request Date</label>
+                        <input type="datetime-local" name="RequestedDate" id="RequestedDate2" placeholder="Requested Date" class="form-control" readonly />
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="submitRequestImage" class="btn btn-primary" style="background-color: #44444c; color:white">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="AddVitals" tabindex="-1" aria-labelledby="addEventModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="addEventModalLabel">Add Vitals</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closeAddModal" onclick=" $('#AddVitals').modal('hide');"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="AddVitalsForm">
+                        <div class="mb-3">
+                            <label for="BloodPressure" class="form-label">Blood Pressure</label>
+                            <input type="number" id="BloodPressure" name="BloodPressure" placeholder="Blood Pressure" class="form-control" /><br />
+                        </div>
+                        <div class="mb-3">
+                            <label for="HeartRate" class="form-label">Heart Rate</label>
+                            <input type="number" id="HeartRate" name="HeartRate" placeholder="Heart Rate" class="form-control" /><br />
+                        </div>
+                        <div class="mb-3">
+                            <label for="Temperature" class="form-label">Temperature</label>
+                            <input type="number" id="Temperature" name="Temperature" placeholder="Temperature" class="form-control" /><br />
+                        </div>
+                        <div class="mb-3">
+                            <label for="TimeTook" class="form-label">Time Taken</label>
+                            <input type="datetime-local" id="TimeTook" name="TimeTook" class="form-control" />
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="submitDepartment" class="btn btn-primary" style="background-color: #44444c; color:white">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="AddSymptoms" tabindex="-1" aria-labelledby="addEventModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="addEventModalLabel">Add Symptoms</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closeAddModal" onclick=" $('#AddSymmptoms').modal('hide');"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="AddSymptomsForm">
+                        <div class="mb-3">
+                            <label for="Symptom" class="form-label">Symptom</label>
+                            <input type="text" id="Symptom" name="Symptom" placeholder="Symptom" class="form-control" /><br />
+                        </div>
+                        <div class="mb-3">
+                            <label for="Notes" class="form-label">Notes</label>
+                            <input type="text" id="Notes" name="Notes" placeholder="Notes" class="form-control" /><br />
+                        </div>
+                       
+                        <div class="mb-3">
+                            <label for="TimeAdded" class="form-label">Time Added</label>
+                            <input type="datetime-local" id="TimeAdded" name="TimeAdded" class="form-control" />
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="submitDepartment" class="btn btn-primary" style="background-color: #44444c; color:white">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="AddMedication" tabindex="-1" aria-labelledby="addEventModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="addEventModalLabel">Add Med</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closeAddModal" onclick=" $('#AddMedication').modal('hide');"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="AddMedForm">
+                        <div class="mb-3">
+                            <label for="MedName" class="form-label">MedName</label>
+                            <input type="text" id="MedName" name="MedName" placeholder="MedName" class="form-control" /><br />
+                        </div>
+                        <div class="mb-3">
+                            <label for="Dosage" class="form-label">Dosage</label>
+                            <input type="text" id="Dosage" name="Dosage" placeholder="Dosage" class="form-control" /><br />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="TimeAdded" class="form-label">Time Added</label>
+                            <input type="datetime-local" id="TimeAdded2" name="TimeAdded" class="form-control" />
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="submitDepartment" class="btn btn-primary" style="background-color: #44444c; color:white">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<script>
+        $("#Doctor").select2();
+        $("#department").select2();
+        $("#StatusDropDown").select2();
+        $("#Bed").select2();
+        $("#Doctor2").select2({
+            dropdownParent: $('#SubmitRequestImage')
+        });
+        $("#Doctor3").select2({
+            dropdownParent: $('#SubmitRequestLab')
+        });
+        var PatientID = sessionStorage.getItem("PatientID");
+     
+       
+        $(document).ready(function () {
+            fetchStaffDetails();
+          
+        });
+        $("#add-vital-signs").on("click", function () {
+            // Set the value of the input field with id 'PatientIDForImage' to the value of the variable 'PatientID'          
+            setCurrentDateTime();
+            // Show the modal with the id 'SubmitRequestImage'
+            $('#AddVitals').modal('show');
+        });
+        $("#add-symptom-signs").on("click", function () {
+            // Set the value of the input field with id 'PatientIDForImage' to the value of the variable 'PatientID'
+            setCurrentDateTime();
+            // Show the modal with the id 'SubmitRequestImage'
+            $('#AddSymptoms').modal('show');
+        });
+        $("#add-medication-signs").on("click", function () {
+            // Set the value of the input field with id 'PatientIDForImage' to the value of the variable 'PatientID'
+            setCurrentDateTime();
+            // Show the modal with the id 'SubmitRequestImage'
+            $('#AddSymptoms').modal('show');
+        });
+        $("#add-symptom-signs").on("click", function () {
+            // Set the value of the input field with id 'PatientIDForImage' to the value of the variable 'PatientID'
+            setCurrentDateTime();
+            // Show the modal with the id 'SubmitRequestImage'
+            $('#AddMedication').modal('show');
+        });
+        $("#RequestImage").on("click", function () {
+            // Set the value of the input field with id 'PatientIDForImage' to the value of the variable 'PatientID'
+            $("#PatientIDForImage").val(PatientID);
+            setCurrentDateTime();
+            // Call a function named DrDropdown() (assumed to populate a dropdown or perform other actions)
+            DrDropdown2();
+
+            // Show the modal with the id 'SubmitRequestImage'
+            $('#SubmitRequestImage').modal('show');
+        });
+        $("#RequestLab").on("click", function () {
+            // Set the value of the input field with id 'PatientIDForImage' to the value of the variable 'PatientID'
+            $("#PatientIDForLab").val(PatientID);
+            setCurrentDateTime();
+            // Call a function named DrDropdown() (assumed to populate a dropdown or perform other actions)
+            DrDropdown3();
+
+            // Show the modal with the id 'SubmitRequestImage'
+            $('#SubmitRequestLab').modal('show');
+        });
+        function setCurrentDateTime() {
+            var now = new Date();
+            var year = now.getFullYear();
+            var month = (now.getMonth() + 1).toString().padStart(2, '0'); // Months are zero-based
+            var day = now.getDate().toString().padStart(2, '0');
+            var hours = now.getHours().toString().padStart(2, '0');
+            var minutes = now.getMinutes().toString().padStart(2, '0');
+
+            var formattedDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
+
+            // Set the value to the input field
+            $("#RequestedDate2").val(formattedDateTime);
+            $("#RequestedDate3").val(formattedDateTime);
+            $("#TimeTook").val(formattedDateTime);
+            $("#TimeAdded").val(formattedDateTime);
+            $("#TimeAdded2").val(formattedDateTime);
+        }
+        function updateStatus() {
+            // Get the selected option from the dropdown
+            var selectedOption = document.getElementById("StatusDropDown").selectedOptions[0];
+
+            // Get the Zone_ID (or drID) from the value of the selected option
+            var drID = selectedOption.value; // Use .value instead of getValue()
+
+            // Set the Status input field value with the retrieved drID
+            document.getElementById("Status").value = drID;
+        }
+        function BedDropDown() {
+            const selectedBedNumber = $("#BedNumber").val(); // Get the value of BedNumber before AJAX call
+            console.log("Selected Bed Number (from #BedNumber): ", selectedBedNumber);
+
+            $.ajax({
+                url: '/ER/AvailableBeds',
+                type: 'GET',
+                success: function (response) {
+                    console.log(response); // Log the response object
+
+                    if (response.success) {
+                        var DrDropdown = document.getElementById("Bed");
+                        DrDropdown.innerHTML = ""; // Clear existing options
+                        // Add a default "Select a Supervisor" option
+                        var defaultOption = document.createElement("option");
+                        defaultOption.value = "";
+                        defaultOption.text = "Select a Bed";
+                        defaultOption.disabled = true;
+                        defaultOption.selected = true;
+                        DrDropdown.appendChild(defaultOption);
+                        // Populate the zone dropdown with new options
+                        response.model.forEach(function (dr) {
+                            var option = document.createElement("option");
+                            option.value = dr.bed_Number;
+                            option.text = dr.bed_Number;
+                            option.setAttribute("data-bed-id", dr.bed_Number);
+                            console.log("bed ID: ", dr.bed_Number);
+                            DrDropdown.appendChild(option);
+                        });
+                       
+                       
+                    } else {
+                        alert('Failed to retrieve dr: ' + response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert('Error: ' + error);
+                }
+            });
+        }
+
+        function UpdateBedID() {
+            var selectedOption = document.getElementById("Bed").selectedOptions[0];
+            // Get the Zone_ID from the data attribute
+            var drID = selectedOption.getAttribute("data-bed-id"); // Fix the attribute name
+            // Set the Zone_ID input field value
+            document.getElementById("BedNumber").value = drID;
+        }
+        function DrDropdown() {
+            $.ajax({
+                url: '/Staff/AllDoctors',
+                type: 'GET',
+                success: function (response) {
+                    console.log(response); // Log the response object
+
+                    if (response.success) {
+                        var DrDropdown = document.getElementById("Doctor");
+                        DrDropdown.innerHTML = ""; // Clear existing options
+                        // Add a default "Select a Supervisor" option
+                        var defaultOption = document.createElement("option");
+                        defaultOption.value = "";
+                        defaultOption.text = "Select a Doctor";
+                        defaultOption.disabled = true;
+                        defaultOption.selected = true;
+                        DrDropdown.appendChild(defaultOption);
+                        // Populate the zone dropdown with new options
+                        response.model.forEach(function (dr) {
+                            var option = document.createElement("option");
+                            option.value = dr.staffID;
+                            option.text = dr.name;
+                            option.setAttribute("data-dr-id", dr.staffID);
+                            console.log("dr ID: ", dr.staffID);
+                            DrDropdown.appendChild(option);
+                        });
+                        const DepartmentID = $("#DoctorID").val();
+                        console.log("Dr Id selected " + $("#DoctorID").val());
+                        if (DepartmentID) {
+                            // Ensure the option exists before setting it as selected
+                            const optionToSelect = Array.from(DrDropdown.options).find(option => option.value === DepartmentID);
+                            if (optionToSelect) {
+                                optionToSelect.selected = true;
+                            }
+                        }
+                    } else {
+                        alert('Failed to retrieve dr: ' + response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert('Error: ' + error);
+                }
+            });
+        }
+
+        function UpdateDrID() {
+            var selectedOption = document.getElementById("Doctor").selectedOptions[0];
+            // Get the Zone_ID from the data attribute
+            var drID = selectedOption.getAttribute("data-dr-id"); // Fix the attribute name
+            // Set the Zone_ID input field value
+            document.getElementById("DoctorID").value = drID;
+        }
+        function DepartmentDropDown() {
+            $.ajax({
+                url: '/Department/AllDepartments',
+                type: 'GET',
+                success: function (response) {
+                    console.log(response); // Log the response object
+
+                    if (response.success) {
+                        var DrDropdown = document.getElementById("department");
+                        DrDropdown.innerHTML = ""; // Clear existing options
+                        // Add a default "Select a Supervisor" option
+                        var defaultOption = document.createElement("option");
+                        defaultOption.value = "";
+                        defaultOption.text = "Select a Department";
+                        defaultOption.disabled = true;
+                        defaultOption.selected = true;
+                        DrDropdown.appendChild(defaultOption);
+                        // Populate the zone dropdown with new options
+                        response.model.forEach(function (dr) {
+                            var option = document.createElement("option");
+                            option.value = dr.departmentID;
+                            option.text = dr.departmentName;
+                            option.setAttribute("data-department-id", dr.departmentID);
+                            console.log("Department ID: ", dr.departmentID);
+                            DrDropdown.appendChild(option);
+                        });
+                        const DepartmentID = $("#DepartmentID").val();
+                        console.log("department Id selected " + $("#DepartmentID").val());
+                        if (DepartmentID) {
+                            // Ensure the option exists before setting it as selected
+                            const optionToSelect = Array.from(DrDropdown.options).find(option => option.value == DepartmentID);
+                            if (optionToSelect) {
+                                optionToSelect.selected = true;
+                            }
+                        }
+                    } else {
+                        alert('Failed to retrieve department: ' + response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert('Error: ' + error);
+                }
+            });
+        }
+
+        function UpdateDepartmentID() {
+            var selectedOption = document.getElementById("department").selectedOptions[0];
+            // Get the Zone_ID from the data attribute
+            var drID = selectedOption.getAttribute("data-department-id"); // Fix the attribute name
+            // Set the Zone_ID input field value
+            document.getElementById("DepartmentID").value = drID;
+        }
+        function addNewInput() {
+            // Create a new div for the input field
+            const inputGroup = document.createElement('div');
+            inputGroup.className = 'input-group mb-3'; // Bootstrap styling
+
+            // Create the new input element
+            const newInput = document.createElement('input');
+            newInput.type = 'text';
+            newInput.className = 'form-control'; // Bootstrap class
+            newInput.name = 'MedicalHistory'; // Adjust the name as needed
+            newInput.placeholder = 'Medical History';
+
+            // Create the span with plus icon for future input additions
+            const inputGroupTextPlus = document.createElement('span');
+            inputGroupTextPlus.className = 'input-group-text';
+            inputGroupTextPlus.onclick = addNewInput;
+
+            const plusIcon = document.createElement('i');
+            plusIcon.className = 'fas fa-plus';
+
+            // Create the span with minus icon for removing the input field
+            const inputGroupTextMinus = document.createElement('span');
+            inputGroupTextMinus.className = 'input-group-text';
+            inputGroupTextMinus.onclick = function () {
+                removeInputField(inputGroup);
+            };
+
+            const minusIcon = document.createElement('i');
+            minusIcon.className = 'fas fa-minus';
+
+            // Append the icons to their respective spans
+            inputGroupTextPlus.appendChild(plusIcon);
+            inputGroupTextMinus.appendChild(minusIcon);
+
+            // Append the new input and the icon spans to the new input group div
+            inputGroup.appendChild(newInput);
+            inputGroup.appendChild(inputGroupTextPlus);
+            inputGroup.appendChild(inputGroupTextMinus);
+
+            // Append the new input group to the newInputFields container
+            document.getElementById('newInputFields').appendChild(inputGroup);
+        }
+
+        function removeInputField(inputGroup) {
+            // Remove the input group (the entire div containing the input and icons)
+            inputGroup.remove();
+        }
+
+        function saveMedicalHistory() {
+            // Get all medical history input values
+            const medicalHistoryInputs = document.querySelectorAll('input[name="MedicalHistory"]');
+
+            const medicalHistoryValues = [];
+
+            // Iterate over the input fields to collect the values
+            for (let i = 0; i < medicalHistoryInputs.length; i++) {
+                const medicalHistory = medicalHistoryInputs[i].value;
+                if (medicalHistory) {
+                    medicalHistoryValues.push(medicalHistory);
+                }
+            }
+
+            // Join the medical history values with commas
+            const medicalHistoryInfo = medicalHistoryValues.join(', ');
+            $("#MedicalHistory").val(medicalHistoryInfo);
+            // Now you can submit this string to the server or save it in your form
+            console.log(medicalHistoryInfo); // This is just for testing, replace with actual form submission logic
+        }
+
+        function addNewInput2() {
+            // Create a new div for the medication input field
+            const inputGroupMedication = document.createElement('div');
+            inputGroupMedication.className = 'input-group2'; // Styling class for medication input
+
+            // Create the medication input element
+            const newInputMedication = document.createElement('input');
+            newInputMedication.type = 'text';
+
+            newInputMedication.name = 'Medication[]'; // Name for the medication input
+            newInputMedication.placeholder = 'Enter medication';
+
+            // Create a new div for the dosage input field
+            const inputGroupDosage = document.createElement('div');
+            inputGroupDosage.className = 'input-group2'; // Styling class for dosage input
+
+            // Create the dosage input element
+            const newInputDosage = document.createElement('input');
+            newInputDosage.type = 'text';
+
+            newInputDosage.name = 'Dosage[]'; // Name for the dosage input
+            newInputDosage.placeholder = 'Enter dosage';
+
+            // Create the remove button with a minus icon
+            const removeButton = document.createElement('span');
+            removeButton.className = 'input-group-text'; // Bootstrap styling
+            removeButton.onclick = function () {
+                removeInputField2(inputGroupMedication, inputGroupDosage);
+            };
+
+            const minusIcon = document.createElement('i');
+            minusIcon.className = 'fas fa-minus';
+
+            // Append the minus icon to the remove button
+            removeButton.appendChild(minusIcon);
+
+            // Append the medication input, dosage input, and remove button to their respective divs
+            inputGroupMedication.appendChild(newInputMedication);
+            inputGroupDosage.appendChild(newInputDosage);
+
+            // Append the remove button after the dosage field
+            inputGroupDosage.appendChild(removeButton);
+
+            // Append the medication and dosage input groups to the medication-dosage container
+            const container = document.getElementById('medication-dosage-container');
+            container.appendChild(inputGroupMedication);
+            container.appendChild(inputGroupDosage);
+        }
+
+        function saveMedicationDosageInfo() {
+            // Get all medication and dosage input values
+            const medications = document.querySelectorAll('input[name="Medication[]"]');
+            const dosages = document.querySelectorAll('input[name="Dosage[]"]');
+
+            const medicationDosages = [];
+
+            // Iterate over the input fields to create the "medication, dosage" format
+            for (let i = 0; i < medications.length; i++) {
+                const medication = medications[i].value;
+                const dosage = dosages[i].value;
+                if (medication && dosage) {
+                    medicationDosages.push(`${medication}, ${dosage}`);
+                }
+            }
+
+            // Join the medication and dosage pairs with commas to create a single string
+            const medicationDosageInfo = medicationDosages.join(', ');
+            $("#Medications").val(medicationDosageInfo);
+            // Now you can submit this string to the server or save it in your form
+            console.log(medicationDosageInfo); // This is just for testing, replace with actual form submission logic
+        }
+
+        function removeInputField2(inputGroupMedication, inputGroupDosage) {
+            // Remove the medication and dosage input groups from the DOM
+            inputGroupMedication.remove();
+            inputGroupDosage.remove();
+        }
+
+        function addNewContact() {
+            // Create a new div for the contact name input field
+            const inputGroupName = document.createElement('div');
+            inputGroupName.className = 'input-group2'; // Styling class for name input
+
+            // Create the contact name input element
+            const newInputName = document.createElement('input');
+            newInputName.type = 'text';
+            newInputName.name = 'contact_name[]'; // Unique name for contact name input
+            newInputName.placeholder = 'Enter Name';
+
+            // Create a new div for the phone number input field
+            const inputGroupPhone = document.createElement('div');
+            inputGroupPhone.className = 'input-group2'; // Styling class for phone input
+
+            // Create the phone number input element
+            const newInputPhone = document.createElement('input');
+            newInputPhone.type = 'text';
+            newInputPhone.name = 'contact_phonenumber[]'; // Unique name for phone number input
+            newInputPhone.placeholder = 'Enter Phone Number';
+
+            // Create the remove button with a minus icon
+            const removeButton = document.createElement('span');
+            removeButton.className = 'input-group-text'; // Styling for remove button
+            removeButton.onclick = function () {
+                removeContact(inputGroupName, inputGroupPhone);
+            };
+
+            const minusIcon = document.createElement('i');
+            minusIcon.className = 'fas fa-minus';
+
+            // Append the minus icon to the remove button
+            removeButton.appendChild(minusIcon);
+
+            // Append the name input, phone input, and remove button to their respective divs
+            inputGroupName.appendChild(newInputName);
+            inputGroupPhone.appendChild(newInputPhone);
+
+            // Append the remove button after the phone number field
+            inputGroupPhone.appendChild(removeButton);
+
+            // Append the name and phone input groups to the emergency-contact-container
+            const container = document.getElementById('emergency-contact-container');
+            container.appendChild(inputGroupName);
+            container.appendChild(inputGroupPhone);
+        }
+
+        function removeContact(inputGroupName, inputGroupPhone) {
+            // Remove the name and phone input groups from the DOM
+            inputGroupName.remove();
+            inputGroupPhone.remove();
+        }
+        function saveEmergencyContactInfo() {
+            // Get all name and phone number input values
+            const names = document.querySelectorAll('input[name="contact_name[]"]');
+            const phoneNumbers = document.querySelectorAll('input[name="contact_phonenumber[]"]');
+
+            const contacts = [];
+
+            // Iterate over the input fields to create the "name, phoneNumber" format
+            for (let i = 0; i < names.length; i++) {
+                const name = names[i].value;
+                const phoneNumber = phoneNumbers[i].value;
+                if (name && phoneNumber) {
+                    contacts.push(`${name}, ${phoneNumber}`);
+                }
+            }
+
+            // Join the contacts with commas to create a single string
+            const emergencyContactInfo = contacts.join(', ');
+            $("#EmergencyContactInfo").val(emergencyContactInfo);
+            // Now you can submit this string to the server or save it in your form
+            console.log(emergencyContactInfo); // This is just for testing, replace with actual form submission logic
+        }
+
+        function DrDropdown2() {
+            $.ajax({
+                url: '/Staff/AllDoctors',
+                type: 'GET',
+                success: function (response) {
+                    console.log(response); // Log the response object
+
+                    if (response.success) {
+                        var DrDropdown = document.getElementById("Doctor2");
+                        DrDropdown.innerHTML = ""; // Clear existing options
+                        // Add a default "Select a Supervisor" option
+                        var defaultOption = document.createElement("option");
+                        defaultOption.value = "";
+                        defaultOption.text = "Select a Doctor";
+                        defaultOption.disabled = true;
+                        defaultOption.selected = true;
+                        DrDropdown.appendChild(defaultOption);
+                        // Populate the zone dropdown with new options
+                        response.model.forEach(function (dr) {
+                            var option = document.createElement("option");
+                            option.value = dr.staffID;
+                            option.text = dr.name;
+                            option.setAttribute("data-dr-id", dr.staffID);
+                            console.log("dr ID: ", dr.staffID);
+                            DrDropdown.appendChild(option);
+                        });
+                       
+                    } else {
+                        alert('Failed to retrieve dr: ' + response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert('Error: ' + error);
+                }
+            });
+        }
+        function UpdateDrID2() {
+            var selectedOption = document.getElementById("Doctor2").selectedOptions[0];
+            // Get the Zone_ID from the data attribute
+            var drID = selectedOption.getAttribute("data-dr-id"); // Fix the attribute name
+            // Set the Zone_ID input field value
+            document.getElementById("DoctorID2").value = drID;
+        }
+        function DrDropdown3() {
+            $.ajax({
+                url: '/Staff/AllDoctors',
+                type: 'GET',
+                success: function (response) {
+                    console.log(response); // Log the response object
+
+                    if (response.success) {
+                        var DrDropdown = document.getElementById("Doctor3");
+                        DrDropdown.innerHTML = ""; // Clear existing options
+                        // Add a default "Select a Supervisor" option
+                        var defaultOption = document.createElement("option");
+                        defaultOption.value = "";
+                        defaultOption.text = "Select a Doctor";
+                        defaultOption.disabled = true;
+                        defaultOption.selected = true;
+                        DrDropdown.appendChild(defaultOption);
+                        // Populate the zone dropdown with new options
+                        response.model.forEach(function (dr) {
+                            var option = document.createElement("option");
+                            option.value = dr.staffID;
+                            option.text = dr.name;
+                            option.setAttribute("data-dr-id", dr.staffID);
+                            console.log("dr ID: ", dr.staffID);
+                            DrDropdown.appendChild(option);
+                        });
+
+                    } else {
+                        alert('Failed to retrieve dr: ' + response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert('Error: ' + error);
+                }
+            });
+        }
+        function UpdateDrID3() {
+            var selectedOption = document.getElementById("Doctor3").selectedOptions[0];
+            // Get the Zone_ID from the data attribute
+            var drID = selectedOption.getAttribute("data-dr-id"); // Fix the attribute name
+            // Set the Zone_ID input field value
+            document.getElementById("DoctorID3").value = drID;
+        }
+
+        const dropzone = document.getElementById('dropzone');
+        const fileInput = document.getElementById('file-input');
+        const fileItems = document.getElementById('file-items');
+        const browseFilesBtn = document.getElementById('browse-files');
+        const filenameinput = document.getElementById('Files');
+        const filenames = [];
+        // Show file input when 'Browse Files' button is clicked
+        browseFilesBtn.onclick = () => fileInput.click();
+
+        // Handle file input change
+        fileInput.onchange = () => {
+            [...fileInput.files].forEach(file => {
+                if (typeValidation(file.type)) {
+                    console.log(file);
+                    filenames.push(file);
+                    handleFile(file);
+                }
+            });
+
+            filenameinput.value = filenames.join(', ');
+            console.log(filenames.join(', '));
+            console.log(filenameinput);
+        };
+        // Handle drag over
+        dropzone.ondragover = (e) => {
+            e.preventDefault();
+            dropzone.classList.add('drag-over-effect');
+        };
+
+        // Handle drag leave
+        dropzone.ondragleave = () => {
+            dropzone.classList.remove('drag-over-effect');
+        };
+
+        // Handle drop
+        dropzone.ondrop = (e) => {
+            e.preventDefault();
+            dropzone.classList.remove('drag-over-effect');
+            if (e.dataTransfer.files) {
+                [...e.dataTransfer.files].forEach(file => {
+                    if (typeValidation(file.type)) {
+                        handleFile(file);
+                    }
+                });
+            }
+        };
+
+        // Validate file type
+        function typeValidation(type) {
+            const splitType = type.split('/')[0];
+            return type === 'application/pdf' || splitType === 'image' || splitType === 'video';
+        }
+
+        // Handle file
+        function handleFile(file) {
+            const li = document.createElement('li');
+            li.classList.add('file-item');
+            li.innerHTML = `
+                                                            <div class="col">
+                                                                <img src="icons/${iconSelector(file.type)}" alt="">
+                                                            </div>
+                                                            <div class="col">
+                                                                <div class="file-name">
+                                                                    <div class="name">${file.name}</div>
+                                                                    <span>0%</span>
+                                                                </div>
+                                                                <div class="file-progress">
+                                                                    <span></span>
+                                                                </div>
+                                                                <div class="file-size">${(file.size / (1024 * 1024)).toFixed(2)} MB</div>
+                                                            </div>
+                                                            <div class="col">
+                                                                <button class="remove-button">Remove</button>
+                                                            </div>
+                                                        `;
+            fileItems.appendChild(li);
+
+            // Simulate file upload progress
+            simulateUploadProgress(file, li);
+
+            // Add event listener to remove file
+            li.querySelector('.remove-button').onclick = () => li.remove();
+        }
+
+        // Simulate upload progress
+        function simulateUploadProgress(file, li) {
+            const progressBar = li.querySelector('.file-progress span');
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 10;
+                progressBar.style.width = `${progress}%`;
+                li.querySelector('.file-name span').textContent = `${progress}%`;
+                if (progress >= 100) {
+                    clearInterval(interval);
+                }
+            }, 200);
+        }
+
+        // Determine file icon based on file type
+        function iconSelector(fileType) {
+            if (fileType === 'application/pdf') return 'pdf.png';
+            if (fileType.startsWith('image')) return 'image.png';
+            if (fileType.startsWith('video')) return 'video.png';
+            return 'file.png';
+        }
+
+
+        function valdiateAndRedirect() {
+            saveEmergencyContactInfo();
+            saveMedicationDosageInfo();
+            saveMedicalHistory();
+            document.getElementById('Patient-Form').submit();
+            alert("Patient Added successfully");
+            window.location.href = 'ER/ViewPatients';
+        }
+        function fetchStaffDetails() {
+            $.ajax({
+                url: '/ER/PatientByIDInER/' + PatientID,
+                type: 'GET',
+                success: function (response) {
+                    console.log(response);
+                    if (response.success) {
+                        var patient = response.model.patient; // Assuming model is an array, access the first element
+
+                        // Fill the form fields in the modal with staff data
+                        $("#PatientID").val(patient.patientID|| "N/A");
+                        $("input[name='FullName']").val(patient.fullName|| "N/A");
+                        $("input[name='ContactInfo']").val(patient.contactInfo || "N/A");
+                        $("input[name='Address']").val(patient.address || "N/A");
+                        $("input[name='DateOfBirth']").val(patient.dateOfBirth || "N/A");
+                        $("input[name='Allergies']").val(patient.allergies || "N/A");
+                        $("input[name='AdditionalNotes']").val(patient.additionalNotes || "N/A");
+                        $("input[name='Status']").val(patient.status || "N/A");
+                        $("input[name='DepartmentID']").val(patient.departmentID || "N/A");
+                        DepartmentDropDown();
+                        $("input[name='AssignedDoctorID']").val(patient.assignedDoctorID|| "N/A");
+                        DrDropdown();
+                        $("input[name='BedNumber']").val(patient.bedNumber || "N/A");
+                        BedDropDown();
+                        $("#Medications").val(patient.medications || "N/A");
+                        displaySavedMedicationDosageInfo();
+                        $("#EmergencyContactInfo").val(patient.emergencyContactInfo || "N/A");
+                        displaySavedEmergencyContactInfo();
+                        $("#MedicalHistoryI").val(patient.medicalHistory || "N/A");
+                        populateMedicalHistory();
+                        $("#Files").val(patient.files || "N/A");
+                        // Set the gender radio button
+                        if (patient.gender === 'Male') {
+                            $("#Male").prop('checked', true);
+                        } else if (patient.gender === 'Female') {
+                            $("#Female").prop('checked', true);
+                        }
+
+                        // Set the title radio button
+                        if (patient.bloodType === 'O+') {
+                            $("#O+").prop('checked', true);
+                        } else if (patient.bloodType === 'O-') {
+                            $("#O-").prop('checked', true);
+                        } else if (patient.bloodType === 'A+') {
+                            $("#A+").prop('checked', true);
+                        } else if (patient.bloodType === 'A-') {
+                            $("#A-").prop('checked', true);
+                        } else if (patient.bloodType === 'B+') {
+                            $("#B+").prop('checked', true);
+                        } else if (patient.bloodType === 'B-') {
+                            $("#B-").prop('checked', true);
+                        } else if (patient.bloodType === 'AB+') {
+                            $("#AB+").prop('checked', true);
+                        } else if (patient.bloodType === 'AB-') {
+                            $("#AB-").prop('checked', true);
+                        }
+
+                        
+                      
+
+                        var listGroup = $('#file-items');
+                        listGroup.empty();
+
+                        // Split the file items (assuming file paths are separated by semicolons)
+                        var filePaths = patient.files.split(';');
+
+                        // Iterate through each file path
+                        filePaths.forEach(function (filePath) {
+                            var trimmedPath = filePath.trim();
+                            if (trimmedPath) {
+                                // Create a new list item with a link and a remove button
+                                var fileName = trimmedPath.substring(trimmedPath.lastIndexOf('/') + 1); // Extract the file name from the path
+
+                                var listItem = `
+                                                <li>
+                                                    <a href="${trimmedPath}" target="_blank">${fileName}</a>
+
+                                                </li>
+                                            `;
+
+                                // Append the new item to the list group
+                                listGroup.append(listItem);
+                            }
+                        });
+                    
+                    } else {
+                        alert("Failed to fetch patient data.");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error: " + error);
+                }
+            });
+        }
+
+
+        function displaySavedMedicationDosageInfo() {
+            // Get the saved medication-dosage string from the hidden input field
+            const medicationDosageInfo = document.getElementById("Medications").value;
+
+            // Check if there is any saved data to display
+            if (medicationDosageInfo) {
+                // Split the medication-dosage string by commas, ensuring there are no extra spaces
+                const medicationDosagePairs = medicationDosageInfo.split(',').map(item => item.trim());
+
+                console.log("Medication-Dosage Pairs: ", medicationDosagePairs); // Debugging log
+
+                // Loop through the pairs in steps of 2 (medication and dosage)
+                for (let i = 0; i < medicationDosagePairs.length; i += 2) {
+                    // Get the medication and dosage pair
+                    const medication = medicationDosagePairs[i];
+                    const dosage = medicationDosagePairs[i + 1];
+
+                    console.log("Medication: ", medication, " Dosage: ", dosage); // Debugging log
+
+                    // Check if both medication and dosage are valid
+                    if (medication && dosage) {
+                        // Call the function to add a new medication-dosage input field
+                       
+
+                        // Get the last added medication and dosage input fields
+                        const medicationInputs = document.querySelectorAll('input[name="Medication[]"]');
+                        const dosageInputs = document.querySelectorAll('input[name="Dosage[]"]');
+
+                        // Ensure the last input field is updated correctly
+                        const lastMedicationInput = medicationInputs[medicationInputs.length - 1];
+                        const lastDosageInput = dosageInputs[dosageInputs.length - 1];
+
+                        if (lastMedicationInput && lastDosageInput) {
+                            lastMedicationInput.value = medication;
+                            lastDosageInput.value = dosage;
+                        } else {
+                            console.error("Input fields not found for the last pair."); // Debugging log
+                        }
+                    } else {
+                        console.warn("Invalid medication-dosage pair: ", medication, dosage); // Debugging log
+                    }
+                }
+            } else {
+                console.error("No medication-dosage data found in Medications field.");
+            }
+        }
+
+        function displaySavedEmergencyContactInfo() {
+            // Get the saved emergency contact information string from the hidden input field
+            const emergencyContactInfo = document.getElementById("EmergencyContactInfo").value;
+
+            // Check if there is any saved data to display
+            if (emergencyContactInfo) {
+                // Split the emergency contact information by commas and spaces to separate name-phone pairs
+                const contactPairs = emergencyContactInfo.split(',').map(item => item.trim());
+
+                console.log("Emergency Contact Pairs: ", contactPairs); // Debugging log
+
+                // Loop through the pairs in steps of 2 (name and phone number)
+                for (let i = 0; i < contactPairs.length; i += 2) {
+                    // Get the name and phone number pair
+                    const name = contactPairs[i];
+                    const phoneNumber = contactPairs[i + 1];
+
+                    console.log("Name: ", name, " Phone Number: ", phoneNumber); // Debugging log
+
+                    // Check if both name and phone number are valid
+                    if (name && phoneNumber) {
+                        // Call the function to add a new emergency contact input field, without the minus button
+                        
+
+                        // Get the last added name and phone number input fields
+                        const nameInputs = document.querySelectorAll('input[name="contact_name[]"]');
+                        const phoneInputs = document.querySelectorAll('input[name="contact_phonenumber[]"]');
+
+                        // Ensure the last input field is updated correctly
+                        const lastNameInput = nameInputs[nameInputs.length - 1];
+                        const lastPhoneInput = phoneInputs[phoneInputs.length - 1];
+
+                        if (lastNameInput && lastPhoneInput) {
+                            lastNameInput.value = name;
+                            lastPhoneInput.value = phoneNumber;
+                        } else {
+                            console.error("Input fields not found for the last contact pair."); // Debugging log
+                        }
+                    } else {
+                        console.warn("Invalid contact pair: ", name, phoneNumber); // Debugging log
+                    }
+                }
+            } else {
+                console.error("No emergency contact data found in EmergencyContactInfo field.");
+            }
+        }
+
+        function populateMedicalHistory() {
+            const medicalHistoryData = document.getElementById("MedicalHistory").value; // Example: "Medical History 1, Medical History 2"
+
+            // If there is data to populate
+            if (medicalHistoryData) {
+                const historyArray = medicalHistoryData.split(',').map(item => item.trim());
+
+                // Loop through the data and populate the fields
+                historyArray.forEach((item, index) => {
+                    addNewInput(); // Add a new input field first
+                    const inputs = document.querySelectorAll('input[name="MedicalHistory[]"]');
+                    const lastInput = inputs[inputs.length - 1];
+                    lastInput.value = item; // Populate the input with data
+                });
+
+                // Optionally, remove the minus button for populated fields (if required)
+                const allMinusButtons = document.querySelectorAll('.input-group-text');
+                allMinusButtons.forEach(button => {
+                    button.style.display = "none"; // Hide the minus button
+                });
+            }
+        }
+
+        $("#submitRequestImage").on('click', function () {
+            var ImageType = [];
+            $('input[name="TestType"]:checked').each(function () {
+                ImageType.push($(this).val());
+            });
+            var samplesString = ImageType.join(',');
+
+            // Prepare the form data
+            var formData = {
+                PatientID: $("#PatientID").val() ? parseInt($("#PatientID").val()) : null, // Convert to integer or set to null
+                RequestedBy: $("#DoctorID").val() ? parseInt($("#DoctorID").val()) : null, // Ensure this is an integer
+                ImageType: samplesString,
+                RequestedDate: $("#RequestedDate").val() ? new Date($("#RequestedDate").val()).toISOString().slice(0, 16) : null // Properly formatted date
+            };
+
+            console.log(formData);
+
+
+            $.ajax({
+                url: '/Radiology/RequestImage',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(formData),
+                success: function (response) {
+                    if (response.success) {
+                        // Handle success (e.g., close modal, show success message)
+                        $('#SubmitRequest').modal('hide');
+                        alert('Request submitted successfully');
+                        window.location.reload();
+                        // Optionally reload the data or update the UI
+                    } else {
+                        // Handle error (show error message, etc.)
+                        alert('Error: ' + response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Handle general error
+                    console.log(error);
+                    alert('An error occurred while submitting the request.');
+                }
+            });
+        });
+        $("#submitRequestLab").on('click', function () {
+            // Get selected test types (checkboxes) and join them with commas
+            var testTypes = [];
+            $('input[name="TestType"]:checked').each(function () {
+                testTypes.push($(this).val());
+            });
+            var testTypesString = testTypes.join(',');
+
+            // Get selected samples (checkboxes) and join them with commas
+            var samples = [];
+            $('input[name="SampleSubmitted"]:checked').each(function () {
+                samples.push($(this).val());
+            });
+            var samplesString = samples.join(',');
+            var requestedDate = $("#RequestedDate").val();
+
+            // If the requested date is set, parse it without UTC conversion
+            var formattedDate = null;
+            if (requestedDate) {
+                var dateObj = new Date(requestedDate);
+                var year = dateObj.getFullYear();
+                var month = ('0' + (dateObj.getMonth() + 1)).slice(-2); // Months are 0-indexed
+                var day = ('0' + dateObj.getDate()).slice(-2);
+                var hours = ('0' + dateObj.getHours()).slice(-2);
+                var minutes = ('0' + dateObj.getMinutes()).slice(-2);
+
+                // Format the date as 'YYYY-MM-DDTHH:mm' without applying time zone shift
+                formattedDate = `${year}-${month}-${day}T${hours}:${minutes}`;
+            }
+
+            // Prepare the form data
+            var formData = {
+                PatientID: $("#PatientID").val() ? parseInt($("#PatientID").val()) : null, // Convert to integer or set to null
+                RequestedBy: $("#DoctorID").val() ? parseInt($("#DoctorID").val()) : null, // Ensure this is an integer
+                TestType: testTypesString || null, // Comma-separated test types or null if empty
+                SampleSubmitted: samplesString || null, // Comma-separated samples or null if empty
+                RequestedDate: $("#RequestedDate").val() ? new Date($("#RequestedDate").val()).toISOString().slice(0, 16) : null // Properly formatted date
+            };
+
+            console.log(formData);
+
+
+            $.ajax({
+                url: '/Laboratory/RequestLab',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(formData),
+                success: function (response) {
+                    if (response.success) {
+                        // Handle success (e.g., close modal, show success message)
+                        $('#SubmitRequest').modal('hide');
+                        alert('Request submitted successfully');
+                        window.location.reload();
+
+                        // Optionally reload the data or update the UI
+                    } else {
+                        // Handle error (show error message, etc.)
+                        alert('Error: ' + response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Handle general error
+                    console.log(error);
+                    alert('An error occurred while submitting the request.');
+                }
+            });
+        });
+
+
+    </script>
+</body>
+</html>

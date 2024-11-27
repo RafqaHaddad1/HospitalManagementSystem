@@ -86,3 +86,4 @@ C:\Users\test1\source\repos\Hospital Management System\Hospital Management Syste
 C:\Users\test1\source\repos\Hospital Management System\Hospital Management System\obj\Debug\net8.0\Hospital Management System.pdb
 C:\Users\test1\source\repos\Hospital Management System\Hospital Management System\obj\Debug\net8.0\Hospital Management System.genruntimeconfig.cache
 C:\Users\test1\source\repos\Hospital Management System\Hospital Management System\obj\Debug\net8.0\ref\Hospital Management System.dll
+C:\Users\test1\source\repos\Hospital Management System\Hospital Management System\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

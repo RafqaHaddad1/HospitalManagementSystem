@@ -1,0 +1,414 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.6/css/dataTables.dataTables.css" />
+    <script src="https://cdn.datatables.net/2.1.6/js/dataTables.js"></script>
+    <link href="https://stackpath.bootstrapcdn.cm/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .drop-section {
+            border: 2px dashed #ccc;
+            border-radius: 5px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .drag-over-effect {
+            border-color: #44444c;
+        }
+
+        .file-list {
+            margin-top: 20px;
+        }
+
+            .file-list ul {
+                list-style-type: none;
+                padding: 0;
+            }
+
+            .file-list li {
+                margin-bottom: 5px;
+                position: relative;
+                padding: 10px;
+                background: #f9f9f9;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                display: flex;
+                align-items: center;
+            }
+
+            .file-list img {
+                width: 50px;
+                height: 50px;
+                margin-right: 10px;
+            }
+
+            .file-list .remove-button {
+                position: absolute;
+                right: 0;
+                top: 0;
+                background: red;
+                color: white;
+                border: none;
+                border-radius: 3px;
+                cursor: pointer;
+                padding: 3px 8px;
+                font-size: 12px;
+                margin-left: 10px;
+            }
+
+        .form-control {
+            display: block;
+            width: 100%;
+            height: 34px;
+            padding: 6px 12px;
+            font-size: 14px;
+            line-height: 1.42857143;
+            color: #555;
+            background-color: #fff;
+            background-image: none;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+            -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+            -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+            transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s
+        }
+
+        .modal .form-container {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            background-color: #e0e0e0;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .modal .form-left,
+        .modal .form-right {
+            display: flex;
+            flex-direction: column;
+            width: 48%;
+        }
+
+            .modal .form-left input,
+            .modal .form-right select,
+            .modal .form-right input {
+                margin-bottom: 10px;
+                padding: 8px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+
+
+        .modal .save-button {
+            align-self: flex-end;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #44444c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .table .thead-dark th {
+            color: white !important;
+            background-color: #44444c !important;
+            border-color: #44444c !important;
+        }
+
+        .select2-hidden-accessible {
+            border: 0 !important;
+            clip: rect(0 0 0 0) !important;
+            height: 1px !important;
+            margin: -1px !important;
+            overflow: hidden !important;
+            padding: 0 !important;
+            position: absolute !important;
+            width: 1px !important
+        }
+
+        .select2-container--default .select2-selection--single,
+        .select2-selection .select2-selection--single {
+            border: 1px solid #d2d6de;
+            border-radius: 5px;
+            padding: 6px 12px;
+            height: 34px;
+            margin-bottom: 10px
+        }
+
+        .select2-container--default .select2-selection--single {
+            background-color: #fff;
+            border: 1px solid #aaa;
+            border-radius: 5px
+        }
+
+        .select2-container .select2-selection--single {
+            box-sizing: border-box;
+            cursor: pointer;
+            display: block;
+            height: 28px;
+            user-select: none;
+            -webkit-user-select: none
+        }
+
+            .select2-container .select2-selection--single .select2-selection__rendered {
+                padding-right: 10px
+            }
+
+            .select2-container .select2-selection--single .select2-selection__rendered {
+                padding-left: 0;
+                padding-right: 0;
+                height: auto;
+                margin-top: -3px
+            }
+
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            line-height: 28px
+        }
+
+        .select2-container--default .select2-selection--single,
+        .select2-selection .select2-selection--single {
+            border: 1px solid #d2d6de;
+            border-radius: 5px !important;
+            padding: 6px 12px;
+            height: 40px !important
+        }
+
+            .select2-container--default .select2-selection--single .select2-selection__arrow {
+                height: 26px;
+                position: absolute;
+                top: 6px !important;
+                right: 1px;
+                width: 20px
+            }
+
+        .select2-container--default .select2-results__option {
+            padding: 8px 12px;
+            font-size: 14px;
+            border-bottom: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .select2-container--default .select2-results__option--highlighted {
+            background-color: #44444c !important;
+            color: white !important;
+        }
+        /* Style the search box container */
+        .select2-container--default .select2-search--dropdown .select2-search__field {
+            padding: 8px;
+            border: 1px solid #d2d6de;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+            /* Style the search box input */
+            .select2-container--default .select2-search--dropdown .select2-search__field:focus {
+                border-color: #44444c;
+                outline: none;
+                box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
+                border-radius: 5px;
+            }
+
+        .select2-container--default .select2-dropdown {
+            border: 1px solid #d2d6de;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            max-height: 200px; /* Adjust as needed */
+            overflow-y: auto; /* Enable scrolling if options overflow */
+        }
+
+        .checkbox-group {
+            margin-top: 15px;
+        }
+
+            .checkbox-group label {
+                display: block;
+                margin-bottom: 8px;
+            }
+
+        .checkbox-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* Two columns */
+            gap: 10px; /* Space between columns */
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+        }
+
+            .checkbox-item input[type="checkbox"] {
+                margin-right: 10px;
+                transform: scale(1.2);
+            }
+
+            .checkbox-item label {
+                font-weight: normal !important;
+                margin: 0;
+                font-size: 1rem;
+                cursor: pointer;
+            }
+
+    </style>
+
+</head>
+<body>
+    <div class="container">
+        <h1 class="Title" style="text-align: center;">ER Table</h1>
+
+        <p class="text-right">
+            <a class="btn btn-primary" id="AdmitPatient" onclick="location.href='@Url.Action("AddPatient", "ER")'" style="background-color: #44444c; border-color: #44444c">Admit New Patient</a>
+            <div class="text-right mb-3">
+                <button id="toggleFiltersButton" class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#filterSection" aria-expanded="false" aria-controls="filterSection" style="background-color: #44444c; border-color: #44444c">
+                    Show Filters
+                </button>
+            </div>
+        </p>
+        <div class="collapse" id="filterSection">
+            <div class="row mb-3">
+                <div class="col">
+                    <label>Select Test:</label>
+                    <select id="TypeFilter" class="form-control">
+                        <option value=""></option>
+                        <option value="X-ray">X-ray</option>
+                        <option value="MRI">MRI</option>
+                        <option value="Mammogram">Mammogram</option>
+                        <option value="CT Scan">CT Scan</option>
+                        <option value="Ultrasound">Ultrasound</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <label>Select Status:</label>
+                    <select id="StatusFilter" class="form-control">
+                        <option value=""></option>
+                        <option value="Pending">Pending</option>
+                        <option value="Completed">Completed</option>
+                    </select>
+                </div>
+
+                <div class="col">
+                    <br />
+                    <button id="FilterButton" class="btn btn-primary" style="background-color: #44444c; border-color: #44444c">Apply Filters</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <template id="ERRowTemplate">
+        <tr>
+            <td class="patient-id"></td>
+            <td class="patient-name"></td>
+            <td class="status"></td>
+            <td class="assigned-dr"></td>
+            <td class="addmission-date"></td>
+            <td class="bed-number"></td>
+            <td>
+               
+                <a class="btn btn-primary edit-patient" style="background-color: #44444c; border-color: #44444c; color:white;width:40px">
+                    <i class="fas fa-edit"></i>
+                </a>
+                <a class="btn btn-primary view-patient" style="background-color: #44444c; border-color: #44444c; color: white; width:40px">
+                    <i class="fas fa-check-square-o" style="font-size: 15px; font-weight: bold"></i>
+                </a>
+            </td>
+        </tr>
+    </template>
+    <table id="ER-table" class="table table-hover table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Status</th>
+                <th>Assigned-Doctor</th>
+                <th>Admission-Date</th>
+                <th>Bed-Number</th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+        </tbody>
+    </table>
+
+   
+    <script>
+
+        $(document).ready(function () {
+            FillTable();
+        });
+        function FillTable() {
+            $.ajax({
+                url: '/ER/ViewPatients',
+                type: 'GET',
+                success: function (response) {
+                    console.log(response);
+                    if (response.success) {
+                        const tbody = document.querySelector("#ER-table tbody");
+                        const template = document.querySelector("#ERRowTemplate");
+                        tbody.innerHTML = '';  // Clear existing rows
+
+                        if ($.fn.DataTable.isDataTable('#ER-table')) {
+                            $('#ER-table').DataTable().clear().destroy();
+                        }
+                        // Use response.model instead of model
+                        response.model.forEach(item => {
+                            console.log(item);
+                            if ("content" in document.createElement("template")) {
+                                const clone = template.content.cloneNode(true);
+                                // Fill in the data
+                                clone.querySelector(".patient-id").textContent = item.patientID || "N/A";
+                                clone.querySelector(".patient-name").textContent = item.fullName || "N/A";
+                                clone.querySelector(".status").textContent = item.status || "N/A";
+                                clone.querySelector(".assigned-dr").textContent = item.doctor.doctorName || "N/A";
+                                clone.querySelector(".addmission-date").textContent = item.addmission_Date_ER || "N/A";
+                                clone.querySelector(".bed-number").textContent = item.bedNumber || "N/A";
+                                // clone.querySelector(".view-patient").setAttribute("onclick", `fetchRequestDetails('${item.imageID}')`);
+                                clone.querySelector(".edit-patient").setAttribute("onclick", `EditPatient('${item.patientID}')`);
+                                // Append the new row to the table body
+                                tbody.appendChild(clone);
+                            } else {
+                                console.error("HTML template elements are not supported in this browser.");
+                            }
+                        });
+                        // Destroy existing DataTable instance before reinitializing (to prevent reinitialization issues)
+                        if ($.fn.DataTable.isDataTable('#ER-table')) {
+                            $('#ER-table').DataTable().destroy();
+                        }
+                        // Reinitialize DataTable after rows are added
+                        $('#ER-table').DataTable({
+                            destroy: true,
+                            responsive: true,
+                            order: [[1, 'asc']]
+                        });
+                    } else {
+                        alert("Failed to fetch ER data.");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error: " + error);
+                }
+            });
+        }
+        function EditPatient(id) {
+            sessionStorage.setItem("PatientID", id);
+            window.location.href = '@Url.Action("EditPatient", "ER")';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,300 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OR Booking</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.css" rel="stylesheet" />
+    <style>
+        #calendar {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 10px;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+        }
+
+        .fc-toolbar .fc-button {
+            background-color: #44444c !important;
+            color: white !important;
+            border: none !important;
+            padding: 8px 20px !important;
+            font-size: 16px !important;
+            cursor: pointer !important;
+        }
+
+            .fc-toolbar .fc-button:hover {
+                background-color: #33333a !important;
+            }
+
+            .fc-toolbar .fc-button:active {
+                background-color: #2a2a30 !important;
+            }
+
+        .modal {
+            z-index: 1050 !important;
+        }
+
+        .fc {
+            z-index: 1;
+        }
+
+        .fc-col-header-cell a {
+            color: inherit !important;
+            text-decoration: none !important;
+        }
+
+        .fc-daygrid-day-number {
+            color: inherit !important;
+            font-weight: normal !important;
+            text-decoration: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div id="calendar"></div>
+
+    <!-- Add Event Modal -->
+    <div class="modal fade"
+         id="AddEventModal"
+         tabindex="-1"
+         role="dialog"
+         aria-labelledby="AddEventModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="AddEventModalLabel">Book Operating Room</h5>
+                    <button type="button"
+                            class="close"
+                            data-dismiss="modal"
+                            aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="AddEventForm">
+                        <!-- OR ID -->
+                        <div class="form-group">
+                            <label for="OR_ID">Operating Room</label>
+                            <select class="form-control" id="OR_ID" name="OR_ID" required>
+                                <!--Static Info-->
+                                <option value="" disabled selected>Select OR</option>
+                                <option value="1">OR-1</option>
+                                <option value="2">OR-2</option>
+                                <option value="3">OR-3</option>
+                                <option value="4">OR-4</option>
+                            </select>
+                        </div>
+
+                        <!-- Patient ID -->
+                        <div class="form-group">
+                            <label for="Patient_ID">Patient ID</label>
+                            <input type="text"
+                                   class="form-control"
+                                   id="Patient_ID"
+                                   name="Patient_ID"
+                                   placeholder="Enter patient ID"
+                                   required />
+                        </div>
+
+                        <!-- Start Time -->
+                        <div class="form-group">
+                            <label for="EventStartTime">Start Time</label>
+                            <input type="datetime-local"
+                                   class="form-control"
+                                   id="EventStartTime"
+                                   name="EventStartTime"
+                                   required />
+                        </div>
+
+                        <!-- End Time -->
+                        <div class="form-group">
+                            <label for="EventEndTime">End Time</label>
+                            <input type="datetime-local"
+                                   class="form-control"
+                                   id="EventEndTime"
+                                   name="EventEndTime"
+                                   required />
+                        </div>
+
+                        <!-- Assigned Doctor -->
+                        <div class="form-group">
+                            <label for="AssignedDoctor">Assigned Doctor</label>
+                            <select class="form-control"
+                                    id="AssignedDoctor"
+                                    name="AssignedDoctor"
+                                    required>
+                                <!--Static Info-->
+                                <option value="" disabled selected>Select Doctor</option>
+                                <option value="201">Dr. John Smith</option>
+                                <option value="202">Dr. Sarah Connor</option>
+                                <option value="203">Dr. Emily Clark</option>
+                                <option value="204">Dr. Michael Brown</option>
+                            </select>
+                        </div>
+
+                        <!-- Type of Surgery -->
+                        <div class="form-group">
+                            <label for="TypeOfSurgery">Type of Surgery</label>
+                            <select class="form-control"
+                                    id="TypeOfSurgery"
+                                    name="TypeOfSurgery"
+                                    required>
+                                <!--Static Info-->
+                                <option value="" disabled selected>Select Surgery Type</option>
+                                <option value="General">General Surgery</option>
+                                <option value="Orthopedic">Orthopedic Surgery</option>
+                                <option value="Cardiac">Cardiac Surgery</option>
+                                <option value="Neurological">Neurological Surgery</option>
+                            </select>
+                        </div>
+
+                        <!-- Staff -->
+                        <div class="form-group">
+                            <label for="Staff">Staff</label>
+                            <select class="form-control" id="Staff" name="Staff" required>
+                                <!--Static Info-->
+                                <option value="" disabled selected>Select Staff</option>
+                                <option value="101">Nurse John Doe</option>
+                                <option value="102">Nurse Jane Smith</option>
+                                <option value="103">Nurse Robert Brown</option>
+                                <option value="104">Nurse Emily Davis</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button"
+                            class="btn"
+                            id="saveEventButton"
+                            style="
+                background-color: #44444c;
+                color: white;
+                border: none;
+                padding: 8px 20px;
+              ">
+                        Save Event
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            var calendarEl = document.getElementById("calendar");
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: "dayGridMonth",
+                headerToolbar: {
+                    left: "prev,next today",
+                    center: "title",
+                    right: "addEventButton dayGridMonth,timeGridWeek,timeGridDay",
+                },
+                customButtons: {
+                    addEventButton: {
+                        text: "Add Event",
+                        click: function () {
+                            $("#AddEventForm")[0].reset();
+
+                            $("#AddEventForm input, #AddEventForm select").prop("disabled", false);
+                            $("#saveEventButton").show();
+
+                            $("#AddEventModal").modal("show");
+                        },
+                    },
+                },
+                eventDisplay: "block",
+                eventClick: function (info) {
+                    // Show the modal with event details in read-only mode
+                    const eventData = info.event.extendedProps;
+
+                    // Populate modal fields with event details
+                    $("#OR_ID").val(eventData.OR_ID).prop("disabled", true);
+                    $("#Patient_ID").val(eventData.Patient_ID).prop("disabled", true);
+                    $("#EventStartTime").val(info.event.start.toISOString().slice(0, 16)).prop("disabled", true);
+                    $("#EventEndTime").val(info.event.end ? info.event.end.toISOString().slice(0, 16) : "").prop("disabled", true);
+                    $("#AssignedDoctor").val(eventData.assignedDoctor).prop("disabled", true);
+                    $("#TypeOfSurgery").val(eventData.typeOfSurgery).prop("disabled", true);
+                    $("#Staff").val(eventData.staff).prop("disabled", true);
+
+                    $("#saveEventButton").hide();
+                    $("#AddEventModal").modal("show");
+                },
+            });
+
+            calendar.render();
+
+            // Handle changes to Start Time
+            $("#EventStartTime").on("change", function () {
+                var startTime = $(this).val();
+                $("#EventEndTime").attr("min", startTime);
+            });
+
+            // Save event handler
+            $("#saveEventButton").on("click", function () {
+                // Get values from the form fields
+                var OR_ID = $("#OR_ID").val();
+                var Patient_ID = $("#Patient_ID").val();
+                var startTime = $("#EventStartTime").val();
+                var endTime = $("#EventEndTime").val();
+                var assignedDoctor = $("#AssignedDoctor").val();
+                var typeOfSurgery = $("#TypeOfSurgery").val();
+                var staff = $("#Staff").val();
+
+                // Validate required fields
+                if (
+                    OR_ID &&
+                    Patient_ID &&
+                    startTime &&
+                    endTime &&
+                    assignedDoctor &&
+                    typeOfSurgery &&
+                    staff
+                ) {
+                    // Format Start and End Time
+                    var formattedStartTime = new Date(startTime).toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                    });
+                    var formattedEndTime = new Date(endTime).toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                    });
+
+                    // Construct the event title
+                    var eventTitle = `OR-${OR_ID}: ${typeOfSurgery}`;
+
+                    // Add the event to the calendar
+                    calendar.addEvent({
+                        title: eventTitle,
+                        start: startTime,
+                        end: endTime,
+                        allDay: false,
+                        extendedProps: {
+                            OR_ID: OR_ID,
+                            Patient_ID: Patient_ID,
+                            assignedDoctor: assignedDoctor,
+                            typeOfSurgery: typeOfSurgery,
+                            staff: staff,
+                        },
+                    });
+
+                    alert("Event added successfully!");
+                    $("#AddEventModal").modal("hide");
+                    $("#AddEventForm")[0].reset();
+                } else {
+                    alert("Please fill all required fields!");
+                }
+            });
+
+        });
+    </script>
+
+</body>
+</html>

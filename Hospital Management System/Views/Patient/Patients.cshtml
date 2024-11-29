@@ -15,7 +15,7 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
         .drop-section {
             border: 2px dashed #ccc;
@@ -312,18 +312,20 @@
     </div>
     <template id="ERRowTemplate">
         <tr>
-            <td class="result-id"></td>
-            <td class="image-type"></td>
+            <td class="patient-id"></td>
+            <td class="patient-name"></td>
             <td class="status"></td>
-            <td class="requested-by"></td>
-            <td class="request-date"></td>
-            <td class="result-date"></td>
+            <td class="assigned-dr"></td>
+            <td class="addmission-date"></td>
+            <td class="bed-number"></td>
+            <td class="department"></td>
             <td>
-                <a class="btn btn-primary view-lab" style="background-color: #44444c; border-color: #44444c; color: white; width:40px">
-                    <i class="fa fa-info" style="font-size: 15px; font-weight: bold"></i>
+
+                <a class="btn btn-primary edit-patient" style="background-color: #44444c; border-color: #44444c; color:white;width:40px">
+                    <i class="fas fa-edit"></i>
                 </a>
-                <a class="btn btn-primary submit-result" style="background-color: #44444c; border-color: #44444c; color:white;width:40px">
-                    <i class="fas fa-upload"></i>
+                <a class="btn btn-primary view-patient" style="background-color: #44444c; border-color: #44444c; color: white; width:40px">
+                    <i class="fas fa-check-square-o" style="font-size: 15px; font-weight: bold"></i>
                 </a>
             </td>
         </tr>
@@ -332,11 +334,12 @@
         <thead class="thead-dark">
             <tr>
                 <th>ID</th>
-                <th>Image_Type</th>
+                <th>Name</th>
                 <th>Status</th>
-                <th>Requested_By</th>
-                <th>Request_Date</th>
-                <th>Results_Date</th>
+                <th>Assigned-Doctor</th>
+                <th>Admission-Date</th>
+                <th>Bed-Number</th>
+                <th>Department</th>
                 <th></th>
             </tr>
         </thead>
@@ -348,6 +351,92 @@
 
     <script>
 
+        $(document).ready(function () {
+            FillTable();
+        });
+        function FillTable() {
+            $.ajax({
+                url: '/Patient/PatientAdmitted',
+                type: 'GET',
+                success: function (response) {
+                    console.log(response);
+                    if (response.success) {
+                        const tbody = document.querySelector("#ER-table tbody");
+                        const template = document.querySelector("#ERRowTemplate");
+                        tbody.innerHTML = '';  // Clear existing rows
+
+                        if ($.fn.DataTable.isDataTable('#ER-table')) {
+                            $('#ER-table').DataTable().clear().destroy();
+                        }
+                        // Use response.model instead of model
+                        response.model.forEach(item => {
+                            console.log(item);
+                            if ("content" in document.createElement("template")) {
+                                const clone = template.content.cloneNode(true);
+                                // Fill in the data
+                                clone.querySelector(".patient-id").textContent = item.patientID || "N/A";
+                                clone.querySelector(".patient-name").textContent = item.fullName || "N/A";
+                                clone.querySelector(".status").textContent = item.status || "N/A";
+                                clone.querySelector(".assigned-dr").textContent = item.doctor.doctorName || "N/A";
+                                clone.querySelector(".addmission-date").textContent = item.addmission_Date_Hospital || "N/A";
+                                clone.querySelector(".bed-number").textContent = item.bedNumber || "N/A";
+                                clone.querySelector(".department").textContent = item.department.departmentName || "N/A";
+                                
+                                
+                                
+                                clone.querySelector(".view-patient").setAttribute("onclick", `DischargePatient('${item.patientID}')`);
+                                clone.querySelector(".edit-patient").setAttribute("onclick", `EditPatient('${item.patientID}')`);
+                                // Append the new row to the table body
+                                tbody.appendChild(clone);
+                            } else {
+                                console.error("HTML template elements are not supported in this browser.");
+                            }
+                        });
+                        // Destroy existing DataTable instance before reinitializing (to prevent reinitialization issues)
+                        if ($.fn.DataTable.isDataTable('#ER-table')) {
+                            $('#ER-table').DataTable().destroy();
+                        }
+                        // Reinitialize DataTable after rows are added
+                        $('#ER-table').DataTable({
+                            destroy: true,
+                            responsive: true,
+                            order: [[1, 'asc']]
+                        });
+                    } else {
+                        alert("Failed to fetch ER data.");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error: " + error);
+                }
+            });
+        }
+        function DischargePatient(id) {
+            $.ajax({
+                url: '/Patient/DischargePatient',  // Replace with your correct controller and action URL
+                type: 'POST',
+                data: { id: id },  // Pass the patient ID as data
+                success: function (response) {
+                    if (response.success) {
+                        // Handle success: Update the UI, show a success message, etc.
+                        alert("Patient discharged successfully");
+                        window.location.reload();
+                        // Optionally, you can update the patient status on the page or reload data
+                    } else {
+                        // Handle failure: Show the error message
+                        alert(response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Handle error: Show a generic error message
+                    alert("An error occurred while discharging the patient. Please try again.");
+                }
+            });
+        }
+        function EditPatient(id) {
+            sessionStorage.setItem("PatientID2", id);
+            window.location.href = '@Url.Action("EditPatient", "Patient")';
+        }
     </script>
 </body>
 </html>

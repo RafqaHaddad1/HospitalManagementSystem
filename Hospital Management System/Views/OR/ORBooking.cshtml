@@ -3,18 +3,55 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>OR Booking</title>
+    <title>Schedules</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.6/css/dataTables.dataTables.css" />
+    <script src="https://cdn.datatables.net/2.1.6/js/dataTables.js"></script>
+    <link href="https://stackpath.bootstrapcdn.cm/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        #calendar {
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 10px;
-            border: 1px solid #ddd;
-            background-color: #f9f9f9;
-            border-radius: 8px;
+
+        .checkbox-group {
+            margin-top: 15px;
         }
+
+            .checkbox-group label {
+                display: block;
+                margin-bottom: 8px;
+            }
+
+        .checkbox-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* Two columns */
+            gap: 10px; /* Space between columns */
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+        }
+
+            .checkbox-item input[type="checkbox"] {
+                margin-right: 10px;
+                transform: scale(1.2);
+            }
+
+            .checkbox-item label {
+                font-weight: normal !important;
+                margin: 0;
+                font-size: 1rem;
+                cursor: pointer;
+            }
 
         .fc-toolbar .fc-button {
             background-color: #44444c !important;
@@ -33,9 +70,7 @@
                 background-color: #2a2a30 !important;
             }
 
-        .modal {
-            z-index: 1050 !important;
-        }
+    
 
         .fc {
             z-index: 1;
@@ -51,9 +86,138 @@
             font-weight: normal !important;
             text-decoration: none !important;
         }
+
+        .select2-hidden-accessible {
+            border: 0 !important;
+            clip: rect(0 0 0 0) !important;
+            height: 1px !important;
+            margin: -1px !important;
+            overflow: hidden !important;
+            padding: 0 !important;
+            position: absolute !important;
+            width: 1px !important
+        }
+
+        .select2-container--default .select2-selection--single,
+        .select2-selection .select2-selection--single {
+            border: 1px solid #d2d6de;
+            border-radius: 5px;
+            padding: 6px 12px;
+            height: 34px;
+            margin-bottom: 10px
+        }
+
+        .select2-container--default .select2-selection--single {
+            background-color: #fff;
+            border: 1px solid #aaa;
+            border-radius: 5px
+        }
+
+        .select2-container .select2-selection--single {
+            box-sizing: border-box;
+            cursor: pointer;
+            display: block;
+            height: 28px;
+            user-select: none;
+            -webkit-user-select: none
+        }
+
+            .select2-container .select2-selection--single .select2-selection__rendered {
+                padding-right: 10px
+            }
+
+            .select2-container .select2-selection--single .select2-selection__rendered {
+                padding-left: 0;
+                padding-right: 0;
+                height: auto;
+                margin-top: -3px
+            }
+
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            line-height: 28px
+        }
+
+        .select2-container--default .select2-selection--single,
+        .select2-selection .select2-selection--single {
+            border: 1px solid #d2d6de;
+            border-radius: 5px !important;
+            padding: 6px 12px;
+            height: 40px !important
+        }
+
+            .select2-container--default .select2-selection--single .select2-selection__arrow {
+                height: 26px;
+                position: absolute;
+                top: 6px !important;
+                right: 1px;
+                width: 20px
+            }
+
+        .select2-container--default .select2-results__option {
+            padding: 8px 12px;
+            font-size: 14px;
+            border-bottom: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .select2-container--default .select2-results__option--highlighted {
+            background-color: #44444c !important;
+            color: white !important;
+        }
+        /* Style the search box container */
+        .select2-container--default .select2-search--dropdown .select2-search__field {
+            padding: 8px;
+            border: 1px solid #d2d6de;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+            /* Style the search box input */
+            .select2-container--default .select2-search--dropdown .select2-search__field:focus {
+                border-color: #44444c;
+                outline: none;
+                box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
+                border-radius: 5px;
+            }
+
+        .select2-container--default .select2-dropdown {
+            border: 1px solid #d2d6de;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            max-height: 200px; /* Adjust as needed */
+            overflow-y: auto; /* Enable scrolling if options overflow */
+        }
+
+        .form-control {
+            display: block;
+            width: 100%;
+            height: 34px;
+            padding: 6px 12px;
+            font-size: 14px;
+            line-height: 1.42857143;
+            color: #555;
+            background-color: #fff;
+            background-image: none;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+            -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+            -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+            transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s
+        }
     </style>
 </head>
 <body>
+    <br/>
+    <select name="OR" id="OR" class="department form-control select2-hidden-accessible" data-placeholder="Select an OR" style="width: 100%;" tabindex="-1" aria-hidden="true" onchange="updateOrID()">
+        <option value="" selected disabled>Select an OR</option>
+
+    </select>
+    <input type="number" name="OR_ID2" id="OR_ID" hidden/>
+    <button type="button" id="FetchEvents">Fetch Events</button>
     <div id="calendar"></div>
 
     <!-- Add Event Modal -->
@@ -70,7 +234,7 @@
                     <button type="button"
                             class="close"
                             data-dismiss="modal"
-                            aria-label="Close">
+                            aria-label="Close" onclick=" $('#AddEventModal').modal('hide');">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -78,82 +242,74 @@
                     <form id="AddEventForm">
                         <!-- OR ID -->
                         <div class="form-group">
-                            <label for="OR_ID">Operating Room</label>
-                            <select class="form-control" id="OR_ID" name="OR_ID" required>
+                            <label for="OR_ID">Operating Room</label><br/>
+                            <select class="form-control" id="OR2" name="OR_ID" onchange="updateOrID2()">
                                 <!--Static Info-->
                                 <option value="" disabled selected>Select OR</option>
-                                <option value="1">OR-1</option>
-                                <option value="2">OR-2</option>
-                                <option value="3">OR-3</option>
-                                <option value="4">OR-4</option>
+                              
                             </select>
+                            <input type="number" name="OR_ID" id="OR_ID2" hidden/> 
                         </div>
-
+                        <!-- Assigned Doctor -->
+                        <div class="form-group">
+                            <label for="AssignedDoctor">Primary Surgeon</label><br />
+                            <select class="form-control"
+                                    id="AssignedDoctor"
+                                    onchange="changeDrDropdown()">
+                                <!--Static Info-->
+                                <option value="" disabled selected>Select Doctor</option>
+                             
+                            </select>
+                            <input type="number" name="AssignedDoctor" id="AssignedDoctorID" hidden/>
+                        </div>
                         <!-- Patient ID -->
                         <div class="form-group">
-                            <label for="Patient_ID">Patient ID</label>
-                            <input type="text"
+                            <label for="patient">Patient</label><br />
+                            <select class="form-control"
+                                    id="patient"
+                                    onchange="UpdatePatientID()">
+                                <!--Static Info-->
+                                <option value="" disabled selected>Select a Patient</option>
+
+                            </select>
+                            <input type="number" name="Patient_ID" id="Patient_ID" hidden />
+                        </div>
+                        <!-- Date -->
+                        <div class="form-group">
+                            <label for="EventDate">Date</label>
+                            <input type="date"
                                    class="form-control"
-                                   id="Patient_ID"
-                                   name="Patient_ID"
-                                   placeholder="Enter patient ID"
-                                   required />
+                                   id="EventDate"
+                                   name="Date" />
                         </div>
 
                         <!-- Start Time -->
                         <div class="form-group">
                             <label for="EventStartTime">Start Time</label>
-                            <input type="datetime-local"
+                            <input type="time"
                                    class="form-control"
                                    id="EventStartTime"
-                                   name="EventStartTime"
-                                   required />
+                                   name="Start" />
                         </div>
 
                         <!-- End Time -->
                         <div class="form-group">
                             <label for="EventEndTime">End Time</label>
-                            <input type="datetime-local"
+                            <input type="time"
                                    class="form-control"
                                    id="EventEndTime"
-                                   name="EventEndTime"
-                                   required />
+                                   name="End" />
                         </div>
-
-                        <!-- Assigned Doctor -->
-                        <div class="form-group">
-                            <label for="AssignedDoctor">Assigned Doctor</label>
-                            <select class="form-control"
-                                    id="AssignedDoctor"
-                                    name="AssignedDoctor"
-                                    required>
-                                <!--Static Info-->
-                                <option value="" disabled selected>Select Doctor</option>
-                                <option value="201">Dr. John Smith</option>
-                                <option value="202">Dr. Sarah Connor</option>
-                                <option value="203">Dr. Emily Clark</option>
-                                <option value="204">Dr. Michael Brown</option>
-                            </select>
-                        </div>
+                    
 
                         <!-- Type of Surgery -->
                         <div class="form-group">
                             <label for="TypeOfSurgery">Type of Surgery</label>
-                            <select class="form-control"
-                                    id="TypeOfSurgery"
-                                    name="TypeOfSurgery"
-                                    required>
-                                <!--Static Info-->
-                                <option value="" disabled selected>Select Surgery Type</option>
-                                <option value="General">General Surgery</option>
-                                <option value="Orthopedic">Orthopedic Surgery</option>
-                                <option value="Cardiac">Cardiac Surgery</option>
-                                <option value="Neurological">Neurological Surgery</option>
-                            </select>
+                            <input type="text" name="TypeOfSurgery" id="TypeOfSurgery" class="form-control" />
                         </div>
 
                         <!-- Staff -->
-                        <div class="form-group">
+                      @*   <div class="form-group">
                             <label for="Staff">Staff</label>
                             <select class="form-control" id="Staff" name="Staff" required>
                                 <!--Static Info-->
@@ -163,7 +319,7 @@
                                 <option value="103">Nurse Robert Brown</option>
                                 <option value="104">Nurse Emily Davis</option>
                             </select>
-                        </div>
+                        </div> *@
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -182,11 +338,301 @@
             </div>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
 
+
+   
+    <div class="modal fade"
+         id="UpdateEventModal"
+         tabindex="-1"
+         role="dialog"
+         aria-labelledby="AddEventModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="UpdateEventModalLabel">Update Booking </h5>
+                    <button type="button"
+                            class="close"
+                            data-dismiss="modal"
+                            aria-label="Close" onclick=" $('#UpdateEventModal').modal('hide');">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="AddEventForm">
+                        <div class="form-group">
+                            <input type="number" name="BookingID" id="BookingID" class="form-control" readonly />
+                        </div>
+                        <!-- OR ID -->
+                        <div class="form-group">
+                            <input type="number" name="OR_ID" id="OR_ID2" class="form-control" readonly />
+                        </div>
+                        <!-- Assigned Doctor -->
+                        <div class="form-group">
+                            <label for="AssignedDoctorDropdown">Primary Surgeon</label><br />
+                            <select class="form-control"
+                                    id="AssignedDoctorDropdown"
+                                    onchange="UpdateDrID2()">
+                                <!--Static Info-->
+                                <option value="" disabled selected>Select Doctor</option>
+
+                            </select>
+                            <input type="number" name="AssignedDoctor" id="AssignedDoctorID2" class="form-control" readonly />
+                        </div>
+                        <!-- Patient ID -->
+                        <div class="form-group">
+                            <input type="text" name="patientName" id="PatientName" class="form-control" readonly/>
+                            <input type="number" name="Patient_ID" id="Patient_ID2" class="form-control" readonly />
+                        </div>
+                        <!-- Date -->
+                        <div class="form-group">
+                            <label for="EventDate">Date</label>
+                            <input type="date"
+                                   class="form-control"
+                                   id="EventDate2"
+                                   name="Date" />
+                        </div>
+
+                        <!-- Start Time -->
+                        <div class="form-group">
+                            <label for="EventStartTime">Start Time</label>
+                            <input type="time"
+                                   class="form-control"
+                                   id="EventStartTime2"
+                                   name="Start" />
+                        </div>
+
+                        <!-- End Time -->
+                        <div class="form-group">
+                            <label for="EventEndTime">End Time</label>
+                            <input type="time"
+                                   class="form-control"
+                                   id="EventEndTime2"
+                                   name="End" />
+                        </div>
+
+
+                        <!-- Type of Surgery -->
+                        <div class="form-group">
+                            <label for="TypeOfSurgery">Type of Surgery</label>
+                            <input type="text" name="TypeOfSurgery" id="TypeOfSurgery2" class="form-control" />
+                        </div>
+
+                        <!-- Staff -->
+                        @*   <div class="form-group">
+                        <label for="Staff">Staff</label>
+                        <select class="form-control" id="Staff" name="Staff" required>
+                        <!--Static Info-->
+                        <option value="" disabled selected>Select Staff</option>
+                        <option value="101">Nurse John Doe</option>
+                        <option value="102">Nurse Jane Smith</option>
+                        <option value="103">Nurse Robert Brown</option>
+                        <option value="104">Nurse Emily Davis</option>
+                        </select>
+                        </div> *@
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button"
+                            class="btn"
+                            id="UpdateEvent"
+                            style="
+                background-color: #44444c;
+                color: white;
+                border: none;
+                padding: 8px 20px;
+              ">
+                        Save Event
+                    </button>
+                    <button type="button"
+                            class="btn"
+                            id="DeleteEventButton"
+                            style="
+                background-color: #44444c;
+                color: white;
+                border: none;
+                padding: 8px 20px;
+              ">
+                        Delete Event
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade"
+         id="AddOR"
+         tabindex="-1"
+         role="dialog"
+         aria-labelledby="AddEventModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="AddORLabel">Add Operating Room</h5>
+                    <button type="button"
+                            class="close"
+                            data-dismiss="modal"
+                            aria-label="Close" onclick=" $('#AddOR').modal('hide');">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="AddEventForm" asp-action="AddOR" asp-controller="OR" method="post" onsubmit="validateAndRedirect()">
+                        <!-- OR ID -->
+                        <div class="form-group">
+                            <label for="OrName">Operating Room Name</label><br />
+                            <input type="name" name="Room_Name" id="Or_Name" class="form-control" />
+                         
+                        </div>
+                        <div class="form-group">
+                            <div class="form-group checkbox-group">
+                                <label for="EquipementsAvailable">Equipments Available</label>
+                                <div class="checkbox-container">
+                                    <!-- First Set of Equipment -->
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="equipment1" name="EquipementsAvailable" value="Surgical Table">
+                                        <label for="equipment1">Surgical Table</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="equipment2" name="EquipementsAvailable" value="Anesthesia Machine">
+                                        <label for="equipment2">Anesthesia Machine</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="equipment3" name="EquipementsAvailable" value="ECG Monitor">
+                                        <label for="equipment3">ECG Monitor</label>
+                                    </div>
+
+                                    <!-- Second Set of Equipment -->
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="equipment4" name="EquipementsAvailable" value="Heart-Lung Machine">
+                                        <label for="equipment4">Heart-Lung Machine</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="equipment5" name="EquipementsAvailable" value="Defibrillator">
+                                        <label for="equipment5">Defibrillator</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="equipment6" name="EquipementsAvailable" value="Surgical Lights">
+                                        <label for="equipment6">Surgical Lights</label>
+                                    </div>
+
+                                    <!-- Third Set of Equipment -->
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="equipment7" name="EquipementsAvailable" value="Orthopedic Table">
+                                        <label for="equipment7">Orthopedic Table</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="equipment8" name="EquipementsAvailable" value="C-Arm">
+                                        <label for="equipment8">C-Arm</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="equipment9" name="EquipementsAvailable" value="Power Drills">
+                                        <label for="equipment9">Power Drills</label>
+                                    </div>
+
+                                    <!-- Fourth Set of Equipment -->
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="equipment10" name="EquipementsAvailable" value="Neuronavigation System">
+                                        <label for="equipment10">Neuronavigation System</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="equipment11" name="EquipementsAvailable" value="Surgical Microscope">
+                                        <label for="equipment11">Surgical Microscope</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="equipment12" name="EquipementsAvailable" value="Ventilator">
+                                        <label for="equipment12">Ventilator</label>
+                                    </div>
+
+                                    <!-- Fifth Set of Equipment -->
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="equipment13" name="EquipementsAvailable" value="Laparoscope">
+                                        <label for="equipment13">Laparoscope</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="equipment14" name="EquipementsAvailable" value="Insufflator">
+                                        <label for="equipment14">Insufflator</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="equipment15" name="EquipementsAvailable" value="Electrosurgical Unit">
+                                        <label for="equipment15">Electrosurgical Unit</label>
+                                    </div>
+
+                                    <!-- Sixth Set of Equipment -->
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="equipment16" name="EquipementsAvailable" value="Resuscitation Equipment">
+                                        <label for="equipment16">Resuscitation Equipment</label>
+                                    </div>
+
+                                    <!-- Seventh Set of Equipment -->
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="equipment17" name="EquipementsAvailable" value="Laser Surgery Equipment">
+                                        <label for="equipment17">Laser Surgery Equipment</label>
+                                    </div>
+
+                                    <!-- Eighth Set of Equipment -->
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="equipment18" name="EquipementsAvailable" value="Endoscope">
+                                        <label for="equipment18">Endoscope</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="equipment19" name="EquipementsAvailable" value="Suction Machine">
+                                        <label for="equipment19">Suction Machine</label>
+                                    </div>
+
+                                    <!-- Ninth Set of Equipment -->
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="equipment20" name="EquipementsAvailable" value="Cryotherapy Equipment">
+                                        <label for="equipment20">Cryotherapy Equipment</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="equipment21" name="EquipementsAvailable" value="Infusion Pumps">
+                                        <label for="equipment21">Infusion Pumps</label>
+                                    </div>
+
+                                    <!-- Tenth Set of Equipment -->
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="equipment22" name="EquipementsAvailable" value="Robotic Surgical System">
+                                        <label for="equipment22">Robotic Surgical System</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button"
+                            class="btn"
+                            id="AddORButton"
+                            style="
+                background-color: #44444c;
+                color: white;
+                border: none;
+                padding: 8px 20px;
+              ">
+                        Save Event
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script>
+        ORDropDown();
+        $("#OR").select2();
+        $("#AssignedDoctor").select2({
+            dropdownParent: $('#AddEventModal')
+        });
+        $("#patient").select2({
+            dropdownParent: $('#AddEventModal')
+        });
+        $("#OR2").select2({
+            dropdownParent: $('#AddEventModal')
+        });
+        $("#AssignedDoctorDropdown").select2({
+            dropdownParent: $('#UpdateEventModal')
+        });
         $(document).ready(function () {
             var calendarEl = document.getElementById("calendar");
             var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -194,106 +640,513 @@
                 headerToolbar: {
                     left: "prev,next today",
                     center: "title",
-                    right: "addEventButton dayGridMonth,timeGridWeek,timeGridDay",
+                    right: "addORButton addEventButton dayGridMonth,timeGridWeek,timeGridDay",
+                },
+                dateClick: function (info) {
+                    calendar.changeView('timeGridDay', info.dateStr);
                 },
                 customButtons: {
                     addEventButton: {
-                        text: "Add Event",
+                        text: 'Add Event',
                         click: function () {
+                            // Reset the form
                             $("#AddEventForm")[0].reset();
 
+                            // Initialize dropdowns (OR and Doctor dropdowns in this case)
+                            ORDropDown2();
+                            DrDropdown();
+
+                            // Enable the form inputs and show the save button
                             $("#AddEventForm input, #AddEventForm select").prop("disabled", false);
                             $("#saveEventButton").show();
 
+                            // Show the modal to add an event
                             $("#AddEventModal").modal("show");
-                        },
+                        }
                     },
+                    addORButton: {
+                        text: 'Add OR',
+                        click: function () {
+                            // Show the modal to add an OR
+                            $("#AddOR").modal("show");
+                        }
+                    }
                 },
                 eventDisplay: "block",
+                events: [],
                 eventClick: function (info) {
-                    // Show the modal with event details in read-only mode
-                    const eventData = info.event.extendedProps;
+                    console.log(info);  // Log the FullCalendar event data
+                    console.log(info.event._def.publicId);
 
-                    // Populate modal fields with event details
-                    $("#OR_ID").val(eventData.OR_ID).prop("disabled", true);
-                    $("#Patient_ID").val(eventData.Patient_ID).prop("disabled", true);
-                    $("#EventStartTime").val(info.event.start.toISOString().slice(0, 16)).prop("disabled", true);
-                    $("#EventEndTime").val(info.event.end ? info.event.end.toISOString().slice(0, 16) : "").prop("disabled", true);
-                    $("#AssignedDoctor").val(eventData.assignedDoctor).prop("disabled", true);
-                    $("#TypeOfSurgery").val(eventData.typeOfSurgery).prop("disabled", true);
-                    $("#Staff").val(eventData.staff).prop("disabled", true);
+                    // Make AJAX request to fetch event details based on the event ID
+                    $.ajax({
+                        url: '/OR/GetEventById',  // The URL of your API
+                        type: 'GET',
+                        data: { id: info.event._def.publicId },  // Pass event ID to the API
+                        success: function (response) {
+                            if (response.success) {
+                                const event = response.model;   // The event data returned from the API
+                                console.log(event);
+                                // Populate the modal with event data
+                                $('#UpdateEventModal #BookingID').val(event.id);
+                                $('#UpdateEventModal #OR_ID2').val(event.orid);
+                           
+                                $('#UpdateEventModal #EventDate2').val(event.date);
+                                $('#UpdateEventModal #EventStartTime2').val(event.start);
+                                $('#UpdateEventModal #EventEndTime2').val(event.end);
 
-                    $("#saveEventButton").hide();
-                    $("#AddEventModal").modal("show");
-                },
+                                $('#UpdateEventModal #Patient_ID2').val(event.patientid);
+                                $('#UpdateEventModal #AssignedDoctorID2').val(event.staffID);
+                                $('#UpdateEventModal #PatientName').val(event.patientName);
+                                $('#UpdateEventModal #TypeOfSurgery2').val(event.typeofsurgery);
+                                DrDropDown2();
+                                // Show the modal
+                                $("#UpdateEventModal").modal('show');
+                            } else {
+                                alert('Error: ' + response.error);
+                            }
+                        },
+                        error: function () {
+                            alert('An error occurred while fetching event details.');
+                        }
+                    });
+                }
             });
 
             calendar.render();
-
+            $("#FetchEvents").click(function () {
+                var ORid = $("#OR_ID").val();
+                $.ajax({
+                    url: '/OR/GetEventByOR',
+                    method: 'GET',
+                    data: {
+                        or: ORid
+                    },
+                    success: function (data) {
+                        console.log(data); // Debugging step
+                        var events = data.model.map(function (event) {
+                            // Format the start and end date-time
+                            var date = event.date;
+                            event.start = `${date}T${event.start}`;
+                            event.end = `${date}T${event.end}`;
+                            return event;
+                        });
+                        // Add the events to the calendar
+                        calendar.addEventSource(events);
+                    },
+                    error: function () {
+                        alert("An error occurred while fetching events.");
+                    }
+                });
+            });
+        });
             // Handle changes to Start Time
             $("#EventStartTime").on("change", function () {
                 var startTime = $(this).val();
                 $("#EventEndTime").attr("min", startTime);
             });
+        function validateAndRedirect(event) {
+            // Prevent the form from submitting normally
+            event.preventDefault();
 
-            // Save event handler
-            $("#saveEventButton").on("click", function () {
-                // Get values from the form fields
-                var OR_ID = $("#OR_ID").val();
-                var Patient_ID = $("#Patient_ID").val();
-                var startTime = $("#EventStartTime").val();
-                var endTime = $("#EventEndTime").val();
-                var assignedDoctor = $("#AssignedDoctor").val();
-                var typeOfSurgery = $("#TypeOfSurgery").val();
-                var staff = $("#Staff").val();
-
-                // Validate required fields
-                if (
-                    OR_ID &&
-                    Patient_ID &&
-                    startTime &&
-                    endTime &&
-                    assignedDoctor &&
-                    typeOfSurgery &&
-                    staff
-                ) {
-                    // Format Start and End Time
-                    var formattedStartTime = new Date(startTime).toLocaleTimeString([], {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                    });
-                    var formattedEndTime = new Date(endTime).toLocaleTimeString([], {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                    });
-
-                    // Construct the event title
-                    var eventTitle = `OR-${OR_ID}: ${typeOfSurgery}`;
-
-                    // Add the event to the calendar
-                    calendar.addEvent({
-                        title: eventTitle,
-                        start: startTime,
-                        end: endTime,
-                        allDay: false,
-                        extendedProps: {
-                            OR_ID: OR_ID,
-                            Patient_ID: Patient_ID,
-                            assignedDoctor: assignedDoctor,
-                            typeOfSurgery: typeOfSurgery,
-                            staff: staff,
-                        },
-                    });
-
-                    alert("Event added successfully!");
-                    $("#AddEventModal").modal("hide");
-                    $("#AddEventForm")[0].reset();
-                } else {
-                    alert("Please fill all required fields!");
+            // Collect selected checkboxes and prepare the value string
+            var selectedEquipments = '';
+            $("input[name='EquipementsAvailable']:checked").each(function () {
+                if (selectedEquipments.length > 0) {
+                    selectedEquipments += ','; // Add a comma between values
                 }
+                selectedEquipments += $(this).val(); // Append the value
             });
 
+            // Get the 'Or_Name' value
+            var name = $("input[name='Room_Name']").val();
+
+            // Simple validation check to ensure the necessary fields are filled
+          
+
+            // Prepare data for AJAX request
+            var formData = {
+                Room_Name: name,
+                EquipementsAvailable: selectedEquipments
+            };
+            console.log(formData);
+
+            // Send AJAX request to save the OR
+            $.ajax({
+                url: '/OR/AddOR', // Update with your correct endpoint if needed
+                method: 'POST',
+                data: formData,
+                success: function (response) {
+                    console.log('Server Response:', response);
+                    if (response.success) {
+                        alert("Operating Room Added Successfully");
+                        $('#AddOR').modal('hide'); // Hide the modal after successful submission
+                        window.location.reload();
+                    } else {
+                        alert('Error: ' + response.error); // Handle errors from the server
+                    }
+                },
+                error: function (error) {
+                    console.log('AJAX Error:', error); // Log any AJAX errors
+                    alert('Error adding operating room.'); // Show a user-friendly error message
+                }
+            });
+        }
+
+        // Attach the event handler to the button
+        $('#AddORButton').click(validateAndRedirect);
+
+       
+
+        $('#UpdateEvent').click(function () {
+            const formData = {
+                BookingID: $('#UpdateEventModal #BookingID').val(),
+                OR_ID: $('#UpdateEventModal #OR_ID2').val(),
+                Date: $('#UpdateEventModal #EventDate2').val(), // Event date
+                Start: $('#UpdateEventModal #EventStartTime2').val(), // Event start time
+                End: $('#UpdateEventModal #EventEndTime2').val(), // Event end time
+                AssignedDoctor: $('#UpdateEventModal #AssignedDoctorID2').val(), // Staff ID
+                PatientID: $('#UpdateEventModal #Patient_ID2').val(), // Department ID
+                TypeOfSurgery: $('#UpdateEventModal #TypeOfSurgery2').val()
+            };
+
+            // Log the form data to check if the values are correct
+            console.log('FormData:', formData);
+
+            // Validate if all required fields are filled
+            if (formData.Date && formData.Start && formData.End) {
+                $.ajax({
+                    url: '/OR/UpdateEvent', // Update with your correct endpoint if needed
+                    method: 'POST',
+
+                    data: formData, // Convert formData to JSON string
+                    success: function (response) {
+                        console.log('Server Response:', response);
+                        if (response.success) {
+                            alert("Event Updated");
+                            $('#UpdateEventModal').modal('hide'); // Hide the modal
+
+                        } else {
+                            alert('Error: ' + response.errorMessage); // Handle errors from the server
+                        }
+                    },
+                    error: function (error) {
+                        console.log('AJAX Error:', error); // Log any AJAX errors
+                        alert('Error adding event.'); // Show a user-friendly error message
+                    }
+                });
+            } else {
+                alert("Please fill all required fields!"); // Alert if any required fields are missing
+            }
         });
+
+
+        function ORDropDown() {
+            $.ajax({
+                url: '/OR/GetAllOR',
+                type: 'GET',
+                success: function (response) {
+                    console.log(response); // Log the response object
+
+                    if (response.success) {
+                        var DepartmentDropDown = document.getElementById("OR");
+                        DepartmentDropDown.innerHTML = ""; // Clear existing options
+                        // Add a default "Select a Supervisor" option
+                        var defaultOption = document.createElement("option");
+                        defaultOption.value = "";
+                        defaultOption.text = "Select an OR";
+                        defaultOption.disabled = true;
+                        defaultOption.selected = true;
+                        DepartmentDropDown.appendChild(defaultOption);
+                        // Populate the zone dropdown with new options
+                        response.model.forEach(function (department) {
+                            var option = document.createElement("option");
+                            option.value = department.room_Name;
+                            option.text = department.room_Name;
+                            option.setAttribute("data-or-id", department.oR_ID);
+                            console.log("OR ID: ", department.oR_ID);
+                            DepartmentDropDown.appendChild(option);
+                        });
+
+
+                    } else {
+                        alert('Failed to retrieve OR: ' + response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert('Error: ' + error);
+                }
+            });
+        }
+        $('#saveEventButton').click(function () {
+            const formData = {
+                OR_ID: $('#AddEventModal #OR_ID2').val(),
+                Date: $('#AddEventModal #EventDate').val(), // Event date
+                Start: $('#AddEventModal #EventStartTime').val(), // Event start time
+                End: $('#AddEventModal #EventEndTime').val(), // Event end time
+                AssignedDoctor: $('#AddEventModal #AssignedDoctorID').val(), // Staff ID
+                PatientID: $('#AddEventModal #Patient_ID').val(), // Department ID
+                TypeOfSurgery: $('#AddEventModal #TypeOfSurgery').val() 
+            };
+
+            // Log the form data to check if the values are correct
+            console.log('FormData:', formData);
+
+            // Validate if all required fields are filled
+            if (formData.Date && formData.Start && formData.End) {
+                $.ajax({
+                    url: '/OR/AddEvent', // Update with your correct endpoint if needed
+                    method: 'POST',
+
+                    data: formData, // Convert formData to JSON string
+                    success: function (response) {
+                        console.log('Server Response:', response);
+                        if (response.success) {
+                            alert("Event Added");
+                            $('#AddEventModal').modal('hide'); // Hide the modal
+                            // Refresh the calendar to show the new event
+                        } else {
+                            alert('Error: ' + response.errorMessage); // Handle errors from the server
+                        }
+                    },
+                    error: function (error) {
+                        console.log('AJAX Error:', error); // Log any AJAX errors
+                        alert('Error adding event.'); // Show a user-friendly error message
+                    }
+                });
+            }
+        });
+
+        $('#DeleteEventButton').click(function () {
+            var id = $("#BookingID").val();
+                $.ajax({
+                    url: '/OR/DeleteEvent/' + id, // Update with your correct endpoint if needed
+                    method: 'DELETE',
+                    success: function (response) {
+                        console.log('Server Response:', response);
+                        if (response.success) {
+                            alert("Are you sure you want to delete the event");
+                            $('#UpdateEventModal').modal('hide'); // Hide the modal
+                        window.location.reload()
+                            // Refresh the calendar to show the new event
+                        } else {
+                            alert('Error: ' + response.errorMessage); // Handle errors from the server
+                        }
+                    },
+                    error: function (error) {
+                        console.log('AJAX Error:', error); // Log any AJAX errors
+                        alert('Error adding event.'); // Show a user-friendly error message
+                    }
+                });  
+        });
+        
+        function updateOrID() {
+            var selectedOption = document.getElementById("OR").selectedOptions[0];
+            // Get the Zone_ID from the data attribute
+            var departmentID = selectedOption.getAttribute("data-or-id"); // Fix the attribute name
+            // Set the Zone_ID input field value
+            document.getElementById("OR_ID").value = departmentID;
+        }
+
+        function ORDropDown2() {
+            $.ajax({
+                url: '/OR/GetAllOR',
+                type: 'GET',
+                success: function (response) {
+                    console.log(response); // Log the response object
+
+                    if (response.success) {
+                        var DepartmentDropDown = document.getElementById("OR2");
+                        DepartmentDropDown.innerHTML = ""; // Clear existing options
+                        // Add a default "Select a Supervisor" option
+                        var defaultOption = document.createElement("option");
+                        defaultOption.value = "";
+                        defaultOption.text = "Select an OR";
+                        defaultOption.disabled = true;
+                        defaultOption.selected = true;
+                        DepartmentDropDown.appendChild(defaultOption);
+                        // Populate the zone dropdown with new options
+                        response.model.forEach(function (department) {
+                            var option = document.createElement("option");
+                            option.value = department.room_Name;
+                            option.text = department.room_Name;
+                            option.setAttribute("data-or-id", department.oR_ID);
+                            console.log("OR ID: ", department.oR_ID);
+                            DepartmentDropDown.appendChild(option);
+                        });
+
+
+                    } else {
+                        alert('Failed to retrieve OR: ' + response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert('Error: ' + error);
+                }
+            });
+        }
+
+        function updateOrID2() {
+            var selectedOption = document.getElementById("OR2").selectedOptions[0];
+            // Get the Zone_ID from the data attribute
+            var departmentID = selectedOption.getAttribute("data-or-id"); // Fix the attribute name
+            // Set the Zone_ID input field value
+            document.getElementById("OR_ID2").value = departmentID;
+        }
+
+
+        function DrDropdown() {
+            $.ajax({
+                url: '/Staff/AllDoctors',
+                type: 'GET',
+                success: function (response) {
+                    console.log(response); // Log the response object
+
+                    if (response.success) {
+                        var DrDropdown = document.getElementById("AssignedDoctor");
+                        DrDropdown.innerHTML = ""; // Clear existing options
+                        // Add a default "Select a Supervisor" option
+                        var defaultOption = document.createElement("option");
+                        defaultOption.value = "";
+                        defaultOption.text = "Select a Doctor";
+                        defaultOption.disabled = true;
+                        defaultOption.selected = true;
+                        DrDropdown.appendChild(defaultOption);
+                        // Populate the zone dropdown with new options
+                        response.model.forEach(function (dr) {
+                            var option = document.createElement("option");
+                            option.value = dr.name;
+                            option.text = dr.name;
+                            option.setAttribute("data-dr-id", dr.staffID);
+                            console.log("dr ID: ", dr.staffID);
+                            DrDropdown.appendChild(option);
+                        });
+
+                    } else {
+                        alert('Failed to retrieve dr: ' + response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert('Error: ' + error);
+                }
+            });
+        }
+
+        function UpdateDrID() {
+            var selectedOption = document.getElementById("AssignedDoctor").selectedOptions[0];
+            // Get the Zone_ID from the data attribute
+            var drID = selectedOption.getAttribute("data-dr-id"); // Fix the attribute name
+            // Set the Zone_ID input field value
+            document.getElementById("AssignedDoctorID").value = drID;
+        }
+        function changeDrDropdown() {
+            UpdateDrID();
+            var id = $("#AssignedDoctorID").val();
+            console.log(id);
+            PatientDropdown(id);
+        }
+
+        function PatientDropdown(id) {
+            $.ajax({
+                url: '/Patient/PatientsByDrID/' + id,
+                type: 'GET',
+                success: function (response) {
+                    console.log(response); // Log the response object
+
+                    if (response.success) {
+                        var DrDropdown = document.getElementById("patient");
+                        DrDropdown.innerHTML = ""; // Clear existing options
+                        // Add a default "Select a Supervisor" option
+                        var defaultOption = document.createElement("option");
+                        defaultOption.value = "";
+                        defaultOption.text = "Select a Patient";
+                        defaultOption.disabled = true;
+                        defaultOption.selected = true;
+                        DrDropdown.appendChild(defaultOption);
+                        // Populate the zone dropdown with new options
+                        response.model.forEach(function (pt) {
+                            var option = document.createElement("option");
+                            option.value = pt.patientID;
+                            option.text = pt.fullName;
+                            option.setAttribute("data-pt-id", pt.patientID);
+                            console.log("pt ID: ", pt.patientID);
+                            DrDropdown.appendChild(option);
+                        });
+
+                    } else {
+                        alert('Failed to retrieve pt: ' + response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert('Error: ' + error);
+                }
+            });
+        }
+        function UpdatePatientID() {
+            var selectedOption = document.getElementById("patient").selectedOptions[0];
+            // Get the Zone_ID from the data attribute
+            var ptID = selectedOption.getAttribute("data-pt-id"); // Fix the attribute name
+            // Set the Zone_ID input field value
+            document.getElementById("Patient_ID").value = ptID;
+        }
+
+        function DrDropDown2() {
+            $.ajax({
+                url: '/Staff/AllDoctors',
+                type: 'GET',
+                success: function (response) {
+                    console.log(response); // Log the response object
+
+                    if (response.success) {
+                        var DrDropdown = document.getElementById("AssignedDoctorDropdown");
+                        DrDropdown.innerHTML = ""; // Clear existing options
+                        // Add a default "Select a Supervisor" option
+                        var defaultOption = document.createElement("option");
+                        defaultOption.value = "";
+                        defaultOption.text = "Select a Doctor";
+                        defaultOption.disabled = true;
+                        defaultOption.selected = true;
+                        DrDropdown.appendChild(defaultOption);
+                        // Populate the zone dropdown with new options
+                        response.model.forEach(function (dr) {
+                            var option = document.createElement("option");
+                            option.value = dr.staffID;
+                            option.text = dr.name;
+                            option.setAttribute("data-dr-id", dr.staffID);
+                            console.log("dr ID: ", dr.staffID);
+                            DrDropdown.appendChild(option);
+                        });
+                        const DrID = $("#AssignedDoctorID2").val();
+
+                        if (DrID) {
+                            // Ensure the option exists before setting it as selected
+                            const optionToSelect = Array.from(DrDropdown.options).find(option => option.value == DrID);
+                            if (optionToSelect) {
+                                optionToSelect.selected = true;
+                            }
+                        }
+                    } else {
+                        alert('Failed to retrieve dr: ' + response.message);
+                    }
+                },
+                        
+                error: function (xhr, status, error) {
+                    alert('Error: ' + error);
+                }
+            });
+        }
+
+        function UpdateDrID2() {
+            var selectedOption = document.getElementById("AssignedDoctorDropdown").selectedOptions[0];
+            // Get the Zone_ID from the data attribute
+            var departmentID = selectedOption.getAttribute("data-dr-id"); // Fix the attribute name
+            // Set the Zone_ID input field value
+            document.getElementById("AssignedDoctorID2").value = departmentID;
+        }
+
+
+
+
     </script>
 
 </body>

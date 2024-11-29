@@ -1,4 +1,4 @@
-﻿
+﻿﻿
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -314,24 +314,25 @@
             justify-content: space-between; /* Space out input fields */
             flex-wrap: wrap; /* Ensure responsiveness if the container is narrow */
         }
+
         .input-group2 {
             flex: 1; /* Make input groups take equal space */
             min-width: 200px; /* Ensure inputs don't shrink too small */
         }
 
-        .input-group2 label {
-            display: block; /* Stack label on top of input */
-            margin-bottom: 5px; /* Space between label and input */
-            font-weight: bold;
-        }
+            .input-group2 label {
+                display: block; /* Stack label on top of input */
+                margin-bottom: 5px; /* Space between label and input */
+                font-weight: bold;
+            }
 
-        .input-group2 input[type="text"] {
-            width: 100%; /* Make input take full width of the container */
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box; /* Include padding and border in width */
-        }
+            .input-group2 input[type="text"] {
+                width: 100%; /* Make input take full width of the container */
+                padding: 8px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                box-sizing: border-box; /* Include padding and border in width */
+            }
     </style>
 
     <link rel="stylesheet" href="~/css/site.css">
@@ -341,15 +342,14 @@
     <div class="container">
         <h1 class="Title">Add New Patient</h1>
 
-        <form class="container" id="Patient-Form" asp-action="#" asp-controller="#" method="post" enctype="multipart/form-data" onsubmit="return validateAndRedirect()">
+        <form class="container" id="Patient-Form" asp-action="AddPatient2" asp-controller="Patient" method="post" enctype="multipart/form-data" onsubmit="return valdiateAndRedirect()">
             <div class="form-container">
                 <div class="form-left">
                     <div class="profile-pic">
                         <i class="fas fa-user"></i>
                     </div>
-                    <input type="text" name="Name" placeholder="Name" />
-                    <input type="password" name="Password" placeholder="Password" />
-                    <input type="text" name="PhoneNumber" placeholder="Phone" />
+                    <input type="text" name="FullName" placeholder="Name" />
+                    <input type="text" name="ContactInfo" placeholder="Phone" />
                     <input type="text" name="Address" placeholder="Address" />
                     <input type="Date" name="DateOfBirth" placeholder="DateOfBirth" />
                     <input type="text" name="Allergies" placeholder="Allergies" />
@@ -371,8 +371,9 @@
                             <i class="fas fa-plus"></i>
                         </span>
                     </div>
+                    <input type="text" name="MedicalHistory" id="MedicalHistory" hidden />
                     <div id="newInputFields"></div>
-                    <br/>
+                    <br />
                     <div class="form-group radio-group">
                         <label>Blood Type:</label>
                         <div>
@@ -421,16 +422,31 @@
                             <ul id="file-items"></ul>
                         </div>
                     </div>
-                    <input type="text" id="Files" />
+                    <input type="text" id="Files" hidden />
 
-                    <select name="departmentname" id="department" class="department form-control" data-placeholder="Select a department" style="width: 100%;" tabindex="-1" aria-hidden="true" onchange="updateDepartmentID()">
+                    <select name="departmentname" id="department" class="department form-control" data-placeholder="Select a department" style="width: 100%;" tabindex="-1" aria-hidden="true" onchange="UpdateDepartmentID()">
                         <option value="" selected disabled>Select a department</option>
                     </select>
-                    <input type="number" name="Department" id="DepartmentID" placeholder="Department ID" />
+                    <input type="number" name="DepartmentID" id="DepartmentID" placeholder="Department ID" hidden />
+                    <select name="Doctor" id="Doctor" class="form-control" data-placeholder="Select a Doctor" style="width: 100%;" tabindex="-1" aria-hidden="true" onchange="UpdateDrID()">
+                        <option value="" selected disabled>Select a Doctor</option>
+                    </select>
+                    <input type="number" name="AssignedDoctorID" id="DoctorID" placeholder="Doctor Requesting" class="form-control" hidden />
+                    <select name="Bed" id="Bed" class="form-control" data-placeholder="Select a Room" style="width: 100%;" tabindex="-1" aria-hidden="true" onchange="UpdateBedID()">
+                        <option value="" selected disabled>Select a Room</option>
+                    </select>
+                    <input type="number" name="BedNumber" id="BedNumber" placeholder="BedNumber" class="form-control" hidden />
+                    <select id="StatusDropDown" class=" form-control" data-placeholder="Select a Status" style="width: 100%;" tabindex="-1" aria-hidden="true" onchange="updateStatus()">
+                        <option value="" selected disabled>Select a Status</option>
+                        <option value="Bed">In Bed</option>
+                        <option value="Radiology">In Radiology</option>
+                        <option value="Admitted">Admitted</option>
+                    </select>
+                    <input type="text" name="Status" id="Status" placeholder="Status" hidden />
                     <div class="medication-dosage-container" id="medication-dosage-container">
 
                         <div class="input-group2">
-                            <label for="medication">Medication</label>
+                            <label for="medication">Medication Patient On</label>
                             <input type="text" id="medication" name="Medication[]" placeholder="Enter medication" />
                         </div>
                         <div class="input-group2">
@@ -438,7 +454,8 @@
                             <input type="text" id="dosage" name="Dosage[]" placeholder="Enter dosage" />
                         </div>
                     </div>
-                    <button type="button" onclick="addNewInput2()" class="btn btn-theme">Add Medication/Dosage</button> <br/>
+                    <input type="text" id="Medications" name="Medications" hidden />
+                    <button type="button" onclick="addNewInput2()" class="btn btn-theme">Add Medication/Dosage</button> <br />
 
                     <div class="emergency-contact-container" id="emergency-contact-container">
                         <h3>Emergency Contact Information</h3>
@@ -451,6 +468,8 @@
                             <input type="text" id="phonenumber" name="contact_phonenumber[]" placeholder="Enter Phone Number" />
                         </div>
                     </div>
+
+                    <input type="text" name="EmergencyContactInfo" id="EmergencyContactInfo" hidden />
                     <button type="button" onclick="addNewContact()" class="btn btn-theme">Add New Contact</button>
 
 
@@ -462,7 +481,158 @@
 
 
     <script>
+        $("#Doctor").select2();
+        $("#department").select2();
+        $("#StatusDropDown").select2();
+        $("#Bed").select2();
 
+        $(document).ready(function () {
+            DrDropdown();
+            DepartmentDropDown();
+            BedDropDown();
+        });
+        function updateStatus() {
+            // Get the selected option from the dropdown
+            var selectedOption = document.getElementById("StatusDropDown").selectedOptions[0];
+
+            // Get the Zone_ID (or drID) from the value of the selected option
+            var drID = selectedOption.value; // Use .value instead of getValue()
+
+            // Set the Status input field value with the retrieved drID
+            document.getElementById("Status").value = drID;
+        }
+        function BedDropDown() {
+            $.ajax({
+                url: '/Patient/GetAvailableRoom',
+                type: 'GET',
+                success: function (response) {
+                    console.log(response); // Log the response object
+
+                    if (response.success) {
+                        var DrDropdown = document.getElementById("Bed");
+                        DrDropdown.innerHTML = ""; // Clear existing options
+                        // Add a default "Select a Supervisor" option
+                        var defaultOption = document.createElement("option");
+                        defaultOption.value = "";
+                        defaultOption.text = "Select a Room";
+                        defaultOption.disabled = true;
+                        defaultOption.selected = true;
+                        DrDropdown.appendChild(defaultOption);
+                        // Populate the zone dropdown with new options
+                        response.model.forEach(function (dr) {
+                            var option = document.createElement("option");
+                            option.value = dr.roomID;
+                            option.text = dr.roomID + "-" + dr.roomType;
+                            option.setAttribute("data-bed-id", dr.roomID);
+                            console.log("bed ID: ", dr.roomID);
+                            DrDropdown.appendChild(option);
+                        });
+
+                    } else {
+                        alert('Failed to retrieve dr: ' + response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert('Error: ' + error);
+                }
+            });
+        }
+
+        function UpdateBedID() {
+            var selectedOption = document.getElementById("Bed").selectedOptions[0];
+            // Get the Zone_ID from the data attribute
+            var drID = selectedOption.getAttribute("data-bed-id"); // Fix the attribute name
+            // Set the Zone_ID input field value
+            document.getElementById("BedNumber").value = drID;
+        }
+        function DrDropdown() {
+            $.ajax({
+                url: '/Staff/AllDoctors',
+                type: 'GET',
+                success: function (response) {
+                    console.log(response); // Log the response object
+
+                    if (response.success) {
+                        var DrDropdown = document.getElementById("Doctor");
+                        DrDropdown.innerHTML = ""; // Clear existing options
+                        // Add a default "Select a Supervisor" option
+                        var defaultOption = document.createElement("option");
+                        defaultOption.value = "";
+                        defaultOption.text = "Select a Doctor";
+                        defaultOption.disabled = true;
+                        defaultOption.selected = true;
+                        DrDropdown.appendChild(defaultOption);
+                        // Populate the zone dropdown with new options
+                        response.model.forEach(function (dr) {
+                            var option = document.createElement("option");
+                            option.value = dr.name;
+                            option.text = dr.name;
+                            option.setAttribute("data-dr-id", dr.staffID);
+                            console.log("dr ID: ", dr.staffID);
+                            DrDropdown.appendChild(option);
+                        });
+
+                    } else {
+                        alert('Failed to retrieve dr: ' + response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert('Error: ' + error);
+                }
+            });
+        }
+
+        function UpdateDrID() {
+            var selectedOption = document.getElementById("Doctor").selectedOptions[0];
+            // Get the Zone_ID from the data attribute
+            var drID = selectedOption.getAttribute("data-dr-id"); // Fix the attribute name
+            // Set the Zone_ID input field value
+            document.getElementById("DoctorID").value = drID;
+        }
+        function DepartmentDropDown() {
+            $.ajax({
+                url: '/Department/AllDepartments',
+                type: 'GET',
+                success: function (response) {
+                    console.log(response); // Log the response object
+
+                    if (response.success) {
+                        var DrDropdown = document.getElementById("department");
+                        DrDropdown.innerHTML = ""; // Clear existing options
+                        // Add a default "Select a Supervisor" option
+                        var defaultOption = document.createElement("option");
+                        defaultOption.value = "";
+                        defaultOption.text = "Select a Department";
+                        defaultOption.disabled = true;
+                        defaultOption.selected = true;
+                        DrDropdown.appendChild(defaultOption);
+                        // Populate the zone dropdown with new options
+                        response.model.forEach(function (dr) {
+                            var option = document.createElement("option");
+                            option.value = dr.departmentName;
+                            option.text = dr.departmentName;
+                            option.setAttribute("data-department-id", dr.departmentID);
+                            console.log("Department ID: ", dr.departmentID);
+                            DrDropdown.appendChild(option);
+                        });
+
+                    } else {
+                        alert('Failed to retrieve department: ' + response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert('Error: ' + error);
+                }
+            });
+        }
+
+        function UpdateDepartmentID() {
+            var selectedOption = document.getElementById("department").selectedOptions[0];
+            // Get the Zone_ID from the data attribute
+            var drID = selectedOption.getAttribute("data-department-id"); // Fix the attribute name
+            // Set the Zone_ID input field value
+            document.getElementById("DepartmentID").value = drID;
+        }
         function addNewInput() {
             // Create a new div for the input field
             const inputGroup = document.createElement('div');
@@ -510,6 +680,28 @@
             // Remove the input group (the entire div containing the input and icons)
             inputGroup.remove();
         }
+
+        function saveMedicalHistory() {
+            // Get all medical history input values
+            const medicalHistoryInputs = document.querySelectorAll('input[name="MedicalHistory"]');
+
+            const medicalHistoryValues = [];
+
+            // Iterate over the input fields to collect the values
+            for (let i = 0; i < medicalHistoryInputs.length; i++) {
+                const medicalHistory = medicalHistoryInputs[i].value;
+                if (medicalHistory) {
+                    medicalHistoryValues.push(medicalHistory);
+                }
+            }
+
+            // Join the medical history values with commas
+            const medicalHistoryInfo = medicalHistoryValues.join(', ');
+            $("#MedicalHistory").val(medicalHistoryInfo);
+            // Now you can submit this string to the server or save it in your form
+            console.log(medicalHistoryInfo); // This is just for testing, replace with actual form submission logic
+        }
+
         function addNewInput2() {
             // Create a new div for the medication input field
             const inputGroupMedication = document.createElement('div');
@@ -557,6 +749,29 @@
             const container = document.getElementById('medication-dosage-container');
             container.appendChild(inputGroupMedication);
             container.appendChild(inputGroupDosage);
+        }
+
+        function saveMedicationDosageInfo() {
+            // Get all medication and dosage input values
+            const medications = document.querySelectorAll('input[name="Medication[]"]');
+            const dosages = document.querySelectorAll('input[name="Dosage[]"]');
+
+            const medicationDosages = [];
+
+            // Iterate over the input fields to create the "medication, dosage" format
+            for (let i = 0; i < medications.length; i++) {
+                const medication = medications[i].value;
+                const dosage = dosages[i].value;
+                if (medication && dosage) {
+                    medicationDosages.push(`${medication}, ${dosage}`);
+                }
+            }
+
+            // Join the medication and dosage pairs with commas to create a single string
+            const medicationDosageInfo = medicationDosages.join(', ');
+            $("#Medications").val(medicationDosageInfo);
+            // Now you can submit this string to the server or save it in your form
+            console.log(medicationDosageInfo); // This is just for testing, replace with actual form submission logic
         }
 
         function removeInputField2(inputGroupMedication, inputGroupDosage) {
@@ -617,8 +832,143 @@
             inputGroupName.remove();
             inputGroupPhone.remove();
         }
+        function saveEmergencyContactInfo() {
+            // Get all name and phone number input values
+            const names = document.querySelectorAll('input[name="contact_name[]"]');
+            const phoneNumbers = document.querySelectorAll('input[name="contact_phonenumber[]"]');
 
+            const contacts = [];
 
+            // Iterate over the input fields to create the "name, phoneNumber" format
+            for (let i = 0; i < names.length; i++) {
+                const name = names[i].value;
+                const phoneNumber = phoneNumbers[i].value;
+                if (name && phoneNumber) {
+                    contacts.push(`${name}, ${phoneNumber}`);
+                }
+            }
+
+            // Join the contacts with commas to create a single string
+            const emergencyContactInfo = contacts.join(', ');
+            $("#EmergencyContactInfo").val(emergencyContactInfo);
+            // Now you can submit this string to the server or save it in your form
+            console.log(emergencyContactInfo); // This is just for testing, replace with actual form submission logic
+        }
+        const dropzone = document.getElementById('dropzone');
+        const fileInput = document.getElementById('file-input');
+        const fileItems = document.getElementById('file-items');
+        const browseFilesBtn = document.getElementById('browse-files');
+        const filenameinput = document.getElementById('Files');
+        const filenames = [];
+        // Show file input when 'Browse Files' button is clicked
+        browseFilesBtn.onclick = () => fileInput.click();
+
+        // Handle file input change
+        fileInput.onchange = () => {
+            [...fileInput.files].forEach(file => {
+                if (typeValidation(file.type)) {
+                    console.log(file);
+                    filenames.push(file);
+                    handleFile(file);
+                }
+            });
+
+            filenameinput.value = filenames.join(', ');
+            console.log(filenames.join(', '));
+            console.log(filenameinput);
+        };
+
+        // Handle drag over
+        dropzone.ondragover = (e) => {
+            e.preventDefault();
+            dropzone.classList.add('drag-over-effect');
+        };
+
+        // Handle drag leave
+        dropzone.ondragleave = () => {
+            dropzone.classList.remove('drag-over-effect');
+        };
+
+        // Handle drop
+        dropzone.ondrop = (e) => {
+            e.preventDefault();
+            dropzone.classList.remove('drag-over-effect');
+            if (e.dataTransfer.files) {
+                [...e.dataTransfer.files].forEach(file => {
+                    if (typeValidation(file.type)) {
+                        handleFile(file);
+                    }
+                });
+            }
+        };
+
+        // Validate file type
+        function typeValidation(type) {
+            const splitType = type.split('/')[0];
+            return type === 'application/pdf' || splitType === 'image' || splitType === 'video';
+        }
+
+        // Handle file
+        function handleFile(file) {
+            const li = document.createElement('li');
+            li.classList.add('file-item');
+            li.innerHTML = `
+                                                    <div class="col">
+                                                        <img src="icons/${iconSelector(file.type)}" alt="">
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="file-name">
+                                                            <div class="name">${file.name}</div>
+                                                            <span>0%</span>
+                                                        </div>
+                                                        <div class="file-progress">
+                                                            <span></span>
+                                                        </div>
+                                                        <div class="file-size">${(file.size / (1024 * 1024)).toFixed(2)} MB</div>
+                                                    </div>
+                                                    <div class="col">
+
+                                                    </div>
+                                                `;
+            fileItems.appendChild(li);
+
+            // Simulate file upload progress
+            simulateUploadProgress(file, li);
+
+            // // Add event listener to remove file
+            // li.querySelector('.remove-button').onclick = () => li.remove();
+        }
+
+        // Simulate upload progress
+        function simulateUploadProgress(file, li) {
+            const progressBar = li.querySelector('.file-progress span');
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 10;
+                progressBar.style.width = `${progress}%`;
+                li.querySelector('.file-name span').textContent = `${progress}%`;
+                if (progress >= 100) {
+                    clearInterval(interval);
+                }
+            }, 200);
+        }
+
+        // Determine file icon based on file type
+        function iconSelector(fileType) {
+            if (fileType === 'application/pdf') return 'pdf.png';
+            if (fileType.startsWith('image')) return 'image.png';
+            if (fileType.startsWith('video')) return 'video.png';
+            return 'file.png';
+        }
+
+        function valdiateAndRedirect() {
+            saveEmergencyContactInfo();
+            saveMedicationDosageInfo();
+            saveMedicalHistory();
+            document.getElementById('Patient-Form').submit();
+            alert("Patient Added successfully");
+            window.location.href = 'Patient/Patients';
+        }
     </script>
 </body>
 </html>

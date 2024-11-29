@@ -134,7 +134,18 @@ namespace Hospital_Management_System.Controllers
                 _dbContext.Staff.Add(model);
                 await _dbContext.SaveChangesAsync();
                 _logger.LogInformation("Added successfully");
+                _logger.LogInformation("model id: ", model.StaffID);
+                var login = new Login
+                {
+                    Username = model.Username,  // Assuming 'Username' is a field in Staff
+                    Password = pass,  // Already hashed password
+                    Role = model.Role,  // Assuming 'Role' is a field in Staff, or specify it as needed
+                    StaffID = model.StaffID// Assuming 'Id' is the primary key in the Staff model
+                };
 
+                // Add the login details to the Login table
+                _dbContext.Login.Add(login);
+                await _dbContext.SaveChangesAsync();
                 if (HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
                 {
                     return Json(new
@@ -280,11 +291,11 @@ namespace Hospital_Management_System.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> StaffByRole(string role)
+        public async Task<IActionResult> StaffByRole(string role,int department)
         {
             // Fetch staff by id
             var staff = await _dbContext.Staff
-             .Where(e => e.Role == role)
+             .Where(e => e.Role == role && e.Department == department)
              .Select(e => new
              {
                  e.Name,   // Assuming the property is 'Name' for staff name

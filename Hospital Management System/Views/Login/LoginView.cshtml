@@ -10,6 +10,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Hospital Management System</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <style>
         body, html {
             margin: 0;
@@ -125,21 +127,55 @@
                     <h1>Welcome</h1>
                     <p>Please log in to access the CodeZillas Hospital Management System</p>
                 </div>
-                <form id="Login-Form">
+                <form id="Login-Form" >
                     <div class="Form-cont">
                         <label for="username">Username</label>
-                        <input type="text" id="username" placeholder="Enter your username" required>
+                        <input type="text" id="username" placeholder="Enter your username" name="Username" required>
                     </div>
                     <div class="Form-cont">
                         <label for="password">Password</label>
-                        <input type="password" id="password" placeholder="Enter your password" required>
+                        <input type="password" id="password" name="Password" placeholder="Enter your password" required>
                     </div>
                     <div class="Form-cont">
-                        <button type="submit" class="Log-Button">Log In</button>
+                        <button type="button" class="Log-Button" id="Log-Button">Log In</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+    <script>
+        $("#Log-Button").click(function () {
+            console.log("Button clicked");
+            var Username = $("#username").val();
+            var Password = $("#password").val();
+            console.log(Username, Password);
+            $.ajax({
+                url: "/Login/CheckUsernameAndPassword",
+                type: "POST",
+                data: {
+                    username: Username,
+                    password: Password
+                },
+                success: function (response) {
+                    console.log(response);
+                    if (response.success == true) {
+                        alert(response.message);
+                        localStorage.setItem('accessToken', response.accessToken);
+                        // Redirect to the dashboard if login is successful
+                        window.location.href = response.redirectTo;
+                    } else {
+                        // Show error message
+                        alert(response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Handle the error if something goes wrong with the request
+                    alert("An error occurred: " + error);
+                }
+            });
+        });
+       
+    </script>
+
 </body>
 </html>

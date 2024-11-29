@@ -1,14 +1,16 @@
-﻿namespace Hospital_Management_System.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Hospital_Management_System.Models
 {
     public class Room
     {
-        public int RoomID { get; set; } 
-        public string RoomNumber { get; set; }
-        public string RoomType { get; set; }
-        public int Capacity { get; set; } 
-        public bool IsAvailable { get; set; } 
-        public int Deparmtent { get; set; } 
-        public string RoomLocation { get; set; } 
+        [Key]
+        public int? RoomID { get; set; } 
+        public string? RoomType { get; set; }
+        public int? Capacity { get; set; } 
+        public bool? IsAvailable { get; set; } 
+        public int? Department { get; set; } 
+        public string? RoomLocation { get; set; } 
 
     }
 }

@@ -1,7 +1,10 @@
-﻿using Hospital_Management_System.Database;
+﻿using Azure.Core;
+using Hospital_Management_System.Database;
 using Hospital_Management_System.Helper;
 using Hospital_Management_System.Models;
+using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -23,56 +26,63 @@ namespace Hospital_Management_System.Controllers
             _configuration = configuration;
         }
        
-        public IActionResult Index()
+        public IActionResult LoginView()
         {
             return View();
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> CheckUsernameAndPassword(string username, string password)
-        //{
-        //    try
-        //    {
-        //        // Check if the employee exists with the given username
-        //        var employee = await _dbContext.Staff
-        //            .FirstOrDefaultAsync(e => e.Name == username);
+        [HttpPost]
+        public async Task<IActionResult> CheckUsernameAndPassword(string username, string password)
+        {
+            try
+            {
+                // Check if the employee exists with the given username
+                var employee = await _dbContext.Login
+                    .FirstOrDefaultAsync(e => e.Username == username);
 
-        //        if (employee == null)
-        //        {
-        //            return Json(new { success = false, message = "Username not found." });
-        //        }
+                if (employee == null)
+                {
+                    // Username not found
+                    return Json(new { success = false, message = "Username not found. Please check your username and try again." });
+                }
 
-        //        // Verify the password (assuming passwords are hashed)
-        //        var decryptedPassword = _password.UnHashPassword(employee.Password);
-        //        if (password != decryptedPassword)
-        //        {
-        //            return Json(new { success = false, message = "Incorrect password." });
-        //        }
-        //        HttpContext.Session.SetString("UserName", username);
-        //        // Generate the JWT Token
-        //        var token = GenerateJwtToken(employee);
+                // Verify the password (assuming passwords are hashed)
+                var decryptedPassword = _password.UnHashPassword(employee.Password);
+                if (password != decryptedPassword)
+                {
+                    // Incorrect password
+                    return Json(new { success = false, message = "Incorrect password. Please try again." });
+                }
 
-        //        // Set the token in an HTTP-only cookie (secure and cannot be accessed via JavaScript)
-        //        SetJwtCookie(token);
+                // Store the username in session
+                HttpContext.Session.SetString("UserName", username);
 
-        //        // Return success message along with a redirect URL to the dashboard
-        //        return Json(new { success = true, redirectTo = Url.Action("Index", "Home") });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // Log the exception details and return an error response
-        //        _logger.LogError($"An error occurred: {ex.Message}");
-        //        return Json(new { success = false, message = "Internal server error" });
-        //    }
-        //}
-        private string GenerateJwtToken(Staff employee)
+                // Generate the JWT Token
+                var token = GenerateJwtToken(employee);
+                SetJwtCookie(token);
+
+                // Set the token in an HTTP-only cookie (secure and cannot be accessed via JavaScript)
+                HttpContext.Session.SetString("accessToken", token);
+
+                // Return success message along with a redirect URL to the dashboard
+                return Json(new { success = true, redirectTo = "/Home/Index", accessToken = token, message="welcome!" });
+            }
+            catch (Exception ex)
+            {
+                // Log the exception details and return an error response
+                _logger.LogError($"An error occurred: {ex.Message}");
+                return Json(new { success = false, message = "Internal server error. Please try again later." });
+            }
+        }
+
+        private string GenerateJwtToken(Login employee)
         {
             var jwtSettings = _configuration.GetSection("JWT");
 
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, employee.StaffID.ToString()),
-                new Claim(JwtRegisteredClaimNames.UniqueName, employee.Name),
+                new Claim(JwtRegisteredClaimNames.UniqueName, employee.Username),
                 new Claim("role", employee.Role), // Add additional claims as needed
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
@@ -115,7 +125,7 @@ namespace Hospital_Management_System.Controllers
             HttpContext.Session.Clear(); // Clear session if applicable
 
             // Redirect to the login or home page after logout
-            return RedirectToAction("Login");
+            return RedirectToAction("LoginView");
         }
 
     }

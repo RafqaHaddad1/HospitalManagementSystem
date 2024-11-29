@@ -27,7 +27,7 @@ namespace Hospital_Management_System.Controllers
                                      {
                                          PatientID = p.PatientID,
                                          FullName = p.FullName,
-                                         Status = p.status,
+                                         Status = p.Status,
                                          AssignedDoctorID = p.AssignedDoctorID,
                                          Addmission_Date_ER = p.Addmission_Date_ER,
                                          BedNumber = p.BedNumber,
@@ -183,5 +183,127 @@ namespace Hospital_Management_System.Controllers
         {
             return View();
         }
+
+
+
+        [HttpPost]
+        [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
+        public async Task<IActionResult> EditERPatient(Patient model, IFormFileCollection Files)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Json(new { success = false, message = "Invalid model state", errors = ModelState.Values.SelectMany(v => v.Errors) });
+            }
+
+            try
+            {
+                // Fetch the existing patient from the database
+                var existingPatient = await _dbContext.Patient.FindAsync(model.PatientID);
+
+                if (existingPatient == null)
+                {
+                    return Json(new { success = false, message = "Patient not found" });
+                }
+
+                var paths = new List<string>();
+                foreach (var file in Files)
+                {
+                    if (file != null && file.Length > 0)
+                    {
+                        // Specify the directory path
+                        string uploadsDirectoryPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "FilesUpload");
+
+                        // Ensure directory exists
+                        if (!Directory.Exists(uploadsDirectoryPath))
+                        {
+                            Directory.CreateDirectory(uploadsDirectoryPath);
+                        }
+
+                        var fileName = Path.GetFileName(file.FileName);
+                        var uniqueFileName = $"{Guid.NewGuid()}_{fileName}";
+                        var fullPath = Path.Combine(uploadsDirectoryPath, uniqueFileName);
+
+                        using (var stream = new FileStream(fullPath, FileMode.Create))
+                        {
+                            await file.CopyToAsync(stream);
+                        }
+
+                        // Add the relative path to the list
+                        var relativePath = $"/FilesUpload/{uniqueFileName}";
+                        paths.Add(relativePath);
+                    }
+                }
+
+                // Set the Files property of the patient model
+                var pathsString = string.Join(";", paths);
+                model.Files = pathsString;
+                model.Addmission_Date_ER = existingPatient.Admission_Date_Hospital;
+                model.BloodType = existingPatient.BloodType;    
+                model.Gender = existingPatient.Gender;
+                // Update the existing patient's properties
+                _dbContext.Entry(existingPatient).CurrentValues.SetValues(model);
+
+                // Update the bed status based on the bed number
+                var bed = _dbContext.ERBeds.FirstOrDefault(b => b.Bed_Number == model.BedNumber);
+                if (bed != null)
+                {
+                    bed.Status = "Unavailable";
+                }
+
+                // Save changes to the database
+                await _dbContext.SaveChangesAsync();
+                _logger.LogInformation("Patient updated successfully");
+
+                if (HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+                {
+                    return Json(new
+                    {
+                        success = true,
+                        info = model,
+                    });
+                }
+
+                // Return the view for normal (non-AJAX) requests
+                return View("ViewPatients");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error updating patient");
+                return Json(new { success = false, message = "Error updating patient", exception = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> DischargePatient(int id)
+        {
+            // Fetch the patient by ID
+            var patient = await _dbContext.Patient.Where(p => p.PatientID == id).FirstOrDefaultAsync();
+
+            // Check if the patient exists
+            if (patient == null)
+            {
+                return Json(new
+                {
+                    success = false,
+                    message = "Patient not found"
+                });
+            }
+
+            // Update patient status and discharge date
+            patient.Status = "Discharged";  // Assign the "Discharged" status
+            patient.Discharge_Date = DateTime.Now;
+
+            // Save the changes to the database
+            await _dbContext.SaveChangesAsync();
+
+            // Return success response
+            return Json(new
+            {
+                success = true,
+                model = patient
+            });
+        }
+
+
     }
 }

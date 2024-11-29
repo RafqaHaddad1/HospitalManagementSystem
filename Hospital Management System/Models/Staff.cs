@@ -1,10 +1,12 @@
 ﻿using Microsoft.Identity.Client;
+using System.ComponentModel.DataAnnotations;
 using System.Security.Policy;
 
 namespace Hospital_Management_System.Models
 {
     public class Staff
     {
+        [Key]
         public int StaffID { get; set; } 
         public string? Name { get; set; } 
         public string? Gender { get; set; } 
@@ -18,5 +20,6 @@ namespace Hospital_Management_System.Models
         public string? EmploymentType { get; set; }
         public string? FilePath{ get; set; }
         public string? Password { get; set; }
+        public string? Username { get; set; }
     }
 }

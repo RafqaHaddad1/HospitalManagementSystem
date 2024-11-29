@@ -337,7 +337,7 @@
                 <th>Status</th>
                 <th>Assigned-Doctor</th>
                 <th>Admission-Date</th>
-                <th>Bed-Number</th>
+                <th>Room-Number</th>
                 <th></th>
             </tr>
         </thead>
@@ -378,7 +378,7 @@
                                 clone.querySelector(".assigned-dr").textContent = item.doctor.doctorName || "N/A";
                                 clone.querySelector(".addmission-date").textContent = item.addmission_Date_ER || "N/A";
                                 clone.querySelector(".bed-number").textContent = item.bedNumber || "N/A";
-                                // clone.querySelector(".view-patient").setAttribute("onclick", `fetchRequestDetails('${item.imageID}')`);
+                                clone.querySelector(".view-patient").setAttribute("onclick", `DischargePatient('${item.patientID}')`);
                                 clone.querySelector(".edit-patient").setAttribute("onclick", `EditPatient('${item.patientID}')`);
                                 // Append the new row to the table body
                                 tbody.appendChild(clone);
@@ -409,6 +409,29 @@
             sessionStorage.setItem("PatientID", id);
             window.location.href = '@Url.Action("EditPatient", "ER")';
         }
+        function DischargePatient(id) {
+            $.ajax({
+                url: '/ER/DischargePatient',  // Replace with your correct controller and action URL
+                type: 'POST',
+                data: { id: id },  // Pass the patient ID as data
+                success: function (response) {
+                    if (response.success) {
+                        // Handle success: Update the UI, show a success message, etc.
+                        alert("Patient discharged successfully");
+                        window.location.reload();
+                        // Optionally, you can update the patient status on the page or reload data
+                    } else {
+                        // Handle failure: Show the error message
+                        alert(response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // Handle error: Show a generic error message
+                    alert("An error occurred while discharging the patient. Please try again.");
+                }
+            });
+        }
+
     </script>
 </body>
 </html>

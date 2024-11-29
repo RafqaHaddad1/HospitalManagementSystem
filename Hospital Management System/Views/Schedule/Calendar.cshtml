@@ -176,6 +176,7 @@
         <option value="Radiology">Radiology</option>
     </select>
     <input type="text" name="roleName" id="roleName" hidden />
+    <button type="button" id="FetchEvents">Fetch Events</button>
     <div id="calendar"></div>
 
     <!-- Add Event Modal -->
@@ -201,11 +202,11 @@
                         <!-- Department ID -->
                         <div class="form-group">
                             <label for="Department">Department</label><br/>
-                            <select class="form-control" id="Department2" name="Department" required onchange="updateDepartmentID2">
+                            <select class="form-control" id="Department2" name="Department"  onchange="updateDepartmentID2()">
                                 <option value="" disabled selected>Select Department</option>
                            
                             </select>
-                            <input type="number" name="DepartmentID" id="DepartmentID2" hidden />
+                            <input type="number" name="DepartmentID" id="DepartmentID2" readonly />
                         </div>
                         <div class="form-group">
                             <label for="Role">Role</label><br />
@@ -216,19 +217,19 @@
                                 <option value="Lab">Lab</option>
                                 <option value="Radiology">Radiology</option>
                             </select>
-                            <input type="text" name="Role" id="roleName" hidden />
+                            <input type="text" name="Role" id="roleName2" readonly />
                         </div>
                         <!-- Staff ID -->
                         <div class="form-group">
                             <label for="Staff">Staff</label><br />
-                            <select class="form-control" id="Staff" name="Staff" required>
+                            <select class="form-control" id="Staff" name="Staff" onchange="updateStaffID()">
                                 <option value="" disabled selected>Select Staff</option>
                             </select>
-                            <input type="number" name="StaffID" hidden />
+                            <input type="number" name="StaffID" id="StaffID" readonly />
                         </div>
 
                         <!-- Event Title -->
-                        <div class="form-group">
+                     @*    <div class="form-group">
                             <label for="EventTitle">Event Title</label>
                             <input type="text"
                                    class="form-control"
@@ -236,7 +237,7 @@
                                    name="EventTitle"
                                    placeholder="Enter event title"
                                    required />
-                        </div>
+                        </div> *@
 
                         <!-- Date -->
                         <div class="form-group">
@@ -244,8 +245,8 @@
                             <input type="date"
                                    class="form-control"
                                    id="EventDate"
-                                   name="EventDate"
-                                   required />
+                                   name="Date"
+                                    />
                         </div>
 
                         <!-- Start Time -->
@@ -254,8 +255,8 @@
                             <input type="time"
                                    class="form-control"
                                    id="EventStartTime"
-                                   name="EventStartTime"
-                                   required />
+                                   name="Start"
+                                    />
                         </div>
 
                         <!-- End Time -->
@@ -264,13 +265,13 @@
                             <input type="time"
                                    class="form-control"
                                    id="EventEndTime"
-                                   name="EventEndTime"
-                                   required />
+                                   name="End"
+                                    />
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button"
+                    <button type="submit"
                             class="btn"
                             id="saveEventButton"
                             style="
@@ -286,7 +287,91 @@
         </div>
     </div>
 
+    <div class="modal fade"
+         id="ViewEventModal"
+         tabindex="-1"
+         role="dialog"
+         aria-labelledby="AddEventModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="AddEventModalLabel">Add Event</h5>
+                    <button type="button"
+                            class="close"
+                            data-dismiss="modal"
+                            aria-label="Close" onclick=" $('#ViewEventModal').modal('hide');">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="UpdateEventForm">
+                        <!-- Department ID -->
+                        <input type="number" name="EventID" id="EventID2" readonly/>
+                        <div class="form-group">
+                            <label for="Department">Department</label><br />
+                            <select class="form-control" id="Department3" name="Department" onchange="updateDepartmentID2()">
+                                <option value="" disabled selected>Select Department</option>
 
+                            </select>
+                            <input type="number" name="DepartmentID" id="DepartmentID3" readonly />
+                        </div>
+                        <div class="form-group">
+                            <label for="Role">Role</label><br />
+                           
+                            <input type="text" name="Role" id="roleName3" readonly />
+                        </div>
+                        <!-- Staff ID -->
+                        <div class="form-group">
+                            <label for="Staff">Staff</label><br />
+                           <input type="text" dirname="StaffName" id="StaffName" readonly/>
+                            <input type="number" name="StaffID" id="StaffID2" readonly />
+                        </div>
+
+                        <!-- Date -->
+                        <div class="form-group">
+                            <label for="EventDate">Date</label>
+                            <input type="date"
+                                   class="form-control"
+                                   id="EventDate2"
+                                   name="Date" />
+                        </div>
+
+                        <!-- Start Time -->
+                        <div class="form-group">
+                            <label for="EventStartTime">Start Time</label>
+                            <input type="time"
+                                   class="form-control"
+                                   id="EventStartTime2"
+                                   name="Start" />
+                        </div>
+
+                        <!-- End Time -->
+                        <div class="form-group">
+                            <label for="EventEndTime">End Time</label>
+                            <input type="time"
+                                   class="form-control"
+                                   id="EventEndTime2"
+                                   name="End" />
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit"
+                            class="btn"
+                            id="UpdateEvent"
+                            style="
+                  background-color: #44444c;
+                  color: white;
+                  border: none;
+                  padding: 8px 20px;
+                ">
+                        Update Event
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
         $("#Department2").select2({
@@ -302,76 +387,190 @@
         $("#department").select2();
         $("#role").select2();
         $(document).ready(function () {
+            // Initialize department dropdown before calendar
             DepartmentDropDown();
+
+            // Ensure the calendar element is loaded before initialization
             var calendarEl = document.getElementById("calendar");
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: "dayGridMonth",
-                headerToolbar: {
-                    left: "prev,next today",
-                    center: "title",
-                    right: "addEventButton dayGridMonth,timeGridWeek,timeGridDay",
-                },
-                customButtons: {
-                    addEventButton: {
-                        text: "Add Event",
-                        click: function () {
-                            DepartmentDropDown2();
-                            $("#AddEventModal").modal("show");
+
+            if (calendarEl) {
+                var calendar = new FullCalendar.Calendar(calendarEl, {
+                    initialView: "dayGridMonth",
+                    headerToolbar: {
+                        left: "prev,next today",
+                        center: "title",
+                        right: "addEventButton dayGridMonth,timeGridWeek,timeGridDay",
+                    },
+                    customButtons: {
+                        addEventButton: {
+                            text: "Add Event",
+                            click: function () {
+                                DepartmentDropDown2();
+                                $("#AddEventModal").modal("show");
+                            },
                         },
                     },
-                },
-                eventDisplay: "block",
-                events: [],
-                eventClick: function (info) {
-                    // Show the modal with event details in read-only mode
-                    $("#EventTitle").val(info.event.title).prop("disabled", true);
-                    $("#EventDate").val(info.event.start.toISOString().slice(0, 10)).prop("disabled", true);
-                    $("#EventStartTime")
-                        .val(info.event.start.toISOString().slice(11, 16))
-                        .prop("disabled", true);
-                    $("#EventEndTime")
-                        .val(info.event.end ? info.event.end.toISOString().slice(11, 16) : "")
-                        .prop("disabled", true);
+                    dateClick: function (info) {
+                        calendar.changeView('timeGridDay', info.dateStr);
+                    },
 
-                    // Populate additional fields if necessary
-                    const [staffInfo, deptInfo] = info.event.title.match(/\((.*?)\)/)[1].split(", ");
-                    $("#StaffID").val(staffInfo.split(": ")[1]).prop("disabled", true);
-                    $("#DepartmentID").val(deptInfo.split(": ")[1]).prop("disabled", true);
+                    events: [], // You might want to populate events here or via another AJAX call
 
+                    eventClick: function (info) {
+                        console.log(info);  // Log the FullCalendar event data
+                        console.log(info.event._def.publicId);
 
-                    $("#saveEventButton").hide();
+                        // Make AJAX request to fetch event details based on the event ID
+                        $.ajax({
+                            url: '/Schedule/GetEventById',  // The URL of your API
+                            type: 'GET',
+                            data: { id: info.event._def.publicId },  // Pass event ID to the API
+                            success: function (response) {
+                                if (response.success) {
+                                    const event = response.model;   // The event data returned from the API
+                                    console.log(event);
+                                    // Populate the modal with event data
+                                    $('#ViewEventModal #EventID2').val(event.id);
+                                    $('#ViewEventModal #DepartmentID3').val(event.departmentID);
+                                    $('#ViewEventModal #roleName3').val(event.departmentName);
+                                    $('#ViewEventModal #StaffName').val(event.title);
+                                    $('#ViewEventModal #StaffID2').val(event.staffID);
+                                    $('#ViewEventModal #EventDate2').val(event.date);
+                                    $('#ViewEventModal #EventStartTime2').val(event.start);
+                                    $('#ViewEventModal #EventEndTime2').val(event.end);
 
+                                    // Show the modal
+                                    $("#ViewEventModal").modal('show');
+                                } else {
+                                    alert('Error: ' + response.error);
+                                }
+                            },
+                            error: function () {
+                                alert('An error occurred while fetching event details.');
+                            }
+                        });
+                    }
+                });
 
-                    $("#AddEventModal").modal("show");
-                },
-            });
+                // Render the calendar
+                calendar.render();
+            } else {
+                console.error("Calendar element not found");
+            }
 
-            calendar.render();
+            // Fetch events on button click
+            $("#FetchEvents").click(function () {
+                var departmentID = $("#DepartmentID").val();
+                var role = $("#roleName").val();
+                $.ajax({
+                    url: '/Schedule/GetEventByDepAndRole',
+                    method: 'GET',
+                    data: {
+                        depId: departmentID,
+                        role: role
+                    },
+                    success: function (data) {
+                        console.log(data); // Debugging step
+                        var events = data.model.map(function (event) {
+                            // Format the start and end date-time
+                            var date = event.date;
+                            event.start = `${date}T${event.start}`;
+                            event.end = `${date}T${event.end}`;
+                            return event;
+                        });
 
-            $("#saveEventButton").on("click", function () {
-                var title = $("#EventTitle").val();
-                var date = $("#EventDate").val();
-                var startTime = $("#EventStartTime").val();
-                var endTime = $("#EventEndTime").val();
-                var staffId = $("#StaffID").val();
-                var departmentId = $("#DepartmentID").val();
-
-                if (title && date && startTime && endTime) {
-                    calendar.addEvent({
-                        title: title + " (Staff Id: " + staffId + ", Dept Id: " + departmentId + ")",
-                        start: date + "T" + startTime,
-                        end: date + "T" + endTime,
-                        allDay: false,
-                    });
-
-                    alert("Event added successfully!");
-                    $("#AddEventModal").modal("hide");
-                    $("#AddEventForm")[0].reset();
-                } else {
-                    alert("Please fill all required fields!");
-                }
+                        // Add the events to the calendar
+                        calendar.addEventSource(events);
+                    },
+                    error: function () {
+                        alert("An error occurred while fetching events.");
+                    }
+                });
             });
         });
+          
+        $('#saveEventButton').click(function () {
+            const formData = {
+                Role: $('#AddEventModal #roleName2').val(),
+                Date: $('#AddEventModal #EventDate').val(), // Event date
+                Start: $('#AddEventModal #EventStartTime').val(), // Event start time
+                End: $('#AddEventModal #EventEndTime').val(), // Event end time
+                StaffID: $('#AddEventModal #StaffID').val(), // Staff ID
+                DepartmentID: $('#AddEventModal #DepartmentID2').val() // Department ID
+            };
+
+            // Log the form data to check if the values are correct
+            console.log('FormData:', formData);
+
+            // Validate if all required fields are filled
+            if (formData.Date && formData.Start && formData.End) {
+                $.ajax({
+                    url: '/Schedule/AddEvent', // Update with your correct endpoint if needed
+                    method: 'POST',
+
+                    data: formData, // Convert formData to JSON string
+                    success: function (response) {
+                        console.log('Server Response:', response);
+                        if (response.success) {
+                            alert("Event Added");
+                            $('#AddEventModal').modal('hide'); // Hide the modal
+                             // Refresh the calendar to show the new event
+                        } else {
+                            alert('Error: ' + response.errorMessage); // Handle errors from the server
+                        }
+                    },
+                    error: function (error) {
+                        console.log('AJAX Error:', error); // Log any AJAX errors
+                        alert('Error adding event.'); // Show a user-friendly error message
+                    }
+                });
+            } else {
+                alert("Please fill all required fields!"); // Alert if any required fields are missing
+            }
+        });
+
+        $('#UpdateEvent').click(function () {
+            const formData = {
+                EventID: $('#ViewEventModal #EventID2').val(),
+                Role: $('#ViewEventModal #roleName3').val(),
+                Date: $('#ViewEventModal #EventDate2').val(), // Event date
+                Start: $('#ViewEventModal #EventStartTime2').val(), // Event start time
+                End: $('#ViewEventModal #EventEndTime2').val(), // Event end time
+                StaffID: $('#ViewEventModal #StaffID2').val(), // Staff ID
+                DepartmentID: $('#ViewEventModal #DepartmentID3').val() // Department ID
+            };
+
+            // Log the form data to check if the values are correct
+            console.log('FormData:', formData);
+
+            // Validate if all required fields are filled
+            if (formData.Date && formData.Start && formData.End) {
+                $.ajax({
+                    url: '/Schedule/UpdateEvent', // Update with your correct endpoint if needed
+                    method: 'POST',
+
+                    data: formData, // Convert formData to JSON string
+                    success: function (response) {
+                        console.log('Server Response:', response);
+                        if (response.success) {
+                            alert("Event Updated");
+                            $('#ViewEventModal').modal('hide'); // Hide the modal
+                           
+                        } else {
+                            alert('Error: ' + response.errorMessage); // Handle errors from the server
+                        }
+                    },
+                    error: function (error) {
+                        console.log('AJAX Error:', error); // Log any AJAX errors
+                        alert('Error adding event.'); // Show a user-friendly error message
+                    }
+                });
+            } else {
+                alert("Please fill all required fields!"); // Alert if any required fields are missing
+            }
+        });
+
+    
         function DepartmentDropDown() {
             $.ajax({
                 url: '/Department/AllDepartments',
@@ -467,64 +666,81 @@
         }
 
         function updateDepartmentID2() {
-            var selectedOption = document.getElementById("department2").selectedOptions[0];
+            var selectedOption = document.getElementById("Department2").selectedOptions[0];
             // Get the Zone_ID from the data attribute
             var departmentID = selectedOption.getAttribute("data-department-id"); // Fix the attribute name
             // Set the Zone_ID input field value
             document.getElementById("DepartmentID2").value = departmentID;
         }
+
         function updateRole2() {
-            var selectedOption = document.getElementById("Role2").selectedOptions[0];
+            var selectedOption = document.getElementById("Role2").selectedOptions[0]; // Get the selected option
 
-            // Get the value of the selected option
-            var roleValue = selectedOption.value;  // or use selectedOption.text for the visible text
-
-            // Set the value in the input field
-            document.getElementById("roleName").value = roleValue;
+            // Check if an option is selected and update the role name input
+            if (selectedOption) {
+                var roleValue = selectedOption.value; // Get the value of the selected option
+                console.log(roleValue);
+                document.getElementById("roleName2").value = roleValue;
+                console.log($("#roleName").val());// Set the value in the roleName input field
+            }
         }
-        function changeRole(){
+        function changeRole() {
+            // First, update the role name using the selected option
             updateRole2();
-            rolevalue = $("#roleName").val();
+
+            // Now get the updated role value
+            var rolevalue = $("#roleName2").val();
+            var department = $("#DepartmentID2").val();
+            // Perform an AJAX request to fetch staff based on the selected role
             $.ajax({
-                url: '/Staff/StaffByRole',
+                url: '/Staff/StaffByRole', // Ensure this is the correct endpoint
                 type: 'GET',
                 data: {
-                    role: rolevalue
+                    role: rolevalue,
+                    department: department
                 },
                 success: function (response) {
-                    console.log(response); // Log the response object
+                    console.log(response); // Log the response object for debugging
 
                     if (response.success) {
-                        var DepartmentDropDown = document.getElementById("Staff");
-                        DepartmentDropDown.innerHTML = ""; // Clear existing options
-                        // Add a default "Select a Supervisor" option
+                        var staffDropDown = document.getElementById("Staff");
+                        staffDropDown.innerHTML = ""; // Clear existing options
+
+                        // Add a default "Select a Staff" option
                         var defaultOption = document.createElement("option");
                         defaultOption.value = "";
                         defaultOption.text = "Select a Staff";
                         defaultOption.disabled = true;
                         defaultOption.selected = true;
-                        DepartmentDropDown.appendChild(defaultOption);
-                        // Populate the zone dropdown with new options
+                        staffDropDown.appendChild(defaultOption);
+
+                        // Populate the staff dropdown with new options
                         response.model.staff.forEach(function (staff) {
                             var option = document.createElement("option");
                             option.value = staff.staffID;
                             option.text = staff.name;
-                            option.setAttribute("data-staff-id", staff.departmentstaffId);
-                            console.log("Staff ID: ", staff.departmentstaffId);
-                            DepartmentDropDown.appendChild(option);
+                            option.setAttribute("data-staff-id", staff.staffID);
+                            console.log("Staff ID: ", staff.staffID); // For debugging
+                            staffDropDown.appendChild(option);
                         });
-
-
                     } else {
                         alert('Failed to retrieve staff: ' + response.message);
                     }
                 },
                 error: function (xhr, status, error) {
-                    alert('Error: ' + error);
+                    console.error('AJAX Error: ', error); // Log error for debugging
+                    alert('Error fetching staff based on the selected role.');
                 }
             });
         }
-       
+        function updateStaffID() {
+            var selectedOption = document.getElementById("Staff").selectedOptions[0];
+            // Get the Zone_ID from the data attribute
+            var departmentID = selectedOption.getAttribute("data-staff-id"); // Fix the attribute name
+            // Set the Zone_ID input field value
+            document.getElementById("StaffID").value = departmentID;
+        }
+           
     </script>
 
 </body>

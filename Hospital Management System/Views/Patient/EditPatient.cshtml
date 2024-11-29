@@ -2,12 +2,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    @* ER *@
 
+    @* Patient  *@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - YourAppName</title>
-  
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.6/css/dataTables.dataTables.css" />
@@ -18,114 +18,115 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
+    <style>
         .table .thead-dark th {
             color: white !important;
             background-color: #44444c !important;
             border-color: #44444c !important;
         }
-      .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    max-width: 1500px;
-    margin: 0 auto;
-}
 
-h1.Title {
-    text-align: center;
-    margin-bottom: 20px;
-}
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            max-width: 1500px;
+            margin: 0 auto;
+        }
 
-.form-container {
-    display: flex;
-    flex-wrap: wrap; /* Ensure columns stack on smaller screens */
-    justify-content: space-between;
-    width: 90%;
-    background-color: #e0e0e0;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    gap: 20px; /* Add space between columns */
-}
+        h1.Title {
+            text-align: center;
+            margin-bottom: 20px;
+        }
 
-.form-left, .form-right {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    max-width: 48%; /* Control the width to avoid stretching */
-}
+        .form-container {
+            display: flex;
+            flex-wrap: wrap; /* Ensure columns stack on smaller screens */
+            justify-content: space-between;
+            width: 90%;
+            background-color: #e0e0e0;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            gap: 20px; /* Add space between columns */
+        }
 
-input[type="text"], input[type="number"], input[type="date"], textarea, select {
-    margin-bottom: 10px;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
+        .form-left, .form-right {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            max-width: 48%; /* Control the width to avoid stretching */
+        }
 
-.profile-pic {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #44444c;
-    border-radius: 50%;
-    width: 100px;
-    height: 100px;
-    color: white;
-    font-size: 40px;
-    margin-bottom: 20px;
-}
+        input[type="text"], input[type="number"], input[type="date"], textarea, select {
+            margin-bottom: 10px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
 
-.radio-group {
-    margin-bottom: 15px;
-}
+        .profile-pic {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #44444c;
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            color: white;
+            font-size: 40px;
+            margin-bottom: 20px;
+        }
 
-.radio-group div {
-    display: inline-block;
-    margin-right: 20px;
-}
+        .radio-group {
+            margin-bottom: 15px;
+        }
 
-.save-button {
-    padding: 10px 20px;
-    background-color: #44444c;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
+            .radio-group div {
+                display: inline-block;
+                margin-right: 20px;
+            }
 
-.save-button:hover {
-    background-color: #333;
-}
+        .save-button {
+            padding: 10px 20px;
+            background-color: #44444c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
 
-.checkbox-group label {
-    display: block;
-    margin-bottom: 8px;
-}
+            .save-button:hover {
+                background-color: #333;
+            }
 
-.checkbox-container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-}
+        .checkbox-group label {
+            display: block;
+            margin-bottom: 8px;
+        }
 
-.checkbox-item input[type="checkbox"] {
-    margin-right: 10px;
-    transform: scale(1.2);
-}
+        .checkbox-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
 
-.checkbox-item label {
-    font-weight: normal;
-    font-size: 1rem;
-}
+        .checkbox-item input[type="checkbox"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
 
-.medication-dosage-container {
+        .checkbox-item label {
+            font-weight: normal;
+            font-size: 1rem;
+        }
+
+        .medication-dosage-container {
             display: grid;
             grid-template-columns: repeat(2, 1fr); /* Create two equal columns */
             gap: 20px; /* Space between items */
             align-items: start; /* Align items at the top */
-}
+        }
 
         .emergency-contact-container {
             display: grid;
@@ -134,22 +135,22 @@ input[type="text"], input[type="number"], input[type="date"], textarea, select {
             align-items: start; /* Align items at the top */
         }
 
-.input-group2 {
-    flex: 1;
-    min-width: 200px;
-}
+        .input-group2 {
+            flex: 1;
+            min-width: 200px;
+        }
 
-.input-group2 label {
-    margin-bottom: 5px;
-    font-weight: bold;
-}
+            .input-group2 label {
+                margin-bottom: 5px;
+                font-weight: bold;
+            }
 
-.input-group2 input[type="text"] {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
+            .input-group2 input[type="text"] {
+                width: 100%;
+                padding: 8px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+            }
 
         .select2-hidden-accessible {
             border: 0 !important;
@@ -255,75 +256,76 @@ input[type="text"], input[type="number"], input[type="date"], textarea, select {
         }
 
 
-    .form-container {
-        flex-direction: column;
-        align-items: center;
-    }
+        .form-container {
+            flex-direction: column;
+            align-items: center;
+        }
 
-    .form-left, .form-right {
-        width: 100%;
-        max-width: 100%;
-    }
+        .form-left, .form-right {
+            width: 100%;
+            max-width: 100%;
+        }
 
-    .profile-pic {
-        width: 80px;
-        height: 80px;
-        font-size: 30px;
-    }
+        .profile-pic {
+            width: 80px;
+            height: 80px;
+            font-size: 30px;
+        }
 
-    .radio-group div {
-        margin-right: 10px;
-    }
-       .drop-section {
-           border: 2px dashed #ccc;
-           border-radius: 5px;
-           padding: 20px;
-           text-align: center;
-       }
+        .radio-group div {
+            margin-right: 10px;
+        }
 
-       .drag-over-effect {
-           border-color: #44444c;
-       }
+        .drop-section {
+            border: 2px dashed #ccc;
+            border-radius: 5px;
+            padding: 20px;
+            text-align: center;
+        }
 
-       .file-list {
-           margin-top: 20px;
-       }
+        .drag-over-effect {
+            border-color: #44444c;
+        }
 
-           .file-list ul {
-               list-style-type: none;
-               padding: 0;
-           }
+        .file-list {
+            margin-top: 20px;
+        }
 
-           .file-list li {
-               margin-bottom: 5px;
-               position: relative;
-               padding: 10px;
-               background: #f9f9f9;
-               border: 1px solid #ddd;
-               border-radius: 5px;
-               display: flex;
-               align-items: center;
-           }
+            .file-list ul {
+                list-style-type: none;
+                padding: 0;
+            }
 
-           .file-list img {
-               width: 50px;
-               height: 50px;
-               margin-right: 10px;
-           }
+            .file-list li {
+                margin-bottom: 5px;
+                position: relative;
+                padding: 10px;
+                background: #f9f9f9;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                display: flex;
+                align-items: center;
+            }
 
-           .file-list .remove-button {
-               position: absolute;
-               right: 0;
-               top: 0;
-               background: red;
-               color: white;
-               border: none;
-               border-radius: 3px;
-               cursor: pointer;
-               padding: 3px 8px;
-               font-size: 12px;
-               margin-left: 10px;
-           }
+            .file-list img {
+                width: 50px;
+                height: 50px;
+                margin-right: 10px;
+            }
+
+            .file-list .remove-button {
+                position: absolute;
+                right: 0;
+                top: 0;
+                background: red;
+                color: white;
+                border: none;
+                border-radius: 3px;
+                cursor: pointer;
+                padding: 3px 8px;
+                font-size: 12px;
+                margin-left: 10px;
+            }
 
         .checkbox-group {
             margin-top: 15px;
@@ -357,7 +359,7 @@ input[type="text"], input[type="number"], input[type="date"], textarea, select {
                 cursor: pointer;
             }
 
-  </style>
+    </style>
 
     <link rel="stylesheet" href="~/css/site.css">
 
@@ -366,14 +368,14 @@ input[type="text"], input[type="number"], input[type="date"], textarea, select {
     <div class="container">
         <h1 class="Title">Edit Patient</h1>
 
-        <form class="container" id="Patient-Form" asp-action="EditERPatient" asp-controller="ER" method="post" enctype="multipart/form-data" onsubmit="return valdiateAndRedirect()">
+        <form class="container" id="Patient-Form" asp-action="EditPatient" asp-controller="Patient" method="post" enctype="multipart/form-data" onsubmit="return valdiateAndRedirect()">
             <div class="form-container">
-                
+
                 <div class="form-left">
                     <div class="profile-pic">
                         <i class="fas fa-user"></i>
                     </div>
-                    <input type="number" name="PatientID" id="PatientID" readonly/>
+                    <input type="number" name="PatientID" id="PatientID" readonly />
                     <input type="text" name="FullName" placeholder="Name" readonly />
                     <input type="text" name="ContactInfo" placeholder="Phone" readonly />
                     <input type="text" name="Address" placeholder="Address" readonly />
@@ -448,7 +450,7 @@ input[type="text"], input[type="number"], input[type="date"], textarea, select {
                             <ul id="file-items"></ul>
                         </div>
                     </div>
-                    <input type="text" id="Files" hidden /><br/>
+                    <input type="text" id="Files" hidden /><br />
 
                     <select name="departmentname" id="department" class="department form-control" data-placeholder="Select a department" style="width: 100%;" tabindex="-1" aria-hidden="true" onchange="UpdateDepartmentID()">
                         <option value="" selected disabled>Select a department</option>
@@ -458,18 +460,21 @@ input[type="text"], input[type="number"], input[type="date"], textarea, select {
                         <option value="" selected disabled>Select a Doctor</option>
                     </select>
                     <input type="number" name="AssignedDoctorID" id="DoctorID" placeholder="Doctor Requesting" class="form-control" hidden />
-                   @*  <select name="Bed" id="Bed" class="form-control" data-placeholder="Select a Bed" style="width: 100%;" tabindex="-1" aria-hidden="true" onchange="UpdateBedID()">
-                        <option value="" selected disabled>Select a Bed</option>
-                    </select> *@
+
                     <label for="BedNumber">Bed Number</label>
+                    <select name="Bed" id="Bed" class="form-control" data-placeholder="Select a Room" style="width: 100%;" tabindex="-1" aria-hidden="true" onchange="UpdateBedID()">
+                        <option value="" selected disabled>Select a Room</option>
+                    </select>
+                   
                     <input type="number" name="BedNumber" id="BedNumber" placeholder="BedNumber" class="form-control" readonly />
+                    <input type="text" name="BedRoom" id="BedRoomType" placeholder="BedRoom" class="form-control" readonly />
                     <select id="StatusDropDown" class=" form-control" data-placeholder="Select a Status" style="width: 100%;" tabindex="-1" aria-hidden="true" onchange="updateStatus()">
                         <option value="" selected disabled>Select a Status</option>
                         <option value="Bed">In Bed</option>
                         <option value="Radiology">In Radiology</option>
                         <option value="Admitted">Admitted</option>
-                    </select><br/>
-                    <input type="text" name="Status" id="Status" placeholder="Status" readonly /><br/>
+                    </select><br />
+                    <input type="text" name="Status" id="Status" placeholder="Status" readonly /><br />
                     <div class="medication-dosage-container" id="medication-dosage-container">
 
                         <div class="input-group2">
@@ -485,7 +490,7 @@ input[type="text"], input[type="number"], input[type="date"], textarea, select {
                     <button type="button" onclick="addNewInput2()" class="btn btn-theme">Add Medication/Dosage</button> <br />
 
                     <div class="emergency-contact-container" id="emergency-contact-container">
-                       
+
                         <div class="input-group2">
                             <label for="name">Emergency Contact Name</label>
                             <input type="text" id="name" name="contact_name[]" placeholder="Enter Name" />
@@ -499,12 +504,12 @@ input[type="text"], input[type="number"], input[type="date"], textarea, select {
                     <input type="text" name="EmergencyContactInfo" id="EmergencyContactInfo" hidden />
                     <button type="button" onclick="addNewContact()" class="btn btn-theme">Add New Contact</button>
 
-                   
+
                     <h3>Hospital Data</h3>
                     <div class="form-left">
                         <h4>
                             Vital Signs
-                            <button type="button" class="btn btn-sm btn-primary" id="add-vital-signs" style="background-color: #44444c; border-color: #44444c; color: white; width:40px" >
+                            <button type="button" class="btn btn-sm btn-primary" id="add-vital-signs" style="background-color: #44444c; border-color: #44444c; color: white; width:40px">
                                 <i class="fas fa-plus"></i>
                             </button>
                         </h4>
@@ -521,10 +526,10 @@ input[type="text"], input[type="number"], input[type="date"], textarea, select {
                             <tbody>
                             </tbody>
                         </table>
-                        <input type="text" id="VitalsData" name="VitalSigns" />           
+                        <input type="text" id="VitalsData" name="VitalSigns" />
                         <h4>
                             Symptoms Signs
-                            <button type="button" class="btn btn-sm btn-primary" id="add-symptom-signs" style="background-color: #44444c; border-color: #44444c; color: white; width:40px" >
+                            <button type="button" class="btn btn-sm btn-primary" id="add-symptom-signs" style="background-color: #44444c; border-color: #44444c; color: white; width:40px">
                                 <i class="fas fa-plus"></i>
                             </button>
                         </h4>
@@ -559,20 +564,32 @@ input[type="text"], input[type="number"], input[type="date"], textarea, select {
                             <tbody>
                             </tbody>
                         </table>
+
+                        <input type="text" id="ORtable" name="ORtable" />
                         
-                        <input type="text" id="MedicationData" name="MedicationsGiven" />
+                      @*   <table id="or-table" class="table table-hover table-striped">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Surgery Name</th>
+                                    <th>Operating Room</th>
+                                    <th>Time</th>
+                                </tr>
+                            </thead>
 
+                            <tbody>
+                            </tbody>
+                        </table> *@
 
-                     </div>
+                    </div>
                     <div class="form-right">
                         <textarea name="Treatment" placeholder="Treatment" id="Treatment"></textarea>
                         <textarea name="Overview" placeholder="Overview" id="Overview"></textarea>
-                        <button type="button" id="RequestImage" class="btn btn-theme" >Request Image</button>
+                        <button type="button" id="RequestImage" class="btn btn-theme">Request Image</button>
                         <button type="button" id="RequestLab" class="btn btn-theme">Request Lab</button>
                     </div>
                 </div>
             </div>
-        
+
             <input type="Submit" id="SubmitStaff" class="save-button" value="Save" />
         </form>
     </div>
@@ -591,7 +608,7 @@ input[type="text"], input[type="number"], input[type="date"], textarea, select {
                             <option value="" selected disabled>Select a Doctor</option>
                         </select>
                         <input type="number" name="DoctorID" id="DoctorID3" placeholder="Doctor Requesting" class="form-control" hidden />
-                        
+
                         <input type="number" name="PatientID" id="PatientIDForLab" placeholder="Patient " class="form-control" readonly /><br />
 
                         <div class="form-group checkbox-group">
@@ -660,7 +677,7 @@ input[type="text"], input[type="number"], input[type="date"], textarea, select {
             </div>
         </div>
     </div>
-   
+
     <div class="modal fade" id="SubmitRequestImage" tabindex="-1" aria-labelledby="addEventModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -674,7 +691,7 @@ input[type="text"], input[type="number"], input[type="date"], textarea, select {
                             <option value="" selected disabled>Select a Doctor</option>
                         </select>
                         <input type="number" name="DoctorID" id="DoctorID2" placeholder="Doctor Requesting" class="form-control" hidden />
-                      
+
                         <input type="number" name="PatientID" id="PatientIDForImage" placeholder="Patient " class="form-control" readonly /><br />
 
                         <div class="form-group checkbox-group">
@@ -749,7 +766,7 @@ input[type="text"], input[type="number"], input[type="date"], textarea, select {
             </div>
         </div>
     </div>
-    
+
     <div class="modal fade" id="AddSymptoms" tabindex="-1" aria-labelledby="addEventModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -767,7 +784,7 @@ input[type="text"], input[type="number"], input[type="date"], textarea, select {
                             <label for="Notes" class="form-label">Notes</label>
                             <input type="text" id="Notes" name="Notes" placeholder="Notes" class="form-control" /><br />
                         </div>
-                       
+
                         <div class="mb-3">
                             <label for="TimeAdded" class="form-label">Time Added</label>
                             <input type="datetime-local" id="TimeAdded" name="TimeAdded" class="form-control" />
@@ -813,7 +830,7 @@ input[type="text"], input[type="number"], input[type="date"], textarea, select {
     </div>
 
 
-<script>
+    <script>
         $("#Doctor").select2();
         $("#department").select2();
         $("#StatusDropDown").select2();
@@ -824,15 +841,15 @@ input[type="text"], input[type="number"], input[type="date"], textarea, select {
         $("#Doctor3").select2({
             dropdownParent: $('#SubmitRequestLab')
         });
-        var PatientID = sessionStorage.getItem("PatientID");
-     
-       
+        var PatientID = sessionStorage.getItem("PatientID2");
+
+
         $(document).ready(function () {
             fetchStaffDetails();
-          
+
         });
         $("#add-vital-signs").on("click", function () {
-            // Set the value of the input field with id 'PatientIDForImage' to the value of the variable 'PatientID'          
+            // Set the value of the input field with id 'PatientIDForImage' to the value of the variable 'PatientID'
             setCurrentDateTime();
             // Show the modal with the id 'SubmitRequestImage'
             $('#AddVitals').modal('show');
@@ -849,7 +866,7 @@ input[type="text"], input[type="number"], input[type="date"], textarea, select {
             // Show the modal with the id 'SubmitRequestImage'
             $('#AddMedication').modal('show');
         });
-     
+
         $("#RequestImage").on("click", function () {
             // Set the value of the input field with id 'PatientIDForImage' to the value of the variable 'PatientID'
             $("#PatientIDForImage").val(PatientID);
@@ -873,47 +890,47 @@ input[type="text"], input[type="number"], input[type="date"], textarea, select {
 
         // Add event listener to the submit button
         $('#submitVitals').on('click', function () {
-    // Get the values from the input fields
-    var bloodPressure = $('#BloodPressure').val();
-    var heartRate = $('#HeartRate').val();
-    var temperature = $('#Temperature').val();
-    var timeTook = $('#TimeTook').val();
+            // Get the values from the input fields
+            var bloodPressure = $('#BloodPressure').val();
+            var heartRate = $('#HeartRate').val();
+            var temperature = $('#Temperature').val();
+            var timeTook = $('#TimeTook').val();
 
-    // Check if all fields have values
-    if (bloodPressure && heartRate && temperature && timeTook) {
-        // Create a new row for the table
-        var newRow = '<tr>' +
-            '<td>' + bloodPressure + '</td>' +
-            '<td>' + heartRate + '</td>' +
-            '<td>' + temperature + '</td>' +
-            '<td>' + timeTook + '</td>' +
-            '</tr>';
+            // Check if all fields have values
+            if (bloodPressure && heartRate && temperature && timeTook) {
+                // Create a new row for the table
+                var newRow = '<tr>' +
+                    '<td>' + bloodPressure + '</td>' +
+                    '<td>' + heartRate + '</td>' +
+                    '<td>' + temperature + '</td>' +
+                    '<td>' + timeTook + '</td>' +
+                    '</tr>';
 
-        // Append the new row to the table
-        $('#vital-table tbody').append(newRow);
+                // Append the new row to the table
+                $('#vital-table tbody').append(newRow);
 
-        // Create a comma-separated string of the values
-        var vitalsData = bloodPressure + ',' + heartRate + ',' + temperature + ',' + timeTook;
+                // Create a comma-separated string of the values
+                var vitalsData = bloodPressure + ',' + heartRate + ',' + temperature + ',' + timeTook;
 
-        // Option 1: Append to the hidden input field
-        var existingVitalsData = $('#VitalsData').val(); // Get the current value in the hidden input
-        if (existingVitalsData) {
-            // If there is already data, append the new entry with a delimiter
-            $('#VitalsData').val(existingVitalsData + ';' + vitalsData);  // Use ';' to separate each entry
-        } else {
-            // If no existing data, just set the current entry
-            $('#VitalsData').val(vitalsData);
-        }
+                // Option 1: Append to the hidden input field
+                var existingVitalsData = $('#VitalsData').val(); // Get the current value in the hidden input
+                if (existingVitalsData) {
+                    // If there is already data, append the new entry with a delimiter
+                    $('#VitalsData').val(existingVitalsData + ';' + vitalsData);  // Use ';' to separate each entry
+                } else {
+                    // If no existing data, just set the current entry
+                    $('#VitalsData').val(vitalsData);
+                }
 
-        // Clear the form fields
-        $('#AddVitalsForm')[0].reset();
+                // Clear the form fields
+                $('#AddVitalsForm')[0].reset();
 
-        // Hide the modal
-        $('#AddVitals').modal('hide');
-    } else {
-        alert('Please fill all fields.');
-    }
-});
+                // Hide the modal
+                $('#AddVitals').modal('hide');
+            } else {
+                alert('Please fill all fields.');
+            }
+        });
 
 
         // Add event listener to the submit button
@@ -999,8 +1016,37 @@ input[type="text"], input[type="number"], input[type="date"], textarea, select {
                 alert('Please fill all fields.');
             }
         });
+        function fetchSurgeryDetails() {
+            $.ajax({
+                url: '/OR/GetEventByPatient',
+                type: 'GET',
+                data: { id: PatientID }, 
+                success: function (response) {
+                    if (response.success) {
+                        // Clear the table before appending new data
+                        $('#or-table tbody').empty();
 
-        
+                        // Loop through the events and append rows to the table
+                        $.each(response.model, function (index, event) {
+                            var row = '<tr>' +
+                                '<td>' + event.typeofsurgery + '</td>' +
+                                '<td>' + event.orid + '</td>' +
+                                '<td>' + event.start + ' - ' + event.end + '</td>' +
+                                '</tr>';
+                            $('#or-table tbody').append(row);
+                        });
+                    } else {
+                        alert('Error: ' + response.error);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error fetching surgery details:", error);
+                }
+            });
+
+        }
+
+
         function setCurrentDateTime() {
             var now = new Date();
             var year = now.getFullYear();
@@ -1033,7 +1079,7 @@ input[type="text"], input[type="number"], input[type="date"], textarea, select {
             console.log("Selected Bed Number (from #BedNumber): ", selectedBedNumber);
 
             $.ajax({
-                url: '/ER/AvailableBeds',
+                url: '/Patient/GetAvailableRoom',
                 type: 'GET',
                 success: function (response) {
                     console.log(response); // Log the response object
@@ -1044,21 +1090,21 @@ input[type="text"], input[type="number"], input[type="date"], textarea, select {
                         // Add a default "Select a Supervisor" option
                         var defaultOption = document.createElement("option");
                         defaultOption.value = "";
-                        defaultOption.text = "Select a Bed";
+                        defaultOption.text = "Select a Room";
                         defaultOption.disabled = true;
                         defaultOption.selected = true;
                         DrDropdown.appendChild(defaultOption);
                         // Populate the zone dropdown with new options
                         response.model.forEach(function (dr) {
                             var option = document.createElement("option");
-                            option.value = dr.bed_Number;
-                            option.text = dr.bed_Number;
-                            option.setAttribute("data-bed-id", dr.bed_Number);
-                            console.log("bed ID: ", dr.bed_Number);
+                            option.value = dr.roomID;
+                            option.text = dr.roomID + "-" + dr.roomType;
+                            option.setAttribute("data-bed-id", dr.roomID);
+                            console.log("bed ID: ", dr.roomID);
                             DrDropdown.appendChild(option);
                         });
-                       
-                       
+
+
                     } else {
                         alert('Failed to retrieve dr: ' + response.message);
                     }
@@ -1428,7 +1474,7 @@ input[type="text"], input[type="number"], input[type="date"], textarea, select {
                             console.log("dr ID: ", dr.staffID);
                             DrDropdown.appendChild(option);
                         });
-                       
+
                     } else {
                         alert('Failed to retrieve dr: ' + response.message);
                     }
@@ -1547,23 +1593,23 @@ input[type="text"], input[type="number"], input[type="date"], textarea, select {
             const li = document.createElement('li');
             li.classList.add('file-item');
             li.innerHTML = `
-                                                            <div class="col">
-                                                                <img src="icons/${iconSelector(file.type)}" alt="">
-                                                            </div>
-                                                            <div class="col">
-                                                                <div class="file-name">
-                                                                    <div class="name">${file.name}</div>
-                                                                    <span>0%</span>
-                                                                </div>
-                                                                <div class="file-progress">
-                                                                    <span></span>
-                                                                </div>
-                                                                <div class="file-size">${(file.size / (1024 * 1024)).toFixed(2)} MB</div>
-                                                            </div>
-                                                            <div class="col">
-                                                                <button class="remove-button">Remove</button>
-                                                            </div>
-                                                        `;
+                                                                    <div class="col">
+                                                                        <img src="icons/${iconSelector(file.type)}" alt="">
+                                                                    </div>
+                                                                    <div class="col">
+                                                                        <div class="file-name">
+                                                                            <div class="name">${file.name}</div>
+                                                                            <span>0%</span>
+                                                                        </div>
+                                                                        <div class="file-progress">
+                                                                            <span></span>
+                                                                        </div>
+                                                                        <div class="file-size">${(file.size / (1024 * 1024)).toFixed(2)} MB</div>
+                                                                    </div>
+                                                                    <div class="col">
+                                                                        <button class="remove-button">Remove</button>
+                                                                    </div>
+                                                                `;
             fileItems.appendChild(li);
 
             // Simulate file upload progress
@@ -1602,20 +1648,21 @@ input[type="text"], input[type="number"], input[type="date"], textarea, select {
             saveMedicalHistory();
             document.getElementById('Patient-Form').submit();
             alert("Patient Added successfully");
-            window.location.href = 'ER/ViewPatients';
+            window.location.href = 'Patient/Patients';
         }
         function fetchStaffDetails() {
             $.ajax({
-                url: '/ER/PatientByIDInER/' + PatientID,
+                url: '/Patient/PatientByID',
                 type: 'GET',
+                data: { id: PatientID },
                 success: function (response) {
                     console.log(response);
                     if (response.success) {
                         var patient = response.model.patient; // Assuming model is an array, access the first element
 
                         // Fill the form fields in the modal with staff data
-                        $("#PatientID").val(patient.patientID|| "N/A");
-                        $("input[name='FullName']").val(patient.fullName|| "N/A");
+                        $("#PatientID").val(patient.patientID || "N/A");
+                        $("input[name='FullName']").val(patient.fullName || "N/A");
                         $("input[name='ContactInfo']").val(patient.contactInfo || "N/A");
                         $("input[name='Address']").val(patient.address || "N/A");
                         $("input[name='DateOfBirth']").val(patient.dateOfBirth || "N/A");
@@ -1624,7 +1671,7 @@ input[type="text"], input[type="number"], input[type="date"], textarea, select {
                         $("input[name='Status']").val(patient.status || "N/A");
                         $("input[name='DepartmentID']").val(patient.departmentID || "N/A");
                         DepartmentDropDown();
-                        $("input[name='AssignedDoctorID']").val(patient.assignedDoctorID|| "N/A");
+                        $("input[name='AssignedDoctorID']").val(patient.assignedDoctorID || "N/A");
                         DrDropdown();
                         $("input[name='BedNumber']").val(patient.bedNumber || "N/A");
                         BedDropDown();
@@ -1643,7 +1690,9 @@ input[type="text"], input[type="number"], input[type="date"], textarea, select {
 
                         $("#Treatment").val(patient.treatment || "");
                         $("#Overview").val(patient.overview || "");
-
+                        $("#BedRoomType").val(response.model.room.roomType || "");
+                      
+                            
 
                         $("#Files").val(patient.files || "N/A");
                         // Set the gender radio button
@@ -1672,8 +1721,8 @@ input[type="text"], input[type="number"], input[type="date"], textarea, select {
                             $("#AB-").prop('checked', true);
                         }
 
-                        
-                      
+
+
 
                         var listGroup = $('#file-items');
                         listGroup.empty();
@@ -1689,17 +1738,17 @@ input[type="text"], input[type="number"], input[type="date"], textarea, select {
                                 var fileName = trimmedPath.substring(trimmedPath.lastIndexOf('/') + 1); // Extract the file name from the path
 
                                 var listItem = `
-                                                <li>
-                                                    <a href="${trimmedPath}" target="_blank">${fileName}</a>
+                                                        <li>
+                                                            <a href="${trimmedPath}" target="_blank">${fileName}</a>
 
-                                                </li>
-                                            `;
+                                                        </li>
+                                                    `;
 
                                 // Append the new item to the list group
                                 listGroup.append(listItem);
                             }
                         });
-                    
+
                     } else {
                         alert("Failed to fetch patient data.");
                     }
@@ -1830,14 +1879,14 @@ input[type="text"], input[type="number"], input[type="date"], textarea, select {
                 newInputDosage.placeholder = 'Enter dosage';
                 newInputDosage.value = dosage; // Set the dosage value
 
-               
 
-               
+
+
 
                 // Append the medication input, dosage input, and remove button to their respective divs
                 inputGroupMedication.appendChild(newInputMedication);
                 inputGroupDosage.appendChild(newInputDosage);
-             
+                
 
                 // Append the medication and dosage input groups to the container
                 container.appendChild(inputGroupMedication);
@@ -1845,7 +1894,7 @@ input[type="text"], input[type="number"], input[type="date"], textarea, select {
             }
         }
 
- 
+
 
         function displaySavedEmergencyContactInfo() {
             // Get the saved emergency contact information string from the hidden input field
@@ -1869,7 +1918,7 @@ input[type="text"], input[type="number"], input[type="date"], textarea, select {
                     // Check if both name and phone number are valid
                     if (name && phoneNumber) {
                         // Call the function to add a new emergency contact input field, without the minus button
-                        
+
 
                         // Get the last added name and phone number input fields
                         const nameInputs = document.querySelectorAll('input[name="contact_name[]"]');

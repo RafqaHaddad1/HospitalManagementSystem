@@ -11,13 +11,117 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.6/css/dataTables.dataTables.css" />
     <script src="https://cdn.datatables.net/2.1.6/js/dataTables.js"></script>
     <link href="https://stackpath.bootstrapcdn.cm/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
-
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <style>
 
+        .select2-hidden-accessible {
+            border: 0 !important;
+            clip: rect(0 0 0 0) !important;
+            height: 1px !important;
+            margin: -1px !important;
+            overflow: hidden !important;
+            padding: 0 !important;
+            position: absolute !important;
+            width: 1px !important
+        }
+
+        .select2-container--default .select2-selection--single,
+        .select2-selection .select2-selection--single {
+            border: 1px solid #d2d6de;
+            border-radius: 5px;
+            padding: 6px 12px;
+            height: 34px;
+            margin-bottom: 10px
+        }
+
+        .select2-container--default .select2-selection--single {
+            background-color: #fff;
+            border: 1px solid #aaa;
+            border-radius: 5px
+        }
+
+        .select2-container .select2-selection--single {
+            box-sizing: border-box;
+            cursor: pointer;
+            display: block;
+            height: 28px;
+            user-select: none;
+            -webkit-user-select: none
+        }
+
+            .select2-container .select2-selection--single .select2-selection__rendered {
+                padding-right: 10px
+            }
+
+            .select2-container .select2-selection--single .select2-selection__rendered {
+                padding-left: 0;
+                padding-right: 0;
+                height: auto;
+                margin-top: -3px
+            }
+
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            line-height: 28px
+        }
+
+        .select2-container--default .select2-selection--single,
+        .select2-selection .select2-selection--single {
+            border: 1px solid #d2d6de;
+            border-radius: 5px !important;
+            padding: 6px 12px;
+            height: 40px !important
+        }
+
+            .select2-container--default .select2-selection--single .select2-selection__arrow {
+                height: 26px;
+                position: absolute;
+                top: 6px !important;
+                right: 1px;
+                width: 20px
+            }
+
+        .select2-container--default .select2-results__option {
+            padding: 8px 12px;
+            font-size: 14px;
+            border-bottom: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .select2-container--default .select2-results__option--highlighted {
+            background-color: #44444c !important;
+            color: white !important;
+        }
+        /* Style the search box container */
+        .select2-container--default .select2-search--dropdown .select2-search__field {
+            padding: 8px;
+            border: 1px solid #d2d6de;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+            /* Style the search box input */
+            .select2-container--default .select2-search--dropdown .select2-search__field:focus {
+                border-color: #44444c;
+                outline: none;
+                box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
+                border-radius: 5px;
+            }
+
+        .select2-container--default .select2-dropdown {
+            border: 1px solid #d2d6de;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            max-height: 200px; /* Adjust as needed */
+            overflow-y: auto; /* Enable scrolling if options overflow */
+        }
 
         .radio-group div {
             display: inline-block;
@@ -74,7 +178,38 @@
 
         <p class="text-right">
             <a class="btn btn-primary" id="AddUserButton" onclick="location.href='@Url.Action("AddStaff", "Staff")'" style="background-color: #44444c; border-color: #44444c">Create New Staff </a>
+            <div class="text-right mb-3">
+                <button id="toggleFiltersButton" class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#filterSection" aria-expanded="false" aria-controls="filterSection" style="background-color: #44444c; border-color: #44444c">
+                    Show Filters
+                </button>
+            </div>
         </p>
+        <div class="collapse" id="filterSection">
+            <div class="row mb-3">
+                <div class="col">
+                    <label>Select Department:</label>
+                    <select id="DepartmentFilter" class="form-control" style="width:100%;">
+                    </select>
+                </div>
+                <div class="col">
+                    <label>Select Role:</label>
+                    <select id="RoleFilter" class="form-control" style="width:100%;">
+                        <option value="">Select Role</option>
+                        <option value="Admin">Admin</option>
+                        <option value="Radiology">Radiology</option>
+                        <option value="Lab">Laboratory</option>
+                        <option value="Doctor">Doctor</option>
+                        <option value="Nurse">Nurse</option>
+                    </select>
+                </div>
+
+                <div class="col">
+                    <br />
+                    <button id="FilterButton" class="btn btn-primary" style="background-color: #44444c; border-color: #44444c">Apply Filters</button>
+                </div>
+            </div>
+        </div>
+    </div>
         <template id="StaffRowTemplate">
             <tr>
                 <td class="staff-id"></td>
@@ -193,14 +328,26 @@
    
 </body>
 <script>
-
+    $("#DepartmentFilter").select2();
+    $("#RoleFilter").select2();
     $(document).ready(function () {
         FillTable();
-    
+        DepartmentDropDown();
+    });
+    $('#FilterButton').on('click', function () {
+        FillTable();  // Call FillTable when Apply Filters button is clicked
     });
     function FillTable() {
+        console.log("entered fill table function");
+        const testType = $('#RoleFilter').val();  // Get the selected TestType value
+        const status = $('#DepartmentFilter').val();  // Get the selected Status value
+        let queryParams = [];
+        if (testType) queryParams.push(`role=${testType}`);
+        if (status) queryParams.push(`departmentName=${status}`);
+
+        const url = "/Staff/Staffs" + (queryParams.length ? `?${queryParams.join('&')}` : '');
         $.ajax({
-            url: '/Staff/Staffs',
+            url: url,
             type: 'GET',
             success: function (response) {
                 console.log(response);
@@ -208,7 +355,9 @@
                     const tbody = document.querySelector("#User-table tbody");
                     const template = document.querySelector("#StaffRowTemplate");
                     tbody.innerHTML = '';  // Clear existing rows
-
+                    if ($.fn.DataTable.isDataTable('#User-table')) {
+                        $('#User-table').DataTable().clear().destroy();
+                    }
                     // Use response.model instead of model
                     response.model.forEach(item => {
                         console.log(item);
@@ -218,7 +367,7 @@
                             // Fill in the data
                             clone.querySelector(".staff-id").textContent = item.staffID || "N/A";
                             clone.querySelector(".staff-name").textContent = item.name || "N/A";
-                            clone.querySelector(".staff-title").textContent = item.title || "N/A";
+                            clone.querySelector(".staff-title").textContent = item.role || "N/A";
                             clone.querySelector(".staff-department").textContent = item.departmentName || "N/A";
                             clone.querySelector(".staff-phonenumber").textContent = item.phoneNumber || "N/A";
 
@@ -237,7 +386,11 @@
                     }
 
                     // Reinitialize DataTable after rows are added
-                    $('#User-table').DataTable();
+                    $('#User-table').DataTable({
+                        destroy: true,
+                        responsive: true,
+                        order: [[1, 'asc']]
+                    });
                 } else {
                     alert("Failed to fetch user data.");
                 }
@@ -248,6 +401,43 @@
         });
     }
    
+    function DepartmentDropDown() {
+        $.ajax({
+            url: '/Department/AllDepartments',
+            type: 'GET',
+            success: function (response) {
+                console.log(response); // Log the response object
+
+                if (response.success) {
+                    var DepartmentDropDown = document.getElementById("DepartmentFilter");
+                    DepartmentDropDown.innerHTML = ""; // Clear existing options
+                    // Add a default "Select a Supervisor" option
+                    var defaultOption = document.createElement("option");
+                    defaultOption.value = "";
+                    defaultOption.text = "Select a Department";
+                    defaultOption.disabled = true;
+                    defaultOption.selected = true;
+                    DepartmentDropDown.appendChild(defaultOption);
+                    // Populate the zone dropdown with new options
+                    response.model.forEach(function (department) {
+                        var option = document.createElement("option");
+                        option.value = department.departmentName;
+                        option.text = department.departmentName;
+                        option.setAttribute("data-department-id", department.departmentID);
+                        console.log("Department ID: ", department.departmentID);
+                        DepartmentDropDown.appendChild(option);
+                    });
+
+
+                } else {
+                    alert('Failed to retrieve department: ' + response.message);
+                }
+            },
+            error: function (xhr, status, error) {
+                alert('Error: ' + error);
+            }
+        });
+    }
 
     function fetchStaffDetails(id) {
         $.ajax({

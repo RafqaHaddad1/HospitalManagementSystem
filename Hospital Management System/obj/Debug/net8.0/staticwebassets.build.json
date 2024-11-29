@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "sXxwPmoyztdfeod6diuSOWQa8jSOwN36yk+Wx+0zt0M=",
+  "Hash": "GzyKQVm8aacAjEZfjoYwJoGXP/HzQ3ocKlZzB9PH1KA=",
   "Source": "Hospital Management System",
   "BasePath": "_content/Hospital Management System",
   "Mode": "Default",
@@ -452,6 +452,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\FilesUpload\\ea8dcee9-5d38-4bd6-a129-70bd351a3edd_Screenshot 2024-06-27 165906.png"
+    },
+    {
+      "Identity": "C:\\Users\\test1\\source\\repos\\Hospital Management System\\Hospital Management System\\wwwroot\\FilesUpload\\fc5aed89-1062-4784-97d7-8db8e5a65558_Screenshot 2024-08-12 124115.png",
+      "SourceId": "Hospital Management System",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\test1\\source\\repos\\Hospital Management System\\Hospital Management System\\wwwroot\\",
+      "BasePath": "_content/Hospital Management System",
+      "RelativePath": "FilesUpload/fc5aed89-1062-4784-97d7-8db8e5a65558_Screenshot 2024-08-12 124115.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\FilesUpload\\fc5aed89-1062-4784-97d7-8db8e5a65558_Screenshot 2024-08-12 124115.png"
     },
     {
       "Identity": "C:\\Users\\test1\\source\\repos\\Hospital Management System\\Hospital Management System\\wwwroot\\FilesUpload\\fdc98121-0e09-4763-bc15-8b8323ee80af_Software-Design-Patterns-for-AI-Systems.pdf",

@@ -109,6 +109,7 @@ namespace Hospital_Management_System.Controllers
                                         end = s.End, // End time from Schedule
                                         date= s.Date,
                                         staffID = s.StaffID, // Staff ID from Schedule
+                                        role= s.Role,
                                     }).FirstOrDefault();
 
                 return Json(new

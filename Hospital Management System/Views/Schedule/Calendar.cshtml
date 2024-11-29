@@ -20,7 +20,16 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-
+        .save-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #44444c;
+            margin-bottom: 20px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
 
         .fc-toolbar .fc-button {
             background-color: #44444c !important;
@@ -176,7 +185,7 @@
         <option value="Radiology">Radiology</option>
     </select>
     <input type="text" name="roleName" id="roleName" hidden />
-    <button type="button" id="FetchEvents">Fetch Events</button>
+    <button type="button" id="FetchEvents" class="save-button">Fetch Events</button>
     <div id="calendar"></div>
 
     <!-- Add Event Modal -->
@@ -202,30 +211,30 @@
                         <!-- Department ID -->
                         <div class="form-group">
                             <label for="Department">Department</label><br/>
-                            <select class="form-control" id="Department2" name="Department"  onchange="updateDepartmentID2()">
+                            <select class="form-control select2-hidden-accessible" id="Department2" name="Department" onchange="updateDepartmentID2()" style="width: 100%;">
                                 <option value="" disabled selected>Select Department</option>
                            
                             </select>
-                            <input type="number" name="DepartmentID" id="DepartmentID2" readonly />
+                            <input type="number" name="DepartmentID" id="DepartmentID2" hidden />
                         </div>
                         <div class="form-group">
                             <label for="Role">Role</label><br />
-                            <select name="role" id="Role2" class="role form-control" data-placeholder="Select a Role" onchange="changeRole()">
+                            <select name="role" id="Role2" class="role form-control select2-hidden-accessible" data-placeholder="Select a Role" onchange="changeRole()" style="width: 100%;">
                                 <option value="" selected disabled>Select a role</option>
                                 <option value="Doctor">Doctor</option>
                                 <option value="Nurse">Nurse</option>
                                 <option value="Lab">Lab</option>
                                 <option value="Radiology">Radiology</option>
                             </select>
-                            <input type="text" name="Role" id="roleName2" readonly />
+                            <input type="text" name="Role" id="roleName2" hidden />
                         </div>
                         <!-- Staff ID -->
                         <div class="form-group">
                             <label for="Staff">Staff</label><br />
-                            <select class="form-control" id="Staff" name="Staff" onchange="updateStaffID()">
+                            <select class="form-control select2-hidden-accessible" id="Staff" name="Staff" onchange="updateStaffID()" style="width: 100%;">
                                 <option value="" disabled selected>Select Staff</option>
                             </select>
-                            <input type="number" name="StaffID" id="StaffID" readonly />
+                            <input type="number" name="StaffID" id="StaffID" hidden />
                         </div>
 
                         <!-- Event Title -->
@@ -307,25 +316,24 @@
                 <div class="modal-body">
                     <form id="UpdateEventForm">
                         <!-- Department ID -->
-                        <input type="number" name="EventID" id="EventID2" readonly/>
+                        <label for="EventID">Event ID</label>
+                        <input type="number" name="EventID" id="EventID2" class="form-control" readonly />
                         <div class="form-group">
                             <label for="Department">Department</label><br />
-                            <select class="form-control" id="Department3" name="Department" onchange="updateDepartmentID2()">
-                                <option value="" disabled selected>Select Department</option>
-
-                            </select>
-                            <input type="number" name="DepartmentID" id="DepartmentID3" readonly />
+                           
+                            <input type="number" name="DepartmentID" id="DepartmentID3" class="form-control" readonly />
                         </div>
                         <div class="form-group">
                             <label for="Role">Role</label><br />
                            
-                            <input type="text" name="Role" id="roleName3" readonly />
+                            <input type="text" name="Role" id="roleName3" class="form-control" readonly />
                         </div>
                         <!-- Staff ID -->
                         <div class="form-group">
-                            <label for="Staff">Staff</label><br />
-                           <input type="text" dirname="StaffName" id="StaffName" readonly/>
-                            <input type="number" name="StaffID" id="StaffID2" readonly />
+                            <label for="StaffName">Staff Name</label><br />
+                            <input type="text" name="StaffName" id="StaffName" class="form-control" readonly />
+                            <label for="StaffID">Staff ID</label><br />
+                            <input type="number" name="StaffID" id="StaffID2" class="form-control"  readonly />
                         </div>
 
                         <!-- Date -->

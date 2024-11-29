@@ -20,7 +20,16 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-
+        .save-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #44444c;
+            margin-bottom: 20px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
         .checkbox-group {
             margin-top: 15px;
         }
@@ -217,7 +226,7 @@
 
     </select>
     <input type="number" name="OR_ID2" id="OR_ID" hidden/>
-    <button type="button" id="FetchEvents">Fetch Events</button>
+    <button type="button" id="FetchEvents" class="save-button">Fetch Events</button>
     <div id="calendar"></div>
 
     <!-- Add Event Modal -->
@@ -243,7 +252,7 @@
                         <!-- OR ID -->
                         <div class="form-group">
                             <label for="OR_ID">Operating Room</label><br/>
-                            <select class="form-control" id="OR2" name="OR_ID" onchange="updateOrID2()">
+                            <select class="form-control" id="OR2" name="OR_ID" onchange="updateOrID2()" style="width: 100%;">
                                 <!--Static Info-->
                                 <option value="" disabled selected>Select OR</option>
                               
@@ -255,7 +264,7 @@
                             <label for="AssignedDoctor">Primary Surgeon</label><br />
                             <select class="form-control"
                                     id="AssignedDoctor"
-                                    onchange="changeDrDropdown()">
+                                    onchange="changeDrDropdown()" style="width: 100%;">
                                 <!--Static Info-->
                                 <option value="" disabled selected>Select Doctor</option>
                              
@@ -267,7 +276,7 @@
                             <label for="patient">Patient</label><br />
                             <select class="form-control"
                                     id="patient"
-                                    onchange="UpdatePatientID()">
+                                    onchange="UpdatePatientID()" style="width: 100%;">
                                 <!--Static Info-->
                                 <option value="" disabled selected>Select a Patient</option>
 
@@ -361,10 +370,12 @@
                 <div class="modal-body">
                     <form id="AddEventForm">
                         <div class="form-group">
+                            <label for="BookingID">Booking ID</label><br/>
                             <input type="number" name="BookingID" id="BookingID" class="form-control" readonly />
                         </div>
                         <!-- OR ID -->
                         <div class="form-group">
+                            <label for="OR_ID">OR_ID</label><br />
                             <input type="number" name="OR_ID" id="OR_ID2" class="form-control" readonly />
                         </div>
                         <!-- Assigned Doctor -->
@@ -372,16 +383,19 @@
                             <label for="AssignedDoctorDropdown">Primary Surgeon</label><br />
                             <select class="form-control"
                                     id="AssignedDoctorDropdown"
-                                    onchange="UpdateDrID2()">
+                                    onchange="UpdateDrID2()" style="width:100%;">
                                 <!--Static Info-->
                                 <option value="" disabled selected>Select Doctor</option>
 
                             </select>
+                            <label for="AssignedDoctor">Assigned Doctor</label>
                             <input type="number" name="AssignedDoctor" id="AssignedDoctorID2" class="form-control" readonly />
                         </div>
                         <!-- Patient ID -->
                         <div class="form-group">
+                            <label for="patientName">Patient Name</label>
                             <input type="text" name="patientName" id="PatientName" class="form-control" readonly/>
+                            <label for="Patient_ID">Patient ID</label>
                             <input type="number" name="Patient_ID" id="Patient_ID2" class="form-control" readonly />
                         </div>
                         <!-- Date -->

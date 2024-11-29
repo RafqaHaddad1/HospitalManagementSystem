@@ -18,28 +18,39 @@ namespace Hospital_Management_System.Controllers
         }
         [HttpGet]
         [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
-        public async Task<IActionResult> ViewPatients()
+        public async Task<IActionResult> ViewPatients(string dr = null, string status = null)
         {
-            // Fetch patients from the database where DepartmentID is 1
-            var patients = _dbContext.Patient
-                                     .Where(p => p.DepartmentID == 1)
-                                     .Select(p => new
-                                     {
-                                         PatientID = p.PatientID,
-                                         FullName = p.FullName,
-                                         Status = p.Status,
-                                         AssignedDoctorID = p.AssignedDoctorID,
-                                         Addmission_Date_ER = p.Addmission_Date_ER,
-                                         BedNumber = p.BedNumber,
-                                         // Fetch the doctor based on AssignedDoctorID
-                                         Doctor = _dbContext.Staff
-                                                             .Where(d => d.StaffID == p.AssignedDoctorID)
-                                                             .Select(d => new
-                                                             {
-                                                                 DoctorID = d.StaffID,
-                                                                 DoctorName = d.Name
-                                                             }).FirstOrDefault()
-                                     }).ToList();
+            // Query the patients and join with Doctor (assuming there is a relation between patient and doctor)
+            var patientsQuery = from patient in _dbContext.Patient
+                                join doctor in _dbContext.Staff on patient.AssignedDoctorID equals doctor.StaffID into doctorJoin
+                                from doctor in doctorJoin.DefaultIfEmpty() // Left join so it handles cases where no matching doctor is found
+                                where patient.DepartmentID == 1 // Assuming you're filtering by a specific DepartmentID (e.g., 1)
+                                select new
+                                {
+                                    patient.PatientID,
+                                    patient.FullName,
+                                    patient.Status,
+                                    patient.AssignedDoctorID,
+                                    Addmission_Date_ER = patient.Addmission_Date_ER,
+                                    BedNumber = patient.BedNumber,
+                                    // Doctor name (or null if no matching doctor)
+                                    DoctorName = doctor != null ? doctor.Name : null,
+                                    DoctorID = doctor != null ? doctor.StaffID : (int?)null
+                                };
+
+            // Apply filtering based on the provided parameters
+            if (!string.IsNullOrEmpty(dr))
+            {
+                patientsQuery = patientsQuery.Where(p => p.DoctorName == dr);
+            }
+
+            if (!string.IsNullOrEmpty(status))
+            {
+                patientsQuery = patientsQuery.Where(p => p.Status == status);
+            }
+
+            // Execute the query and get the result
+            var patients = await patientsQuery.ToListAsync();
 
             if (HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
             {
@@ -53,6 +64,7 @@ namespace Hospital_Management_System.Controllers
             // Return the view for normal (non-AJAX) requests
             return View();
         }
+
 
         public IActionResult AddPatient()
         {
@@ -205,49 +217,42 @@ namespace Hospital_Management_System.Controllers
                     return Json(new { success = false, message = "Patient not found" });
                 }
 
-                var paths = new List<string>();
-                foreach (var file in Files)
-                {
-                    if (file != null && file.Length > 0)
-                    {
-                        // Specify the directory path
-                        string uploadsDirectoryPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "FilesUpload");
-
-                        // Ensure directory exists
-                        if (!Directory.Exists(uploadsDirectoryPath))
-                        {
-                            Directory.CreateDirectory(uploadsDirectoryPath);
-                        }
-
-                        var fileName = Path.GetFileName(file.FileName);
-                        var uniqueFileName = $"{Guid.NewGuid()}_{fileName}";
-                        var fullPath = Path.Combine(uploadsDirectoryPath, uniqueFileName);
-
-                        using (var stream = new FileStream(fullPath, FileMode.Create))
-                        {
-                            await file.CopyToAsync(stream);
-                        }
-
-                        // Add the relative path to the list
-                        var relativePath = $"/FilesUpload/{uniqueFileName}";
-                        paths.Add(relativePath);
-                    }
-                }
-
-                // Set the Files property of the patient model
-                var pathsString = string.Join(";", paths);
-                model.Files = pathsString;
-                model.Addmission_Date_ER = existingPatient.Admission_Date_Hospital;
-                model.BloodType = existingPatient.BloodType;    
-                model.Gender = existingPatient.Gender;
-                // Update the existing patient's properties
+                // Set the updated values to the existing patient
                 _dbContext.Entry(existingPatient).CurrentValues.SetValues(model);
 
-                // Update the bed status based on the bed number
-                var bed = _dbContext.ERBeds.FirstOrDefault(b => b.Bed_Number == model.BedNumber);
-                if (bed != null)
+                // Handle file uploads if any
+                if (Files != null && Files.Any())
                 {
-                    bed.Status = "Unavailable";
+                    var paths = new List<string>();
+                    foreach (var file in Files)
+                    {
+                        if (file.Length > 0)
+                        {
+                            string uploadsDirectoryPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "FilesUpload");
+
+                            if (!Directory.Exists(uploadsDirectoryPath))
+                            {
+                                Directory.CreateDirectory(uploadsDirectoryPath);
+                            }
+
+                            var fileName = Path.GetFileName(file.FileName);
+                            var uniqueFileName = $"{Guid.NewGuid()}_{fileName}";
+                            var fullPath = Path.Combine(uploadsDirectoryPath, uniqueFileName);
+
+                            using (var stream = new FileStream(fullPath, FileMode.Create))
+                            {
+                                await file.CopyToAsync(stream);
+                            }
+
+                            var relativePath = $"/FilesUpload/{uniqueFileName}";
+                            paths.Add(relativePath);
+                        }
+                    }
+
+                    if (paths.Any())
+                    {
+                        existingPatient.Files = string.Join(";", paths); // Update Files if new files were uploaded
+                    }
                 }
 
                 // Save changes to the database
@@ -259,7 +264,7 @@ namespace Hospital_Management_System.Controllers
                     return Json(new
                     {
                         success = true,
-                        info = model,
+                        info = existingPatient, // Returning updated patient information
                     });
                 }
 
@@ -272,6 +277,7 @@ namespace Hospital_Management_System.Controllers
                 return Json(new { success = false, message = "Error updating patient", exception = ex.Message });
             }
         }
+
 
         [HttpPost]
         public async Task<ActionResult> DischargePatient(int id)

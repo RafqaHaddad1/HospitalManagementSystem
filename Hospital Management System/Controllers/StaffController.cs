@@ -20,21 +20,35 @@ namespace Hospital_Management_System.Controllers
         }
         [HttpGet]
         [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
-        public async Task<IActionResult> Staffs()
+        public async Task<IActionResult> Staffs(string role = null, string departmentName = null)
         {
             // Fetch staff and department data
-            var staff = _dbContext.Staff.ToList();
-            var departments = _dbContext.Department.ToList();
+            var staffQuery = from s in _dbContext.Staff
+                             join d in _dbContext.Department on s.Department equals d.DepartmentID into departmentJoin
+                             from department in departmentJoin.DefaultIfEmpty() // Left join to include staff without departments
+                             select new
+                             {
+                                 s.StaffID,
+                                 s.Name,
+                                 s.PhoneNumber,
+                                 s.Role,
+                                 DepartmentID = s.Department,
+                                 DepartmentName = department != null ? department.DepartmentName : null
+                             };
 
-            var staffWithDepartments = staff.Select(s => new
+            // Apply filtering based on role and department name
+            if (!string.IsNullOrEmpty(role))
             {
-                StaffID = s.StaffID,
-                Name = s.Name,
-                phoneNumber = s.PhoneNumber,
-                title = s.Role,
-                DepartmentID = s.Department,
-                DepartmentName = departments.FirstOrDefault(d => d.DepartmentID == s.Department)?.DepartmentName
-            }).ToList();
+                staffQuery = staffQuery.Where(s => s.Role == role);
+            }
+
+            if (!string.IsNullOrEmpty(departmentName))
+            {
+                staffQuery = staffQuery.Where(s => s.DepartmentName.Contains(departmentName));
+            }
+
+            // Execute the query to get the filtered staff with department names
+            var staffWithDepartments = await staffQuery.ToListAsync();
 
             if (HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
             {
@@ -46,7 +60,8 @@ namespace Hospital_Management_System.Controllers
             }
 
             // Send the model to the view for normal (non-AJAX) requests
-            return View(staffWithDepartments);
+            return View();
+
         }
 
         [HttpGet]

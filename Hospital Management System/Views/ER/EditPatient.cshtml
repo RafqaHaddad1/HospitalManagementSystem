@@ -373,11 +373,17 @@ input[type="text"], input[type="number"], input[type="date"], textarea, select {
                     <div class="profile-pic">
                         <i class="fas fa-user"></i>
                     </div>
+                    <label for="PatientID">Patient ID</label>
                     <input type="number" name="PatientID" id="PatientID" readonly/>
+                    <label for="FullName">Full Name</label>
                     <input type="text" name="FullName" placeholder="Name" readonly />
+                    <label for="ContactInfo">Contact Info</label>
                     <input type="text" name="ContactInfo" placeholder="Phone" readonly />
+                    <label for="Address">Address</label>
                     <input type="text" name="Address" placeholder="Address" readonly />
+                    <label for="DateOfBirth">Date Of Birth</label>
                     <input type="Date" name="DateOfBirth" placeholder="DateOfBirth" readonly />
+                    <label for="Allergies">Allergies</label>
                     <input type="text" name="Allergies" placeholder="Allergies" readonly />
                     <div class="form-group radio-group">
                         <label>Gender:</label>
@@ -391,7 +397,10 @@ input[type="text"], input[type="number"], input[type="date"], textarea, select {
                         </div>
 
                     </div>
+                    <label for="MedicalHistory">Medical History<br /></label>
                     <div class="input-group">
+                        
+                        
                         <input type="text" class="form-control" name="MedicalHistory" id="MedicalHistory" placeholder="Medical History">
                         <span class="input-group-text" onclick="addNewInput()">
                             <i class="fas fa-plus"></i>
@@ -435,6 +444,7 @@ input[type="text"], input[type="number"], input[type="date"], textarea, select {
                             <label for="AB-">AB-</label>
                         </div>
                     </div>
+                    <label for="AdditionalNotes">Additional Notes</label>
                     <input type="text" name="AdditionalNotes" placeholder="Additional Notes"></input>
                 </div>
                 <div class="form-right">
@@ -449,11 +459,13 @@ input[type="text"], input[type="number"], input[type="date"], textarea, select {
                         </div>
                     </div>
                     <input type="text" id="Files" hidden /><br/>
-
+                    <label for="departmentname">Department</label>
                     <select name="departmentname" id="department" class="department form-control" data-placeholder="Select a department" style="width: 100%;" tabindex="-1" aria-hidden="true" onchange="UpdateDepartmentID()">
                         <option value="" selected disabled>Select a department</option>
                     </select>
+                   
                     <input type="number" name="DepartmentID" id="DepartmentID" placeholder="Department ID" hidden /><br />
+                    <label for="Doctor">Doctor</label>
                     <select name="Doctor" id="Doctor" class="form-control" data-placeholder="Select a Doctor" style="width: 100%;" tabindex="-1" aria-hidden="true" onchange="UpdateDrID()">
                         <option value="" selected disabled>Select a Doctor</option>
                     </select>
@@ -463,7 +475,8 @@ input[type="text"], input[type="number"], input[type="date"], textarea, select {
                     </select> *@
                     <label for="BedNumber">Bed Number</label>
                     <input type="number" name="BedNumber" id="BedNumber" placeholder="BedNumber" class="form-control" readonly />
-                    <select id="StatusDropDown" class=" form-control" data-placeholder="Select a Status" style="width: 100%;" tabindex="-1" aria-hidden="true" onchange="updateStatus()">
+                    <label for="StatusDropDown">Status</label>
+                    <select id="StatusDropDown" name="StatusDropDown" class=" form-control" data-placeholder="Select a Status" style="width: 100%;" tabindex="-1" aria-hidden="true" onchange="updateStatus()">
                         <option value="" selected disabled>Select a Status</option>
                         <option value="Bed">In Bed</option>
                         <option value="Radiology">In Radiology</option>
@@ -471,7 +484,6 @@ input[type="text"], input[type="number"], input[type="date"], textarea, select {
                     </select><br/>
                     <input type="text" name="Status" id="Status" placeholder="Status" readonly /><br/>
                     <div class="medication-dosage-container" id="medication-dosage-container">
-
                         <div class="input-group2">
                             <label for="medication">Medication Patient On</label>
                             <input type="text" id="medication" name="Medication[]" placeholder="Enter medication" />
@@ -521,7 +533,7 @@ input[type="text"], input[type="number"], input[type="date"], textarea, select {
                             <tbody>
                             </tbody>
                         </table>
-                        <input type="text" id="VitalsData" name="VitalSigns" />           
+                        <input type="text" id="VitalsData" name="VitalSigns" hidden />           
                         <h4>
                             Symptoms Signs
                             <button type="button" class="btn btn-sm btn-primary" id="add-symptom-signs" style="background-color: #44444c; border-color: #44444c; color: white; width:40px" >
@@ -540,7 +552,7 @@ input[type="text"], input[type="number"], input[type="date"], textarea, select {
                             <tbody>
                             </tbody>
                         </table>
-                        <input type="text" id="SymptomsData" name="SymptomsSigns" />
+                        <input type="text" id="SymptomsData" name="SymptomsSigns" hidden/>
                         <h4>
                             Medications Given
                             <button type="button" class="btn btn-sm btn-primary" id="add-medication-signs" style="background-color: #44444c; border-color: #44444c; color: white; width:40px">
@@ -560,13 +572,18 @@ input[type="text"], input[type="number"], input[type="date"], textarea, select {
                             </tbody>
                         </table>
                         
-                        <input type="text" id="MedicationData" name="MedicationsGiven" />
+                        <input type="text" id="MedicationData" name="MedicationsGiven" hidden />
 
-
+                        <label for="Admission_Date_Hospital">Admission Date Hospital</label>
+                        <input type="datetime" name="Admission_Date_Hospital" id="Admission_Date_Hospital" class="form-control" />
+                        <label for="Admission_Date_ER" class="form-control">Admission Date ER</label>
+                        <input type="datetime" name="Admission_Date_ER" id="Admission_Date_ER" class="form-control" />
                      </div>
                     <div class="form-right">
-                        <textarea name="Treatment" placeholder="Treatment" id="Treatment"></textarea>
-                        <textarea name="Overview" placeholder="Overview" id="Overview"></textarea>
+                        <label for="Treatment">Treatment</label>
+                        <textarea name="Treatment" placeholder="Treatment" id="Treatment" class="form-control"></textarea>
+                        <label for="Overview">Overview</label>
+                        <textarea name="Overview" placeholder="Overview" id="Overview" class="form-control"></textarea>
                         <button type="button" id="RequestImage" class="btn btn-theme" >Request Image</button>
                         <button type="button" id="RequestLab" class="btn btn-theme">Request Lab</button>
                     </div>
@@ -1643,7 +1660,8 @@ input[type="text"], input[type="number"], input[type="date"], textarea, select {
 
                         $("#Treatment").val(patient.treatment || "");
                         $("#Overview").val(patient.overview || "");
-
+                        $("#Admission_Date_Hospital").val(patient.addmission_Date_Hospital || "");
+                        $("#Admission_Date_Hospital").val(patient.addmission_Date_ER || "");
 
                         $("#Files").val(patient.files || "N/A");
                         // Set the gender radio button

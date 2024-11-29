@@ -284,22 +284,18 @@
         <div class="collapse" id="filterSection">
             <div class="row mb-3">
                 <div class="col">
-                    <label>Select Test:</label>
-                    <select id="TypeFilter" class="form-control">
-                        <option value=""></option>
-                        <option value="X-ray">X-ray</option>
-                        <option value="MRI">MRI</option>
-                        <option value="Mammogram">Mammogram</option>
-                        <option value="CT Scan">CT Scan</option>
-                        <option value="Ultrasound">Ultrasound</option>
+                    <label>Select Doctor:</label>
+                    <select id="DoctorFilter" class="form-control" style="width:100%;">
                     </select>
                 </div>
                 <div class="col">
                     <label>Select Status:</label>
-                    <select id="StatusFilter" class="form-control">
-                        <option value=""></option>
-                        <option value="Pending">Pending</option>
-                        <option value="Completed">Completed</option>
+                    <select id="StatusFilter" class="form-control" style="width:100%;">
+                        <option value="" >Select Status</option>
+                        <option value="Bed">Bed</option>
+                        <option value="Radiology">Radiology</option>
+                        <option value="Laboratory">Laboratory</option>
+                        <option value="Discharged">Discharged</option>
                     </select>
                 </div>
 
@@ -337,7 +333,7 @@
                 <th>Status</th>
                 <th>Assigned-Doctor</th>
                 <th>Admission-Date</th>
-                <th>Room-Number</th>
+                <th>Bed-Number</th>
                 <th></th>
             </tr>
         </thead>
@@ -348,13 +344,62 @@
 
    
     <script>
-
+        $("#DoctorFilter").select2();
+        $("#StatusFilter").select2();
         $(document).ready(function () {
             FillTable();
+            InitialDrDropdown();
+        });
+        function InitialDrDropdown() {
+            $.ajax({
+                url: '/Staff/AllDoctors',
+                type: 'GET',
+                success: function (response) {
+                    console.log(response); // Log the response object
+
+                    if (response.success) {
+                        var DrDropdown = document.getElementById("DoctorFilter");
+                        DrDropdown.innerHTML = ""; // Clear existing options
+                        // Add a default "Select a Supervisor" option
+                        var defaultOption = document.createElement("option");
+                        defaultOption.value = "";
+                        defaultOption.text = "Select a Doctor";
+                        defaultOption.disabled = true;
+                        defaultOption.selected = true;
+                        DrDropdown.appendChild(defaultOption);
+                        // Populate the zone dropdown with new options
+                        response.model.forEach(function (dr) {
+                            var option = document.createElement("option");
+                            option.value = dr.name;
+                            option.text = dr.name;
+                            option.setAttribute("data-dr-id", dr.staffID);
+                            console.log("dr ID: ", dr.staffID);
+                            DrDropdown.appendChild(option);
+                        });
+
+                    } else {
+                        alert('Failed to retrieve dr: ' + response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert('Error: ' + error);
+                }
+            });
+        }
+        $('#FilterButton').on('click', function () {
+            FillTable();  // Call FillTable when Apply Filters button is clicked
         });
         function FillTable() {
+            console.log("entered fill table function");
+            const testType = $('#DoctorFilter').val();  // Get the selected TestType value
+            const status = $('#StatusFilter').val();  // Get the selected Status value
+            let queryParams = [];
+            if (testType) queryParams.push(`dr=${testType}`);
+            if (status) queryParams.push(`status=${status}`);
+
+            const url = "/ER/ViewPatients" + (queryParams.length ? `?${queryParams.join('&')}` : '');
             $.ajax({
-                url: '/ER/ViewPatients',
+                url: url,
                 type: 'GET',
                 success: function (response) {
                     console.log(response);
@@ -375,7 +420,7 @@
                                 clone.querySelector(".patient-id").textContent = item.patientID || "N/A";
                                 clone.querySelector(".patient-name").textContent = item.fullName || "N/A";
                                 clone.querySelector(".status").textContent = item.status || "N/A";
-                                clone.querySelector(".assigned-dr").textContent = item.doctor.doctorName || "N/A";
+                                clone.querySelector(".assigned-dr").textContent = item.doctorName || "N/A";
                                 clone.querySelector(".addmission-date").textContent = item.addmission_Date_ER || "N/A";
                                 clone.querySelector(".bed-number").textContent = item.bedNumber || "N/A";
                                 clone.querySelector(".view-patient").setAttribute("onclick", `DischargePatient('${item.patientID}')`);

@@ -973,22 +973,9 @@
             return 'file.png';
         }
 
-        async function validateAndRedirect() {
-            try {
-                // Make an API call to check authorization
-                const response = await fetch('/AddPatientToER', {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': 'Bearer ' + accessToken,  // Include token with a space after 'Bearer'
-                        'Content-Type': 'application/json' // Add content type if needed
-                    }
-                });
-
-                // Check if the response status is unauthorized (401) or forbidden (403)
-                if (response.status === 401 || response.status === 403) {
-                    alert("You are not authorized to perform this action.");
-                    return false; // Stop form submission if unauthorized
-                }
+        
+       function validateAndRedirect() {
+           
 
                 // Proceed with saving and form submission if authorized
                 saveEmergencyContactInfo();
@@ -1003,11 +990,7 @@
                 // Redirect to view patients page after submission
                 window.location.href = 'ER/ViewPatients';
 
-            } catch (error) {
-                console.error('Error occurred:', error);
-                alert("An error occurred. Please try again later.");
-                return false;  // Prevent form submission on error
-            }
+            
         }
     </script>
 </body>

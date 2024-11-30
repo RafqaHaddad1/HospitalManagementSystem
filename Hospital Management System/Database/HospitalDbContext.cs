@@ -20,5 +20,6 @@ namespace Hospital_Management_System.Database
         public DbSet<OperatingRoom> OperatingRoom { get; set; } = default!;
         public DbSet<SurgeryBooking> SurgeryBooking { get; set; } = default!;
         public DbSet<Room> Room{ get; set; } = default!;
+        public DbSet<RoomAssignment> RoomAssignment{ get; set; } = default!;
     }
 }

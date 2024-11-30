@@ -286,7 +286,7 @@
             <div class="row mb-3">
                 <div class="col">
                     <label>Select Test:</label>
-                    <select id="TypeFilter" class="form-control">
+                    <select id="TypeFilter" class="form-control" style="width:100%;">
                         <option value=""></option>
                        
                         <option value="Blood Count">Blood Count</option>
@@ -299,7 +299,7 @@
                 </div>
                 <div class="col">
                     <label>Select Status:</label>
-                    <select id="StatusFilter" class="form-control">
+                    <select id="StatusFilter" class="form-control" style="width:100%;">
                         <option value=""></option>
                        
                         <option value="Pending">Pending</option>
@@ -453,12 +453,19 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closeAddModal" onclick=" $('#ViewDepartmentModal').modal('hide');"></button>
                 </div>
                 <div class="modal-body">
+
+                    <label for="LabID">Lab ID</label>
                     <input type="number" name="LabID" id="LabID" placeholder="LabID" class="form-control" readonly /><br />
-                        <input type="text" name="PatientName" id="PatientName2" placeholder="Patient Name" class="form-control" readonly />
-                        <input type="number" name="PatientID" id="PatientID2" placeholder="Patient " class="form-control" hidden /><br />
-                        <input type="text" name="DoctorName" id="DoctorName2" placeholder="DoctorName" class="form-control" readonly />
-                        <input type="number" name="DoctorID" id="DoctorID2" placeholder="Doctor Requesting" class="form-control" hidden /> <br/>
-                        <input type="text" name="Status" id="Status2" placeholder="Status" class="form-control" readonly />
+                    <label for="PatientName">Patient Name</label>
+                    <input type="text" name="PatientName" id="PatientName2" placeholder="Patient Name" class="form-control" readonly />
+                    
+                    <input type="number" name="PatientID" id="PatientID2" placeholder="Patient " class="form-control" hidden /><br />
+                    <label for="DoctorName">Doctor Name</label>
+                    <input type="text" name="DoctorName" id="DoctorName2" placeholder="DoctorName" class="form-control" readonly />
+                   
+                    <input type="number" name="DoctorID" id="DoctorID2" placeholder="Doctor Requesting" class="form-control" hidden /> <br/>
+                    <label for="Status">Status</label>
+                       <input type="text" name="Status" id="Status2" placeholder="Status" class="form-control" readonly />
                         <div class="form-group checkbox-group">
                             <label for="TestType">Test Type</label>
                             <div class="checkbox-container">
@@ -584,6 +591,8 @@
             FillTable();
     
         });
+        $("#TypeFilter").select2();
+        $("#StatusFilter").select2();
         // Trigger modal and reset form when #RequestLabs is clicked
         $("#RequestLabs").on("click", function () {
             DrDropdown();  // Function to populate Doctor dropdown (assuming)

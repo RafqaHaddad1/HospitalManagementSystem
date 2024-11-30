@@ -488,6 +488,9 @@
                     },
                     success: function (data) {
                         console.log(data); // Debugging step
+                        calendar.getEventSources().forEach(function (source) {
+                            source.remove();
+                        });
                         var events = data.model.map(function (event) {
                             // Format the start and end date-time
                             var date = event.date;

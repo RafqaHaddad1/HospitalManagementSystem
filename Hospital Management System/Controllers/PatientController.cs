@@ -153,8 +153,9 @@ namespace Hospital_Management_System.Controllers
                 var room = model.BedNumber;
                 var room1 = _dbContext.Room.FirstOrDefault(b => b.RoomID== room);
                 room1.IsAvailable = false;
+                
                 _dbContext.Patient.Add(model);
-             
+          
                 await _dbContext.SaveChangesAsync();
                 _logger.LogInformation("Added successfully");
 

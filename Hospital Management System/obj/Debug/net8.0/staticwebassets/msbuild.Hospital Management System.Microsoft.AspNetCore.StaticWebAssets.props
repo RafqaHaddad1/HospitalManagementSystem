@@ -192,6 +192,22 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\FilesUpload\7824a239-dbb6-4723-b256-898d4fe340b8_Screenshot 2024-06-27 165906.png))</OriginalItemSpec>
     </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\FilesUpload\7ddc7193-cfbe-4167-8226-47118400b6eb_Screenshot 2024-07-26 135101.png))">
+      <SourceType>Package</SourceType>
+      <SourceId>Hospital Management System</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/Hospital Management System</BasePath>
+      <RelativePath>FilesUpload/7ddc7193-cfbe-4167-8226-47118400b6eb_Screenshot 2024-07-26 135101.png</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\FilesUpload\7ddc7193-cfbe-4167-8226-47118400b6eb_Screenshot 2024-07-26 135101.png))</OriginalItemSpec>
+    </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\FilesUpload\93524e67-86d5-4031-981b-a1bd9d4f5874_htmlcheatsheet.pdf))">
       <SourceType>Package</SourceType>
       <SourceId>Hospital Management System</SourceId>
@@ -207,6 +223,22 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\FilesUpload\93524e67-86d5-4031-981b-a1bd9d4f5874_htmlcheatsheet.pdf))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\FilesUpload\9849703b-d94f-44f7-bcb3-0901b3fb2e41_Screenshot 2024-08-07 104952.png))">
+      <SourceType>Package</SourceType>
+      <SourceId>Hospital Management System</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/Hospital Management System</BasePath>
+      <RelativePath>FilesUpload/9849703b-d94f-44f7-bcb3-0901b3fb2e41_Screenshot 2024-08-07 104952.png</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\FilesUpload\9849703b-d94f-44f7-bcb3-0901b3fb2e41_Screenshot 2024-08-07 104952.png))</OriginalItemSpec>
     </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\FilesUpload\abb1a0d9-4d1b-4f28-879e-f15c06e5c1fe_Screenshot 2024-07-25 130044.png))">
       <SourceType>Package</SourceType>
@@ -304,6 +336,22 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\FilesUpload\c7c6fd38-7f81-4be0-ac56-827cb6bfc84d_Screenshot 2024-06-27 165906.png))</OriginalItemSpec>
     </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\FilesUpload\d2cde042-15d1-4702-8ac6-44b30efc20f7_Screenshot 2024-06-27 165906.png))">
+      <SourceType>Package</SourceType>
+      <SourceId>Hospital Management System</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/Hospital Management System</BasePath>
+      <RelativePath>FilesUpload/d2cde042-15d1-4702-8ac6-44b30efc20f7_Screenshot 2024-06-27 165906.png</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\FilesUpload\d2cde042-15d1-4702-8ac6-44b30efc20f7_Screenshot 2024-06-27 165906.png))</OriginalItemSpec>
+    </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\FilesUpload\d90f6603-9c23-4142-9f07-94774685ff70_Sommerville-Software-Engineering-10ed.pdf))">
       <SourceType>Package</SourceType>
       <SourceId>Hospital Management System</SourceId>
@@ -335,6 +383,22 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\FilesUpload\ea8dcee9-5d38-4bd6-a129-70bd351a3edd_Screenshot 2024-06-27 165906.png))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\FilesUpload\fb33fc12-d6d3-466a-83b4-78ff9364b403_Screenshot 2024-06-27 165906.png))">
+      <SourceType>Package</SourceType>
+      <SourceId>Hospital Management System</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/Hospital Management System</BasePath>
+      <RelativePath>FilesUpload/fb33fc12-d6d3-466a-83b4-78ff9364b403_Screenshot 2024-06-27 165906.png</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\FilesUpload\fb33fc12-d6d3-466a-83b4-78ff9364b403_Screenshot 2024-06-27 165906.png))</OriginalItemSpec>
     </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\FilesUpload\fc5aed89-1062-4784-97d7-8db8e5a65558_Screenshot 2024-08-12 124115.png))">
       <SourceType>Package</SourceType>

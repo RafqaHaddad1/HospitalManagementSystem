@@ -855,7 +855,7 @@
                         if (response.success) {
                             alert("Event Updated");
                             $('#UpdateEventModal').modal('hide'); // Hide the modal
-
+                           
                         } else {
                             alert('Error: you are not allowed to perform this action'); // Handle errors from the server
                         }
@@ -941,6 +941,7 @@
                         if (response.success) {
                             alert("Event Added");
                             $('#AddEventModal').modal('hide'); // Hide the modal
+                            window.location.reload();
                             // Refresh the calendar to show the new event
                         } else {
                             alert('Error: you are not allowed to perform this action'); // Handle errors from the server

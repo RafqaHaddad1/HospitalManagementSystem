@@ -285,7 +285,7 @@
             <div class="row mb-3">
                 <div class="col">
                     <label>Select Test:</label>
-                    <select id="TypeFilter" class="form-control">
+                    <select id="TypeFilter" class="form-control" style="width:100%;">
                         <option value=""></option>
                         <option value="X-ray">X-ray</option>
                         <option value="MRI">MRI</option>
@@ -296,7 +296,7 @@
                 </div>
                 <div class="col">
                     <label>Select Status:</label>
-                    <select id="StatusFilter" class="form-control">
+                    <select id="StatusFilter" class="form-control" style="width:100%;">
                         <option value=""></option>
                         <option value="Pending">Pending</option>
                         <option value="Completed">Completed</option>
@@ -412,16 +412,22 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closeAddModal" onclick=" $('#ViewDepartmentModal').modal('hide');"></button>
                 </div>
                 <div class="modal-body">
+                    <label for="ImageID">Image ID</label>
                     <input type="number" name="ImageID" id="ImageID" placeholder="ImageID" class="form-control" readonly /><br />
+                    <label for="PatientName">Patient Name</label>
                     <input type="text" name="PatientName" id="PatientName2" placeholder="Patient Name" class="form-control" readonly /><br />
+                    <label for="PatientID">Patient ID</label>
                     <input type="number" name="PatientID" id="PatientID2" placeholder="Patient " class="form-control" readonly /><br />
+                    <label for="DoctorName">Doctor Name</label>
                     <input type="text" name="DoctorName" id="DoctorName" placeholder="DoctorName" class="form-control" readonly /><br />
+                    <label for="DoctorID">Doctor ID</label>
                     <input type="number" name="DoctorID" id="DoctorID2" placeholder="Doctor Requesting" class="form-control" readonly /><br/>
+                    <label for="Status">Status</label>
                     <input type="text" name="Status" id="Status" placeholder="Status" class="form-control" readonly />
                     <div class="form-group checkbox-group">
-                        <label for="TestType">Image Type</label>
+                      
                         <div class="form-group checkbox-group">
-                            <label for="TestType">Test Type</label>
+                            <label for="TestType">Image Type</label>
                             <div class="checkbox-container">
                                 <div class="checkbox-item">
                                     <input type="radio" id="TestType1" name="TestType" value="X-ray" disabled>
@@ -515,6 +521,8 @@
             setCurrentDateTime();
             $('#SubmitRequest').modal('show');
         });
+        $("#TypeFilter").select2();
+        $("#StatusFilter").select2();
         $('#SubmitRequest').on('show.bs.modal', function () {
             // Reset the form inside the modal when it opens
             $(this).find('form')[0].reset();

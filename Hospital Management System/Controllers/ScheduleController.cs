@@ -130,7 +130,7 @@ namespace Hospital_Management_System.Controllers
             }
         }
 
-        [Authorize(Roles = "Admin,Doctor,Nurse")]
+        [Authorize(Roles = "Admin,Nurse")]
         [HttpPost]
         public async Task<IActionResult> AddEvent(Schedules model)
         {
@@ -155,7 +155,7 @@ namespace Hospital_Management_System.Controllers
                 });
             }
         }
-        [Authorize(Roles = "Admin,Doctor,Nurse")]
+        [Authorize(Roles = "Admin,Nurse")]
         [HttpPost]
         public async Task<IActionResult> UpdateEvent( Schedules updatedEvent)
         {

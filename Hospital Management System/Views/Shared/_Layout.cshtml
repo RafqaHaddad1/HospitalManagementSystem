@@ -147,7 +147,7 @@
                         <li class="nav-item">
                        
                         <li class="nav-item">
-                            <a href="@Url.Action("Logout", "Login")" class="nav-link">
+                            <a class="nav-link" id="logoutButton">
                                 <i class="nav-icon fas fa-sign-out-alt"></i>
                                 <p>
                                     LogOut
@@ -204,8 +204,17 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/dropzone.min.js"></script>
 
      @RenderSection("scripts", required: false)
-
+   
     </script>
 
+    <script>
+        document.getElementById('logoutButton').addEventListener('click', function () {
+            // Clear accessToken from localStorage
+            localStorage.removeItem('accessToken');
+
+            // Redirect to Logout action
+            window.location.href = '@Url.Action("Logout", "Login")';
+        });
+    </script>
 </body>
 </html>

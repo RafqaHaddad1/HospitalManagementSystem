@@ -382,6 +382,7 @@
     </div>
 
     <script>
+        var accessToken = localStorage.getItem("accessToken");
         $("#Department2").select2({
             dropdownParent: $('#AddEventModal')
         });
@@ -432,6 +433,10 @@
                         $.ajax({
                             url: '/Schedule/GetEventById',  // The URL of your API
                             type: 'GET',
+                            headers: {
+                                'Authorization': 'Bearer ' + accessToken,
+
+                            },
                             data: { id: info.event._def.publicId },  // Pass event ID to the API
                             success: function (response) {
                                 if (response.success) {
@@ -473,6 +478,10 @@
                 $.ajax({
                     url: '/Schedule/GetEventByDepAndRole',
                     method: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + accessToken,
+
+                    },
                     data: {
                         depId: departmentID,
                         role: role
@@ -515,7 +524,10 @@
                 $.ajax({
                     url: '/Schedule/AddEvent', // Update with your correct endpoint if needed
                     method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + accessToken,
 
+                    },
                     data: formData, // Convert formData to JSON string
                     success: function (response) {
                         console.log('Server Response:', response);
@@ -524,7 +536,7 @@
                             $('#AddEventModal').modal('hide'); // Hide the modal
                              // Refresh the calendar to show the new event
                         } else {
-                            alert('Error: ' + response.errorMessage); // Handle errors from the server
+                            alert('Error: you are not allowed to perform this action'); // Handle errors from the server
                         }
                     },
                     error: function (error) {
@@ -556,7 +568,10 @@
                 $.ajax({
                     url: '/Schedule/UpdateEvent', // Update with your correct endpoint if needed
                     method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + accessToken,
 
+                    },
                     data: formData, // Convert formData to JSON string
                     success: function (response) {
                         console.log('Server Response:', response);
@@ -565,7 +580,7 @@
                             $('#ViewEventModal').modal('hide'); // Hide the modal
                            
                         } else {
-                            alert('Error: ' + response.errorMessage); // Handle errors from the server
+                            alert('Error: you are not allowed to perform this action'); // Handle errors from the server
                         }
                     },
                     error: function (error) {
@@ -583,6 +598,10 @@
             $.ajax({
                 url: '/Department/AllDepartments',
                 type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + accessToken,
+
+                },
                 success: function (response) {
                     console.log(response); // Log the response object
 
@@ -639,6 +658,10 @@
             $.ajax({
                 url: '/Department/AllDepartments',
                 type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + accessToken,
+
+                },
                 success: function (response) {
                     console.log(response); // Log the response object
 
@@ -703,6 +726,10 @@
             $.ajax({
                 url: '/Staff/StaffByRole', // Ensure this is the correct endpoint
                 type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + accessToken,
+
+                },
                 data: {
                     role: rolevalue,
                     department: department

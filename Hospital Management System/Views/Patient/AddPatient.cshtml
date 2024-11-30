@@ -481,6 +481,7 @@
 
 
     <script>
+        var accessToken = localStorage.getItem("accessToken");
         $("#Doctor").select2();
         $("#department").select2();
         $("#StatusDropDown").select2();
@@ -505,6 +506,10 @@
             $.ajax({
                 url: '/Patient/GetAvailableRoom',
                 type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + accessToken,
+
+                },
                 success: function (response) {
                     console.log(response); // Log the response object
 
@@ -549,6 +554,10 @@
             $.ajax({
                 url: '/Staff/AllDoctors',
                 type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + accessToken,
+
+                },
                 success: function (response) {
                     console.log(response); // Log the response object
 
@@ -593,6 +602,10 @@
             $.ajax({
                 url: '/Department/AllDepartments',
                 type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + accessToken,
+
+                },
                 success: function (response) {
                     console.log(response); // Log the response object
 

@@ -1,6 +1,7 @@
 ﻿using Hospital_Management_System.Database;
 using Hospital_Management_System.Helper;
 using Hospital_Management_System.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,6 +18,7 @@ namespace Hospital_Management_System.Controllers
             _dbContext = dbContext;
 
         }
+       
         public async Task<IActionResult> AllPatients(string dr = null, string status = null)
         {
             var patients = await _dbContext.Patient.ToListAsync();
@@ -101,7 +103,7 @@ namespace Hospital_Management_System.Controllers
             return View();
         }
 
-
+        [Authorize(Roles = "Admin,Doctor,Nurse")]
         [HttpPost]
         public async Task<IActionResult> AddPatient2(Patient model, IFormFileCollection Files)
         {
@@ -184,7 +186,7 @@ namespace Hospital_Management_System.Controllers
                                 from doctor in doctorJoin.DefaultIfEmpty() // Left join so it handles cases where no matching doctor is found
                                 join department in _dbContext.Department on patient.DepartmentID equals department.DepartmentID into departmentJoin
                                 from department in departmentJoin.DefaultIfEmpty() // Left join for department
-                                where patient.Admission_Date_Hospital != null // Ensure patients have an admission date
+                                where patient.DepartmentID!= 1// Ensure patients have an admission date
                                 select new
                                 {
                                     patient.PatientID,
@@ -278,7 +280,7 @@ namespace Hospital_Management_System.Controllers
                 }
             });
         }
-
+        [Authorize(Roles = "Admin,Doctor,Nurse")]
         [HttpPost]
         [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
         public async Task<IActionResult> EditPatient(Patient model, IFormFileCollection Files)
@@ -366,7 +368,7 @@ namespace Hospital_Management_System.Controllers
             }
         }
 
-
+        [Authorize(Roles = "Admin,Doctor,Nurse")]
         [HttpPost]
         public async Task<ActionResult> DischargePatient(int id)
         {

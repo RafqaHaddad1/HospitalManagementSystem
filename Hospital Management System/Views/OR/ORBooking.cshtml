@@ -633,6 +633,7 @@
         </div>
     </div>
     <script>
+        var accessToken = localStorage.getItem("accessToken");
         ORDropDown();
         $("#OR").select2();
         $("#AssignedDoctor").select2({
@@ -696,6 +697,10 @@
                     $.ajax({
                         url: '/OR/GetEventById',  // The URL of your API
                         type: 'GET',
+                        headers: {
+                            'Authorization': 'Bearer ' + accessToken,
+
+                        },
                         data: { id: info.event._def.publicId },  // Pass event ID to the API
                         success: function (response) {
                             if (response.success) {
@@ -733,6 +738,10 @@
                 $.ajax({
                     url: '/OR/GetEventByOR',
                     method: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + accessToken,
+
+                    },
                     data: {
                         or: ORid
                     },
@@ -789,6 +798,10 @@
             $.ajax({
                 url: '/OR/AddOR', // Update with your correct endpoint if needed
                 method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + accessToken,
+
+                },
                 data: formData,
                 success: function (response) {
                     console.log('Server Response:', response);
@@ -797,7 +810,7 @@
                         $('#AddOR').modal('hide'); // Hide the modal after successful submission
                         window.location.reload();
                     } else {
-                        alert('Error: ' + response.error); // Handle errors from the server
+                        alert('Error: you are not allowed to perform this action' ); // Handle errors from the server
                     }
                 },
                 error: function (error) {
@@ -832,7 +845,10 @@
                 $.ajax({
                     url: '/OR/UpdateEvent', // Update with your correct endpoint if needed
                     method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + accessToken,
 
+                    },
                     data: formData, // Convert formData to JSON string
                     success: function (response) {
                         console.log('Server Response:', response);
@@ -841,7 +857,7 @@
                             $('#UpdateEventModal').modal('hide'); // Hide the modal
 
                         } else {
-                            alert('Error: ' + response.errorMessage); // Handle errors from the server
+                            alert('Error: you are not allowed to perform this action'); // Handle errors from the server
                         }
                     },
                     error: function (error) {
@@ -859,6 +875,10 @@
             $.ajax({
                 url: '/OR/GetAllOR',
                 type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + accessToken,
+
+                },
                 success: function (response) {
                     console.log(response); // Log the response object
 
@@ -911,7 +931,10 @@
                 $.ajax({
                     url: '/OR/AddEvent', // Update with your correct endpoint if needed
                     method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + accessToken,
 
+                    },
                     data: formData, // Convert formData to JSON string
                     success: function (response) {
                         console.log('Server Response:', response);
@@ -920,7 +943,7 @@
                             $('#AddEventModal').modal('hide'); // Hide the modal
                             // Refresh the calendar to show the new event
                         } else {
-                            alert('Error: ' + response.errorMessage); // Handle errors from the server
+                            alert('Error: you are not allowed to perform this action'); // Handle errors from the server
                         }
                     },
                     error: function (error) {
@@ -936,6 +959,10 @@
                 $.ajax({
                     url: '/OR/DeleteEvent/' + id, // Update with your correct endpoint if needed
                     method: 'DELETE',
+                headers: {
+                    'Authorization': 'Bearer ' + accessToken,
+
+                },
                     success: function (response) {
                         console.log('Server Response:', response);
                         if (response.success) {
@@ -966,6 +993,10 @@
             $.ajax({
                 url: '/OR/GetAllOR',
                 type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + accessToken,
+
+                },
                 success: function (response) {
                     console.log(response); // Log the response object
 
@@ -1013,6 +1044,10 @@
             $.ajax({
                 url: '/Staff/AllDoctors',
                 type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + accessToken,
+
+                },
                 success: function (response) {
                     console.log(response); // Log the response object
 
@@ -1064,6 +1099,10 @@
             $.ajax({
                 url: '/Patient/PatientsByDrID/' + id,
                 type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + accessToken,
+
+                },
                 success: function (response) {
                     console.log(response); // Log the response object
 
@@ -1108,6 +1147,10 @@
             $.ajax({
                 url: '/Staff/AllDoctors',
                 type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + accessToken,
+
+                },
                 success: function (response) {
                     console.log(response); // Log the response object
 

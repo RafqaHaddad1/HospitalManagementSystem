@@ -832,6 +832,7 @@
 
 
     <script>
+        var accessToken = localStorage.getItem("accessToken");
         $("#Doctor").select2();
         $("#department").select2();
         $("#StatusDropDown").select2();
@@ -1021,6 +1022,10 @@
             $.ajax({
                 url: '/OR/GetEventByPatient',
                 type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + accessToken,
+
+                },
                 data: { id: PatientID }, 
                 success: function (response) {
                     if (response.success) {
@@ -1082,6 +1087,10 @@
             $.ajax({
                 url: '/Patient/GetAvailableRoom',
                 type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + accessToken,
+
+                },
                 success: function (response) {
                     console.log(response); // Log the response object
 
@@ -1127,6 +1136,10 @@
             $.ajax({
                 url: '/Staff/AllDoctors',
                 type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + accessToken,
+
+                },
                 success: function (response) {
                     console.log(response); // Log the response object
 
@@ -1179,6 +1192,10 @@
             $.ajax({
                 url: '/Department/AllDepartments',
                 type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + accessToken,
+
+                },
                 success: function (response) {
                     console.log(response); // Log the response object
 
@@ -1453,6 +1470,10 @@
             $.ajax({
                 url: '/Staff/AllDoctors',
                 type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + accessToken,
+
+                },
                 success: function (response) {
                     console.log(response); // Log the response object
 
@@ -1496,6 +1517,10 @@
             $.ajax({
                 url: '/Staff/AllDoctors',
                 type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + accessToken,
+
+                },
                 success: function (response) {
                     console.log(response); // Log the response object
 
@@ -1655,6 +1680,10 @@
             $.ajax({
                 url: '/Patient/PatientByID',
                 type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + accessToken,
+
+                },
                 data: { id: PatientID },
                 success: function (response) {
                     console.log(response);
@@ -1989,6 +2018,10 @@
             $.ajax({
                 url: '/Radiology/RequestImage',
                 type: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + accessToken,
+
+                },
                 contentType: 'application/json',
                 data: JSON.stringify(formData),
                 success: function (response) {
@@ -2000,7 +2033,7 @@
                         // Optionally reload the data or update the UI
                     } else {
                         // Handle error (show error message, etc.)
-                        alert('Error: ' + response.message);
+                        alert('Error: you are not allowed to perform this action');
                     }
                 },
                 error: function (xhr, status, error) {
@@ -2055,6 +2088,10 @@
             $.ajax({
                 url: '/Laboratory/RequestLab',
                 type: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + accessToken,
+
+                },
                 contentType: 'application/json',
                 data: JSON.stringify(formData),
                 success: function (response) {
@@ -2067,7 +2104,7 @@
                         // Optionally reload the data or update the UI
                     } else {
                         // Handle error (show error message, etc.)
-                        alert('Error: ' + response.message);
+                        alert('Error: you are not allowed to perform this action');
                     }
                 },
                 error: function (xhr, status, error) {

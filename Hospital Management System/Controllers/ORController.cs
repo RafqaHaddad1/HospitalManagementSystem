@@ -1,5 +1,6 @@
 ﻿using Hospital_Management_System.Database;
 using Hospital_Management_System.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,7 +21,7 @@ namespace Hospital_Management_System.Controllers
         {
             return View();
         }
-
+      
         [HttpGet]
         public async Task<IActionResult> GetAllOR()
         {
@@ -44,6 +45,7 @@ namespace Hospital_Management_System.Controllers
                 });
             }
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> AddOR(OperatingRoom model)
         {
@@ -68,6 +70,7 @@ namespace Hospital_Management_System.Controllers
                 });
             }
         }
+        [Authorize(Roles = "Admin,Doctor,Nurse")]
         [HttpPost]
         public async Task<IActionResult> AddEvent(SurgeryBooking model)
         {
@@ -92,6 +95,7 @@ namespace Hospital_Management_System.Controllers
                 });
             }
         }
+       
         [HttpGet]
         public async Task<IActionResult> GetAllEvents()
         {
@@ -126,6 +130,7 @@ namespace Hospital_Management_System.Controllers
                 });
             }
         }
+       
         [HttpGet]
         public async Task<IActionResult> GetEventByOR(int or)
         {
@@ -161,6 +166,7 @@ namespace Hospital_Management_System.Controllers
                 });
             }
         }
+        
         [HttpGet]
         public async Task<IActionResult> GetEventById(int id)
         {
@@ -200,6 +206,7 @@ namespace Hospital_Management_System.Controllers
                 });
             }
         }
+      
         [HttpGet]
         public async Task<IActionResult> GetEventByPatient(int id)
         {
@@ -238,6 +245,7 @@ namespace Hospital_Management_System.Controllers
                 });
             }
         }
+        [Authorize(Roles = "Admin,Doctor,Nurse")]
         [HttpPost]
         public async Task<IActionResult> UpdateEvent(SurgeryBooking updatedEvent)
         {
@@ -263,6 +271,7 @@ namespace Hospital_Management_System.Controllers
                 return Json(new { success = false, message = "Error updating event", exception = ex.Message });
             }
         }
+        [Authorize(Roles = "Admin,Doctor,Nurse")]
         [HttpDelete]
         public async Task<IActionResult> DeleteEvent (int id)
         {

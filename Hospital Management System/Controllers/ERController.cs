@@ -1,5 +1,6 @@
 ﻿using Hospital_Management_System.Database;
 using Hospital_Management_System.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,6 +17,7 @@ namespace Hospital_Management_System.Controllers
             _dbContext = dbContext;
 
         }
+       
         [HttpGet]
         [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
         public async Task<IActionResult> ViewPatients(string dr = null, string status = null)
@@ -70,6 +72,7 @@ namespace Hospital_Management_System.Controllers
         {
             return View();
         }
+        [Authorize(Roles = "Admin,Doctor,Nurse")]
         [HttpPost]
         [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
         public async Task<IActionResult> AddPatientToER(Patient model, IFormFileCollection Files)
@@ -143,6 +146,7 @@ namespace Hospital_Management_System.Controllers
                 return Json(new { success = false, message = "Error adding staff", exception = ex.Message });
             }
         }
+      
         [HttpGet]
         public async Task<ActionResult> AvailableBeds()
         {
@@ -155,6 +159,7 @@ namespace Hospital_Management_System.Controllers
                 model = available,
             });
         }
+      
         [HttpGet]
         public async Task<ActionResult> PatientByIDInER(int id)
         {
@@ -197,7 +202,7 @@ namespace Hospital_Management_System.Controllers
         }
 
 
-
+        [Authorize(Roles = "Admin,Doctor,Nurse")]
         [HttpPost]
         [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
         public async Task<IActionResult> EditERPatient(Patient model, IFormFileCollection Files)
@@ -278,7 +283,7 @@ namespace Hospital_Management_System.Controllers
             }
         }
 
-
+        [Authorize(Roles = "Admin,Doctor,Nurse")]
         [HttpPost]
         public async Task<ActionResult> DischargePatient(int id)
         {

@@ -480,6 +480,7 @@
 
    
     <script>
+        var accessToken = localStorage.getItem("accessToken");
         $("#Doctor").select2();
         $("#department").select2();
         $("#StatusDropDown").select2();
@@ -504,6 +505,10 @@
             $.ajax({
                 url: '/ER/AvailableBeds',
                 type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + accessToken,
+
+                },
                 success: function (response) {
                     console.log(response); // Log the response object
 
@@ -548,6 +553,10 @@
             $.ajax({
                 url: '/Staff/AllDoctors',
                 type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + accessToken,
+
+                },
                 success: function (response) {
                     console.log(response); // Log the response object
 
@@ -592,6 +601,10 @@
             $.ajax({
                 url: '/Department/AllDepartments',
                 type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + accessToken,
+
+                },
                 success: function (response) {
                     console.log(response); // Log the response object
 
@@ -959,14 +972,42 @@
             if (fileType.startsWith('video')) return 'video.png';
             return 'file.png';
         }
-        
-        function valdiateAndRedirect(){
-            saveEmergencyContactInfo();
-            saveMedicationDosageInfo();
-            saveMedicalHistory();
-            document.getElementById('Patient-Form').submit();
-            alert("Patient Added successfully");
-            window.location.href = 'ER/ViewPatients';
+
+        async function validateAndRedirect() {
+            try {
+                // Make an API call to check authorization
+                const response = await fetch('/AddPatientToER', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + accessToken,  // Include token with a space after 'Bearer'
+                        'Content-Type': 'application/json' // Add content type if needed
+                    }
+                });
+
+                // Check if the response status is unauthorized (401) or forbidden (403)
+                if (response.status === 401 || response.status === 403) {
+                    alert("You are not authorized to perform this action.");
+                    return false; // Stop form submission if unauthorized
+                }
+
+                // Proceed with saving and form submission if authorized
+                saveEmergencyContactInfo();
+                saveMedicationDosageInfo();
+                saveMedicalHistory();
+
+                alert("Patient added successfully");
+
+                // Submit the form
+                document.getElementById('Patient-Form').submit();
+
+                // Redirect to view patients page after submission
+                window.location.href = 'ER/ViewPatients';
+
+            } catch (error) {
+                console.error('Error occurred:', error);
+                alert("An error occurred. Please try again later.");
+                return false;  // Prevent form submission on error
+            }
         }
     </script>
 </body>

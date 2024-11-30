@@ -3,28 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\test1\\source\\repos\\Hospital Management System\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{3C7769AA-0F54-4A62-965D-BE039076477B}|Hospital Management System\\Hospital Management System.csproj|c:\\users\\test1\\source\\repos\\hospital management system\\hospital management system\\controllers\\patientcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3C7769AA-0F54-4A62-965D-BE039076477B}|Hospital Management System\\Hospital Management System.csproj|solutionrelative:hospital management system\\controllers\\patientcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{3C7769AA-0F54-4A62-965D-BE039076477B}|Hospital Management System\\Hospital Management System.csproj|c:\\users\\test1\\source\\repos\\hospital management system\\hospital management system\\views\\staff\\staffs.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{3C7769AA-0F54-4A62-965D-BE039076477B}|Hospital Management System\\Hospital Management System.csproj|solutionrelative:hospital management system\\views\\staff\\staffs.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3C7769AA-0F54-4A62-965D-BE039076477B}|Hospital Management System\\Hospital Management System.csproj|c:\\users\\test1\\source\\repos\\hospital management system\\hospital management system\\views\\er\\viewpatients.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{3C7769AA-0F54-4A62-965D-BE039076477B}|Hospital Management System\\Hospital Management System.csproj|solutionrelative:hospital management system\\views\\er\\viewpatients.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3C7769AA-0F54-4A62-965D-BE039076477B}|Hospital Management System\\Hospital Management System.csproj|c:\\users\\test1\\source\\repos\\hospital management system\\hospital management system\\controllers\\staffcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3C7769AA-0F54-4A62-965D-BE039076477B}|Hospital Management System\\Hospital Management System.csproj|solutionrelative:hospital management system\\controllers\\staffcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3C7769AA-0F54-4A62-965D-BE039076477B}|Hospital Management System\\Hospital Management System.csproj|c:\\users\\test1\\source\\repos\\hospital management system\\hospital management system\\views\\patient\\patients.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{3C7769AA-0F54-4A62-965D-BE039076477B}|Hospital Management System\\Hospital Management System.csproj|solutionrelative:hospital management system\\views\\patient\\patients.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3C7769AA-0F54-4A62-965D-BE039076477B}|Hospital Management System\\Hospital Management System.csproj|c:\\users\\test1\\source\\repos\\hospital management system\\hospital management system\\views\\laboratory\\alllabs.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{3C7769AA-0F54-4A62-965D-BE039076477B}|Hospital Management System\\Hospital Management System.csproj|solutionrelative:hospital management system\\views\\laboratory\\alllabs.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3C7769AA-0F54-4A62-965D-BE039076477B}|Hospital Management System\\Hospital Management System.csproj|c:\\users\\test1\\source\\repos\\hospital management system\\hospital management system\\controllers\\patientcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{3C7769AA-0F54-4A62-965D-BE039076477B}|Hospital Management System\\Hospital Management System.csproj|solutionrelative:hospital management system\\controllers\\patientcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{3C7769AA-0F54-4A62-965D-BE039076477B}|Hospital Management System\\Hospital Management System.csproj|c:\\users\\test1\\source\\repos\\hospital management system\\hospital management system\\views\\staff\\editstaff.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3C7769AA-0F54-4A62-965D-BE039076477B}|Hospital Management System\\Hospital Management System.csproj|solutionrelative:hospital management system\\views\\staff\\editstaff.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,7 +22,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 282,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -42,80 +30,41 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "StaffController.cs",
-              "DocumentMoniker": "C:\\Users\\test1\\source\\repos\\Hospital Management System\\Hospital Management System\\Controllers\\StaffController.cs",
-              "RelativeDocumentMoniker": "Hospital Management System\\Controllers\\StaffController.cs",
-              "ToolTip": "C:\\Users\\test1\\source\\repos\\Hospital Management System\\Hospital Management System\\Controllers\\StaffController.cs",
-              "RelativeToolTip": "Hospital Management System\\Controllers\\StaffController.cs",
-              "ViewState": "AQIAACgAAAAAAAAAAADwvz4AAAAYAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-29T20:46:26.226Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Staffs.cshtml",
-              "DocumentMoniker": "C:\\Users\\test1\\source\\repos\\Hospital Management System\\Hospital Management System\\Views\\Staff\\Staffs.cshtml",
-              "RelativeDocumentMoniker": "Hospital Management System\\Views\\Staff\\Staffs.cshtml",
-              "ToolTip": "C:\\Users\\test1\\source\\repos\\Hospital Management System\\Hospital Management System\\Views\\Staff\\Staffs.cshtml",
-              "RelativeToolTip": "Hospital Management System\\Views\\Staff\\Staffs.cshtml",
-              "ViewState": "AQIAANAAAAAAAAAAAAAAAFQBAAAzAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-11-29T20:43:42.832Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ViewPatients.cshtml",
-              "DocumentMoniker": "C:\\Users\\test1\\source\\repos\\Hospital Management System\\Hospital Management System\\Views\\ER\\ViewPatients.cshtml",
-              "RelativeDocumentMoniker": "Hospital Management System\\Views\\ER\\ViewPatients.cshtml",
-              "ToolTip": "C:\\Users\\test1\\source\\repos\\Hospital Management System\\Hospital Management System\\Views\\ER\\ViewPatients.cshtml",
-              "RelativeToolTip": "Hospital Management System\\Views\\ER\\ViewPatients.cshtml",
-              "ViewState": "AQIAAKcBAAAAAAAAAAAAALoBAAAbAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-11-29T20:38:11.462Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "AllLabs.cshtml",
-              "DocumentMoniker": "C:\\Users\\test1\\source\\repos\\Hospital Management System\\Hospital Management System\\Views\\Laboratory\\AllLabs.cshtml",
-              "RelativeDocumentMoniker": "Hospital Management System\\Views\\Laboratory\\AllLabs.cshtml",
-              "ToolTip": "C:\\Users\\test1\\source\\repos\\Hospital Management System\\Hospital Management System\\Views\\Laboratory\\AllLabs.cshtml",
-              "RelativeToolTip": "Hospital Management System\\Views\\Laboratory\\AllLabs.cshtml",
-              "ViewState": "AQIAANsAAAAAAAAAAAAAAOkAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-11-29T20:20:43.467Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Patients.cshtml",
-              "DocumentMoniker": "C:\\Users\\test1\\source\\repos\\Hospital Management System\\Hospital Management System\\Views\\Patient\\Patients.cshtml",
-              "RelativeDocumentMoniker": "Hospital Management System\\Views\\Patient\\Patients.cshtml",
-              "ToolTip": "C:\\Users\\test1\\source\\repos\\Hospital Management System\\Hospital Management System\\Views\\Patient\\Patients.cshtml",
-              "RelativeToolTip": "Hospital Management System\\Views\\Patient\\Patients.cshtml",
-              "ViewState": "AQIAAGQBAAAAAAAAAAAiwCYBAAAoAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-11-29T20:19:16.143Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
               "Title": "PatientController.cs",
               "DocumentMoniker": "C:\\Users\\test1\\source\\repos\\Hospital Management System\\Hospital Management System\\Controllers\\PatientController.cs",
               "RelativeDocumentMoniker": "Hospital Management System\\Controllers\\PatientController.cs",
               "ToolTip": "C:\\Users\\test1\\source\\repos\\Hospital Management System\\Hospital Management System\\Controllers\\PatientController.cs",
               "RelativeToolTip": "Hospital Management System\\Controllers\\PatientController.cs",
-              "ViewState": "AQIAAGIAAAAAAAAAAAAowN4AAAAJAAAA",
+              "ViewState": "AQIAAEkAAAAAAAAAAAA3wLwAAAA+AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-29T20:15:15.402Z",
+              "WhenOpened": "2024-11-30T08:27:41.58Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Staffs.cshtml",
+              "DocumentMoniker": "C:\\Users\\test1\\source\\repos\\Hospital Management System\\Hospital Management System\\Views\\Staff\\Staffs.cshtml",
+              "RelativeDocumentMoniker": "Hospital Management System\\Views\\Staff\\Staffs.cshtml",
+              "ToolTip": "C:\\Users\\test1\\source\\repos\\Hospital Management System\\Hospital Management System\\Views\\Staff\\Staffs.cshtml",
+              "RelativeToolTip": "Hospital Management System\\Views\\Staff\\Staffs.cshtml",
+              "ViewState": "AQIAAA4AAAAAAAAAAADgvx0AAAAPAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-30T07:53:16.652Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "EditStaff.cshtml",
+              "DocumentMoniker": "C:\\Users\\test1\\source\\repos\\Hospital Management System\\Hospital Management System\\Views\\Staff\\EditStaff.cshtml",
+              "RelativeDocumentMoniker": "Hospital Management System\\Views\\Staff\\EditStaff.cshtml",
+              "ToolTip": "C:\\Users\\test1\\source\\repos\\Hospital Management System\\Hospital Management System\\Views\\Staff\\EditStaff.cshtml",
+              "RelativeToolTip": "Hospital Management System\\Views\\Staff\\EditStaff.cshtml",
+              "ViewState": "AQIAABAAAAAAAAAAAADgvx0BAABwAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-30T07:53:10.382Z",
               "EditorCaption": ""
             }
           ]

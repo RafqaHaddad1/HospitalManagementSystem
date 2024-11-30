@@ -1,5 +1,6 @@
 ﻿using Hospital_Management_System.Database;
 using Hospital_Management_System.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,7 +16,7 @@ namespace Hospital_Management_System.Controllers
             _dbContext = dbContext;
 
         }
-
+        
         [HttpGet]
         [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
         public async Task<IActionResult> AllDepartments()
@@ -47,7 +48,7 @@ namespace Hospital_Management_System.Controllers
             return View("Departments");
         }
 
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
         public async Task<IActionResult> AddDepartment(Department model)
@@ -81,7 +82,7 @@ namespace Hospital_Management_System.Controllers
                 return Json(new { success = false, message = "Error adding department", exception = ex.Message });
             }
         }
-
+     
         [HttpGet]
         public async Task<IActionResult> DepartmentByID(int id)
         {
@@ -104,7 +105,7 @@ namespace Hospital_Management_System.Controllers
             });
         }
 
-
+        [Authorize(Roles = "Admin")]
         [HttpPut]
         public async Task<IActionResult> UpdateDepartment([FromBody] Department model)
         {

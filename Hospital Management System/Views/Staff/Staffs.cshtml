@@ -328,6 +328,7 @@
    
 </body>
 <script>
+    var accessToken = localStorage.getItem("accessToken");
     $("#DepartmentFilter").select2();
     $("#RoleFilter").select2();
     $(document).ready(function () {
@@ -349,6 +350,10 @@
         $.ajax({
             url: url,
             type: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + accessToken,
+
+            },
             success: function (response) {
                 console.log(response);
                 if (response.success) {
@@ -405,6 +410,10 @@
         $.ajax({
             url: '/Department/AllDepartments',
             type: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + accessToken,
+
+            },
             success: function (response) {
                 console.log(response); // Log the response object
 
@@ -443,6 +452,10 @@
         $.ajax({
             url: '/Staff/StaffById/' + id,
             type: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + accessToken,
+
+            },
             success: function (response) {
                 console.log(response);
                 if (response.success) {

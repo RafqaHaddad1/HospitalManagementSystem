@@ -344,6 +344,7 @@
 
    
     <script>
+        var accessToken = localStorage.getItem("accessToken");
         $("#DoctorFilter").select2();
         $("#StatusFilter").select2();
         $(document).ready(function () {
@@ -354,6 +355,10 @@
             $.ajax({
                 url: '/Staff/AllDoctors',
                 type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + accessToken,
+
+                },
                 success: function (response) {
                     console.log(response); // Log the response object
 
@@ -401,6 +406,10 @@
             $.ajax({
                 url: url,
                 type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + accessToken,
+
+                },
                 success: function (response) {
                     console.log(response);
                     if (response.success) {
@@ -458,6 +467,10 @@
             $.ajax({
                 url: '/ER/DischargePatient',  // Replace with your correct controller and action URL
                 type: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + accessToken,
+
+                },
                 data: { id: id },  // Pass the patient ID as data
                 success: function (response) {
                     if (response.success) {
@@ -467,7 +480,7 @@
                         // Optionally, you can update the patient status on the page or reload data
                     } else {
                         // Handle failure: Show the error message
-                        alert(response.message);
+                        alert("You are not allowed to perform this action");
                     }
                 },
                 error: function (xhr, status, error) {

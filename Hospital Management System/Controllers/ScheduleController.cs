@@ -1,6 +1,7 @@
 ﻿using Hospital_Management_System.Database;
 using Hospital_Management_System.Helper;
 using Hospital_Management_System.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -129,7 +130,7 @@ namespace Hospital_Management_System.Controllers
             }
         }
 
-
+        [Authorize(Roles = "Admin,Doctor,Nurse")]
         [HttpPost]
         public async Task<IActionResult> AddEvent(Schedules model)
         {
@@ -154,7 +155,7 @@ namespace Hospital_Management_System.Controllers
                 });
             }
         }
-
+        [Authorize(Roles = "Admin,Doctor,Nurse")]
         [HttpPost]
         public async Task<IActionResult> UpdateEvent( Schedules updatedEvent)
         {

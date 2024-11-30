@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Policy;
 using Microsoft.EntityFrameworkCore;
 using Hospital_Management_System.Helper;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Hospital_Management_System.Controllers
 {
@@ -101,6 +102,7 @@ namespace Hospital_Management_System.Controllers
             return View();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> AddEmployee(Staff model, IFormFileCollection Files)
         {
@@ -179,6 +181,7 @@ namespace Hospital_Management_System.Controllers
                 return Json(new { success = false, message = "Error adding staff", exception = ex.Message });
             }
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> UpdateEmployee(Staff model, IFormFileCollection Files)
         {

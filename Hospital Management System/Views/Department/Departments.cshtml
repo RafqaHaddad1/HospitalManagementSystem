@@ -273,6 +273,7 @@
         </div>
     </div>
   <script>
+        var accessToken = localStorage.getItem("accessToken");
         $(document).ready(function () {
                 FillTable();
           
@@ -293,6 +294,10 @@
             $.ajax({
                 url: '/Department/AllDepartments',
                 type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + accessToken,
+
+                },
                 success: function (response) {
                     console.log(response);
                     if (response.success) {
@@ -340,6 +345,10 @@
             $.ajax({
                 url: '/Staff/AllDoctors',
                 type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + accessToken,
+
+                },
                 success: function (response) {
                     console.log(response); // Log the response object
 
@@ -392,6 +401,10 @@
                 $.ajax({
                     url: '/Department/AddDepartment',
                     type: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + accessToken,
+
+                    },
                     data: $('#AddDepartmentForm').serialize(),
                     success: function (response) {
                         if (response.success) {
@@ -405,7 +418,7 @@
                         }
                     },
                     error: function (xhr, status, error) {
-                        alert('Error: ' + error);
+                        alert('Error: you are not authorized');
                     }
                 });
             } else {
@@ -417,6 +430,10 @@
             $.ajax({
                 url: '/Department/DepartmentByID/' + id,
                 type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + accessToken,
+
+                },
                 success: function (response) {
                     console.log(response);
                     if (response.success) {
@@ -439,6 +456,10 @@
             $.ajax({
                 url: '/Staff/AllDoctors',
                 type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + accessToken,
+
+                },
                 success: function (response) {
                     console.log(response); // Log the response object
 
@@ -490,6 +511,10 @@
             $.ajax({
                 url: '/Department/DepartmentByID/' + id,
                 type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + accessToken,
+
+                },
                 success: function (response) {
                     console.log(response);
                     if (response.success) {
@@ -529,6 +554,10 @@
             $.ajax({
                 url: '/Department/UpdateDepartment',
                 type: 'PUT',
+                headers: {
+                    'Authorization': 'Bearer ' + accessToken,
+
+                },
                 contentType: 'application/json',  // Ensuring the content type is JSON
                 data: JSON.stringify({  // Send the data as a JSON string
                     DepartmentID: departmentID,
@@ -547,7 +576,7 @@
                     }
                 },
                 error: function (xhr, status, error) {
-                    alert('Error: ' + error);
+                    alert('Error: you are not authorized');
                 }
             });
         });

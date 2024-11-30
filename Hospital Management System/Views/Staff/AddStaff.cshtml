@@ -365,13 +365,17 @@
 
 
     <script>
-
+        var accessToken = localStorage.getItem("accessToken");
         DepartmentDropDown();
         $('.department').select2();
         function DepartmentDropDown() {
             $.ajax({
                 url: '/Department/AllDepartments',
                 type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + accessToken,
+
+                },
                 success: function (response) {
                     console.log(response); // Log the response object
 

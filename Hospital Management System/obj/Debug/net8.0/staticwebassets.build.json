@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "h+5Cv1Hc5irpync1kT9oQpH7fA0ODSqCDWsNGJ8kTdQ=",
+  "Hash": "IcdBhHAVVkGsGOKne3drsN4zrmSlic/ih42ITXXIP5U=",
   "Source": "Hospital Management System",
   "BasePath": "_content/Hospital Management System",
   "Mode": "Default",
@@ -205,6 +205,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\FilesUpload\\53ab7401-773f-4c8e-913d-c87404dbcf93_Software-Design-Patterns-for-AI-Systems.pdf"
+    },
+    {
+      "Identity": "C:\\Users\\test1\\source\\repos\\Hospital Management System\\Hospital Management System\\wwwroot\\FilesUpload\\5b0725f0-4288-4679-b325-28225f055c6e_taut_a_2349416_f0003_ob.jpg",
+      "SourceId": "Hospital Management System",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\test1\\source\\repos\\Hospital Management System\\Hospital Management System\\wwwroot\\",
+      "BasePath": "_content/Hospital Management System",
+      "RelativePath": "FilesUpload/5b0725f0-4288-4679-b325-28225f055c6e_taut_a_2349416_f0003_ob.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\FilesUpload\\5b0725f0-4288-4679-b325-28225f055c6e_taut_a_2349416_f0003_ob.jpg"
     },
     {
       "Identity": "C:\\Users\\test1\\source\\repos\\Hospital Management System\\Hospital Management System\\wwwroot\\FilesUpload\\6389f9da-979d-4c82-b749-b0132ce2b6e6_Screenshot 2024-07-26 135101.png",
@@ -452,6 +471,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\FilesUpload\\c7c6fd38-7f81-4be0-ac56-827cb6bfc84d_Screenshot 2024-06-27 165906.png"
+    },
+    {
+      "Identity": "C:\\Users\\test1\\source\\repos\\Hospital Management System\\Hospital Management System\\wwwroot\\FilesUpload\\ccd1c057-c093-474e-8820-e4b3a357d9a3_Laboratory_Reference_Values.pdf",
+      "SourceId": "Hospital Management System",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\test1\\source\\repos\\Hospital Management System\\Hospital Management System\\wwwroot\\",
+      "BasePath": "_content/Hospital Management System",
+      "RelativePath": "FilesUpload/ccd1c057-c093-474e-8820-e4b3a357d9a3_Laboratory_Reference_Values.pdf",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\FilesUpload\\ccd1c057-c093-474e-8820-e4b3a357d9a3_Laboratory_Reference_Values.pdf"
     },
     {
       "Identity": "C:\\Users\\test1\\source\\repos\\Hospital Management System\\Hospital Management System\\wwwroot\\FilesUpload\\d2cde042-15d1-4702-8ac6-44b30efc20f7_Screenshot 2024-06-27 165906.png",

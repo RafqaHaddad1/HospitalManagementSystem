@@ -165,6 +165,7 @@ namespace Hospital_Management_System.Controllers
                 model.ImagePath = pathsString;
                 oldImg.ImagePath = model.ImagePath;
                 oldImg.Status = "Completed";
+                oldImg.ResultDate = DateTime.Now;   
                 _logger.LogInformation($"File paths: {model.ImagePath}");
                 _logger.LogInformation($"Status: {model.Status}");
                 // Save the changes asynchronously

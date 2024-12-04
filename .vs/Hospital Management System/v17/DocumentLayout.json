@@ -3,12 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\test1\\source\\repos\\Hospital Management System\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{3C7769AA-0F54-4A62-965D-BE039076477B}|Hospital Management System\\Hospital Management System.csproj|c:\\users\\test1\\source\\repos\\hospital management system\\hospital management system\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{3C7769AA-0F54-4A62-965D-BE039076477B}|Hospital Management System\\Hospital Management System.csproj|solutionrelative:hospital management system\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{3C7769AA-0F54-4A62-965D-BE039076477B}|Hospital Management System\\Hospital Management System.csproj|c:\\users\\test1\\source\\repos\\hospital management system\\hospital management system\\views\\radiology\\allimages.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3C7769AA-0F54-4A62-965D-BE039076477B}|Hospital Management System\\Hospital Management System.csproj|solutionrelative:hospital management system\\views\\radiology\\allimages.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3C7769AA-0F54-4A62-965D-BE039076477B}|Hospital Management System\\Hospital Management System.csproj|c:\\users\\test1\\source\\repos\\hospital management system\\hospital management system\\views\\schedule\\calendar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{3C7769AA-0F54-4A62-965D-BE039076477B}|Hospital Management System\\Hospital Management System.csproj|solutionrelative:hospital management system\\views\\schedule\\calendar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{3C7769AA-0F54-4A62-965D-BE039076477B}|Hospital Management System\\Hospital Management System.csproj|c:\\users\\test1\\source\\repos\\hospital management system\\hospital management system\\views\\patient\\addpatient.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3C7769AA-0F54-4A62-965D-BE039076477B}|Hospital Management System\\Hospital Management System.csproj|solutionrelative:hospital management system\\views\\patient\\addpatient.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C7769AA-0F54-4A62-965D-BE039076477B}|Hospital Management System\\Hospital Management System.csproj|c:\\users\\test1\\source\\repos\\hospital management system\\hospital management system\\views\\laboratory\\alllabs.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3C7769AA-0F54-4A62-965D-BE039076477B}|Hospital Management System\\Hospital Management System.csproj|solutionrelative:hospital management system\\views\\laboratory\\alllabs.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3C7769AA-0F54-4A62-965D-BE039076477B}|Hospital Management System\\Hospital Management System.csproj|c:\\users\\test1\\source\\repos\\hospital management system\\hospital management system\\views\\er\\addpatient.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{3C7769AA-0F54-4A62-965D-BE039076477B}|Hospital Management System\\Hospital Management System.csproj|solutionrelative:hospital management system\\views\\er\\addpatient.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -27,27 +35,53 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "_Layout.cshtml",
-              "DocumentMoniker": "C:\\Users\\test1\\source\\repos\\Hospital Management System\\Hospital Management System\\Views\\Shared\\_Layout.cshtml",
-              "RelativeDocumentMoniker": "Hospital Management System\\Views\\Shared\\_Layout.cshtml",
-              "ToolTip": "C:\\Users\\test1\\source\\repos\\Hospital Management System\\Hospital Management System\\Views\\Shared\\_Layout.cshtml",
-              "RelativeToolTip": "Hospital Management System\\Views\\Shared\\_Layout.cshtml",
-              "ViewState": "AQIAAMAAAAAAAAAAAAAAAMgAAAA6AAAA",
+              "Title": "AllImages.cshtml",
+              "DocumentMoniker": "C:\\Users\\test1\\source\\repos\\Hospital Management System\\Hospital Management System\\Views\\Radiology\\AllImages.cshtml",
+              "RelativeDocumentMoniker": "Hospital Management System\\Views\\Radiology\\AllImages.cshtml",
+              "ToolTip": "C:\\Users\\test1\\source\\repos\\Hospital Management System\\Hospital Management System\\Views\\Radiology\\AllImages.cshtml",
+              "RelativeToolTip": "Hospital Management System\\Views\\Radiology\\AllImages.cshtml",
+              "ViewState": "AQIAAEsDAAAAAAAAAAAAAIADAAA2AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-11-30T20:17:21.492Z",
+              "WhenOpened": "2024-12-04T20:19:36.879Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "Calendar.cshtml",
-              "DocumentMoniker": "C:\\Users\\test1\\source\\repos\\Hospital Management System\\Hospital Management System\\Views\\Schedule\\Calendar.cshtml",
-              "RelativeDocumentMoniker": "Hospital Management System\\Views\\Schedule\\Calendar.cshtml",
-              "ToolTip": "C:\\Users\\test1\\source\\repos\\Hospital Management System\\Hospital Management System\\Views\\Schedule\\Calendar.cshtml",
-              "RelativeToolTip": "Hospital Management System\\Views\\Schedule\\Calendar.cshtml",
-              "ViewState": "AQIAANcBAAAAAAAAAAAAAOwBAAAbAAAA",
+              "Title": "AddPatient.cshtml",
+              "DocumentMoniker": "C:\\Users\\test1\\source\\repos\\Hospital Management System\\Hospital Management System\\Views\\Patient\\AddPatient.cshtml",
+              "RelativeDocumentMoniker": "Hospital Management System\\Views\\Patient\\AddPatient.cshtml",
+              "ToolTip": "C:\\Users\\test1\\source\\repos\\Hospital Management System\\Hospital Management System\\Views\\Patient\\AddPatient.cshtml",
+              "RelativeToolTip": "Hospital Management System\\Views\\Patient\\AddPatient.cshtml",
+              "ViewState": "AQIAAIUDAAAAAAAAAAAAAKEDAAA4AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-11-30T20:14:41.332Z",
+              "WhenOpened": "2024-12-04T20:19:16.411Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AllLabs.cshtml",
+              "DocumentMoniker": "C:\\Users\\test1\\source\\repos\\Hospital Management System\\Hospital Management System\\Views\\Laboratory\\AllLabs.cshtml",
+              "RelativeDocumentMoniker": "Hospital Management System\\Views\\Laboratory\\AllLabs.cshtml",
+              "ToolTip": "C:\\Users\\test1\\source\\repos\\Hospital Management System\\Hospital Management System\\Views\\Laboratory\\AllLabs.cshtml",
+              "RelativeToolTip": "Hospital Management System\\Views\\Laboratory\\AllLabs.cshtml",
+              "ViewState": "AQIAAD4DAAAAAAAAAAAAAPQDAAAuAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-12-04T20:18:20.644Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "AddPatient.cshtml",
+              "DocumentMoniker": "C:\\Users\\test1\\source\\repos\\Hospital Management System\\Hospital Management System\\Views\\ER\\AddPatient.cshtml",
+              "RelativeDocumentMoniker": "Hospital Management System\\Views\\ER\\AddPatient.cshtml",
+              "ToolTip": "C:\\Users\\test1\\source\\repos\\Hospital Management System\\Hospital Management System\\Views\\ER\\AddPatient.cshtml",
+              "RelativeToolTip": "Hospital Management System\\Views\\ER\\AddPatient.cshtml",
+              "ViewState": "AQIAAJQDAAAAAAAAAAAAAKADAAAwAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-12-04T20:17:48.584Z",
               "EditorCaption": ""
             }
           ]
